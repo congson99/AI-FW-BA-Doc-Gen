@@ -1,6 +1,6 @@
 # BA Documentation Generation Framework
 
-AI-assisted toolkit for Business Analysts to generate and review Functional Specification documents using Claude Code.
+AI-assisted toolkit for Business Analysts to generate a complete documentation set from a single input using Claude Code.
 
 ---
 
@@ -25,18 +25,34 @@ claude
 
 | Command | Purpose |
 |---|---|
-| `/generate-fs <feature-name>` | Generate FS from a local requirements file |
-| `/generate-fs <JIRA-KEY>` | Generate FS by fetching requirements from Jira |
-| `/review-fs <feature-name>` | Review AC/BDD of an existing FS |
-| `/review-fs <JIRA-KEY>` | Review spec attached to a Jira ticket |
+| `/generate <feature-name>` | Generate all 6 artifacts from a local input file |
+| `/generate <JIRA-KEY>` | Generate all 6 artifacts from a Jira ticket |
+| `/generate-next <feature-name>` | Generate only the next missing artifact |
+| `/review <feature-name>` | Review AC/BDD quality of a generated spec |
+| `/archive <feature-name>` | Archive a completed feature |
 
 ---
 
-## How to Generate a Functional Specification
+## What Gets Generated
 
-### Option A — From a requirements file
+Each feature produces 6 files:
 
-**Step 1** — Create a feature folder and write requirements:
+| File | Content |
+|---|---|
+| `ai-docs/spec.md` | Brief, AC, Data Definition, Permission, Business Rules, API Response Messages |
+| `ai-docs/flow.md` | User Flow (numbered steps + branches) + States + State Transitions |
+| `ai-docs/scenarios.md` | BDD Scenarios in Gherkin format, grouped by type |
+| `ai-docs/tc.md` | Test Scenarios table + Detailed Test Cases |
+| `ba-doc.md` | spec + flow merged (for BA handoff) |
+| `qa-doc.md` | scenarios + tc merged (for QA handoff) |
+
+---
+
+## Typical Workflow
+
+### Option A — From local requirements
+
+**Step 1** — Create the feature folder and write requirements:
 
 ```
 features/
@@ -48,68 +64,71 @@ features/
 ```markdown
 Feature: Create Product
 
-Users need to create a new product with:
+Fields:
 - Product Name (required, max 255 chars)
-- SKU (required, unique, max 100 chars)
+- SKU (required, unique, max 100 chars, alphanumeric + hyphen + underscore)
 - Price (required, > 0)
-- Status defaults to Active
+- Status: defaults to Active
+
+Permission: CREATE_PRODUCT
 ```
 
-**Step 2** — Run the command:
-
+**Step 2** — Generate all artifacts:
 ```
-/generate-fs create-product
+/generate create-product
 ```
-
-Output saved to `features/create-product/fs.md`.
 
 ---
 
-### Option B — From a Jira ticket
+### Option B — From Jira ticket
 
 ```
-/generate-fs IN-350
+/generate IN-350
 ```
 
-Claude fetches the ticket from Jira, generates the FS, and saves it to `features/<feature-name>/fs.md`.
+Claude fetches the ticket, derives the feature name, and generates all 6 artifacts.
 
 ---
 
-## How to Review a Functional Specification
-
-### Option A — Review a local FS
+### Review
 
 ```
-/review-fs create-product
+/review create-product
 ```
 
-Reads `features/create-product/fs.md`, saves the review report to `features/create-product/review.md`.
+Reads `ai-docs/spec.md` + `ai-docs/scenarios.md`, saves review report to `features/create-product/review.md`.
 
-### Option B — Review from Jira
+---
+
+### Archive when done
 
 ```
-/review-fs IN-350
+/archive create-product
 ```
+
+Moves `features/create-product/` → `archive/create-product/`. Git history is preserved.
 
 ---
 
 ## Feature Folder Structure
 
-Each feature lives in its own folder under `features/`:
-
 ```
 features/
   create-product/
-    input.md      ← requirements written by BA (for Option A)
-    fs.md         ← generated Functional Specification
-    review.md     ← generated review report
-  delete-product/
-    input.md
-    fs.md
-    review.md
-```
+    input.md              ← BA writes requirements here
+    ai-docs/
+      spec.md             ← generated
+      flow.md             ← generated
+      scenarios.md        ← generated
+      tc.md               ← generated
+    ba-doc.md             ← spec + flow merged
+    qa-doc.md             ← scenarios + tc merged
+    review.md             ← optional review report
 
-Multiple features can be worked on in parallel — no cleanup needed between runs.
+archive/
+  delete-product/         ← completed and archived features
+    ...
+```
 
 ---
 
@@ -117,38 +136,25 @@ Multiple features can be worked on in parallel — no cleanup needed between run
 
 ```
 inventory-ba/
-├── CLAUDE.md                        # Framework entry point
+├── CLAUDE.md
 ├── .claude/
 │   ├── commands/
-│   │   ├── generate-fs.md           # /generate-fs command
-│   │   └── review-fs.md             # /review-fs command
-│   └── settings.json                # Permissions
+│   │   ├── generate.md          # /generate — fast-forward all artifacts
+│   │   ├── generate-next.md     # /generate-next — next missing artifact
+│   │   ├── review.md            # /review — AC/BDD quality review
+│   │   └── archive.md           # /archive — move to archive/
+│   └── settings.json
 ├── rules/
-│   ├── rule_fs.md                   # FS writing rules (9-section structure)
-│   └── reviewACBDD.md               # AC/BDD review rules and output format
+│   ├── rule_spec.md             # Spec writing rules (sections 1–6)
+│   ├── rule_flow.md             # Flow and States writing rules
+│   ├── rule_scenarios.md        # BDD Scenarios writing rules
+│   ├── rule_tc.md               # Test Case writing rules
+│   └── reviewACBDD.md           # AC/BDD review rules
 ├── templates/
-│   └── sample_fs.md                 # Reference Functional Specification (Create Warehouse)
-└── features/                        # One subfolder per feature
-    └── <feature-name>/
-        ├── input.md                 # Requirements (BA writes this)
-        ├── fs.md                    # Generated Functional Specification
-        └── review.md                # Generated review report
+│   ├── spec.md                  # Reference: Create Product Category Spec
+│   ├── flow.md                  # Reference: Create Product Category Flow
+│   ├── scenarios.md             # Reference: Create Product Category Scenarios
+│   └── tc.md                    # Reference: Create Product Category TC
+├── features/                    # Active features (one subfolder each)
+└── archive/                     # Completed and archived features
 ```
-
----
-
-## Output Format
-
-Generated Functional Specifications follow the 9-section structure defined in `rules/rule_fs.md`:
-
-1. Brief
-2. Acceptance Criteria
-3. Data Definition
-4. Permission
-5. Business Rules
-6. API Response Messages
-7. User Flow
-8. States
-9. Scenarios
-
-See `templates/sample_fs.md` for a complete reference example (Create Warehouse).

@@ -1,35 +1,57 @@
 # BA Documentation Generation Framework
 
-AI-assisted framework for Business Analysts to generate and review Functional Specification documents using Claude.
+AI-assisted framework for Business Analysts to generate a complete documentation set from a single input.
 
-## Commands
+## Generate Commands
+
+| Command | Purpose | Requires |
+|---|---|---|
+| `/generate-spec <feature\|JIRA>` | Generate Spec (sections 1–6) | `input.md` |
+| `/generate-flow <feature>` | Generate Flow + States | `spec.md` |
+| `/generate-scenarios <feature>` | Generate BDD Scenarios | `spec.md` + `flow.md` |
+| `/generate-tc <feature>` | Generate Test Cases | `spec.md` + `scenarios.md` |
+| `/generate-docs <feature>` | Merge ba-doc + qa-doc | 4 ai-docs |
+| `/generate <feature\|JIRA>` | Fast-forward all 5 steps | `input.md` |
+| `/generate-next <feature>` | Generate next missing artifact | — |
+
+## Review Commands
+
+| Command | Purpose | Requires |
+|---|---|---|
+| `/review-spec <feature>` | Review AC quality + completeness | `spec.md` |
+| `/review-flow <feature>` | Review Flow + States completeness | `spec.md` + `flow.md` |
+| `/review-scenarios <feature>` | Review BDD quality + AC coverage | `spec.md` + `scenarios.md` |
+| `/review-tc <feature>` | Review TC coverage + quality | `spec.md` + `scenarios.md` + `tc.md` |
+| `/review-docs <feature>` | Review ba-doc + qa-doc consistency | all 6 files |
+| `/review <feature>` | Fast-forward all 5 reviews | all 6 files |
+
+## Other Commands
 
 | Command | Purpose |
 |---|---|
-| `/generate-fs <feature-name>` | Generate FS from `features/<feature-name>/input.md` |
-| `/generate-fs <JIRA-KEY>` | Generate FS by fetching requirements from a Jira ticket |
-| `/review-fs <feature-name>` | Review AC/BDD of `features/<feature-name>/fs.md` |
-| `/review-fs <JIRA-KEY>` | Review spec attached to a Jira ticket |
+| `/archive <feature>` | Move completed feature to `archive/` |
 
-Commands are defined in `.claude/commands/`.
+## Output Structure
 
-## Workflow
-
-**Generate from file:**
-1. Create `features/<feature-name>/input.md` with requirements
-2. Run `/generate-fs <feature-name>`
-3. FS saved to `features/<feature-name>/fs.md`
-
-**Generate from Jira:**
-1. Run `/generate-fs IN-350`
-2. FS saved to `features/<feature-name>/fs.md`
-
-**Review:**
-1. Run `/review-fs <feature-name>` or `/review-fs IN-350`
-2. Report saved to `features/<feature-name>/review.md`
+```
+features/<feature-name>/
+  input.md
+  ai-docs/
+    spec.md             ← /generate-spec
+    flow.md             ← /generate-flow
+    scenarios.md        ← /generate-scenarios
+    tc.md               ← /generate-tc
+  ba-doc.md             ← /generate-docs (spec + flow)
+  qa-doc.md             ← /generate-docs (scenarios + tc)
+  review-spec.md        ← /review-spec
+  review-flow.md        ← /review-flow
+  review-scenarios.md   ← /review-scenarios
+  review-tc.md          ← /review-tc
+  review-docs.md        ← /review-docs
+```
 
 ## Rules
+- `rules/rule_spec.md` / `rules/rule_flow.md` / `rules/rule_scenarios.md` / `rules/rule_tc.md` / `rules/reviewACBDD.md`
 
-- `rules/rule_fs.md` — FS writing rules (used by generate-fs)
-- `rules/reviewACBDD.md` — Review rules (used by review-fs)
-- `templates/sample_fs.md` — Reference FS template (Create Warehouse)
+## Templates (reference: Create Product Category)
+- `templates/spec.md` / `templates/flow.md` / `templates/scenarios.md` / `templates/tc.md`
