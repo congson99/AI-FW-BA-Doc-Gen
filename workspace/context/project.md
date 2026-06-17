@@ -49,9 +49,3 @@ The Inventory Platform provides a centralized and reusable inventory management 
 | Feature | Description | User Stories |
 |---|---|---|
 | Authorization | — | Validate User Access [BE Only], Centralized Permission Registry [BE Only] |
-
----
-
-## Notes for AI
-
-- Khi gen brief, đối chiếu tên feature với danh sách module để đặt đúng ngữ cảnh
