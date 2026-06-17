@@ -30,6 +30,7 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 **Context files:**
 <context files>
+- <confluence-page-url>
 
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
