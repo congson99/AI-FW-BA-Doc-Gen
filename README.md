@@ -46,10 +46,6 @@ Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — C
 
 ---
 
-### Step 6 — Fill in project context (one-time setup)
-
-Open `workspace/context/project.md` (already in the repo) and fill in your project background. Claude reads all files in this folder automatically when generating documents.
-
 ---
 
 ## Generating BA Documents
