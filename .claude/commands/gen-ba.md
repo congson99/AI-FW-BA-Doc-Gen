@@ -19,7 +19,7 @@ You are a Senior Business Analyst setting up the working environment for a new f
    - If it exists and `env_<slug>.md` already exists → inform user and stop: "Environment already set up. Edit `workspace/features/<folder-name>/env_<slug>.md` directly if needed."
 4. Create folder `workspace/features/<folder-name>/` if it does not exist.
 5. Scan `workspace/context/` for all files (e.g. `project.md`, `domain.md`, etc.) and collect their relative paths as a list.
-6. Create `workspace/features/<folder-name>/env_<slug>.md` with this exact format, inserting each file found in step 5 as a `- workspace/context/<filename>` line under **Context files:**:
+6. Create `workspace/features/<folder-name>/env_<slug>.md` with this exact format, replacing `<context files>` with one `- workspace/context/<filename>` line per file found in step 5:
 
 ```
 # Environment
@@ -29,8 +29,7 @@ You are a Senior Business Analyst setting up the working environment for a new f
 **BA Task Jira ticket:** <jira-ticket-url>
 
 **Context files:**
-- workspace/context/project.md
-- <other files found in workspace/context/, one per line>
+<context files>
 
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
