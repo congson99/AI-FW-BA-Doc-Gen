@@ -40,25 +40,9 @@ code .
 - Click the **Claude** icon in the VS Code sidebar, or
 - Use the keyboard shortcut shown after the extension installs
 
-### Step 5 — Connect Jira & Confluence via MCP (one-time setup)
+### Step 5 — Connect Atlassian via MCP (one-time setup)
 
-MCP (Model Context Protocol) lets Claude read Jira tickets and Confluence pages directly during document generation.
-
-**In VS Code Claude Code extension:**
-
-1. Open the Claude Code panel
-2. Click the **Integrations** icon (plug icon) in the top bar
-3. Find **Atlassian** and click **Connect**
-4. Log in with your Atlassian account and grant the requested permissions
-5. Once connected, Claude can read Jira tickets and Confluence pages listed in `env_<slug>.md`
-
-**Alternatively, via claude.ai:**
-
-1. Go to [claude.ai](https://claude.ai) → Settings → Integrations
-2. Connect **Atlassian**
-3. The integration will be available in Claude Code automatically
-
-> If your organization uses a self-hosted Jira/Confluence instance, contact your admin for the MCP server config and add it to `.claude/settings.json` under `mcpServers`.
+Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — Claude will automatically prompt you to connect Atlassian and guide you through the authentication flow.
 
 ---
 
