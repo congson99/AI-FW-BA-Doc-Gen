@@ -18,7 +18,8 @@ You are a Senior Business Analyst setting up the working environment for a new f
 3. Check if `workspace/features/<folder-name>/` already exists:
    - If it exists and `env_<slug>.md` already exists → inform user and stop: "Environment already set up. Edit `workspace/features/<folder-name>/env_<slug>.md` directly if needed."
 4. Create folder `workspace/features/<folder-name>/` if it does not exist.
-5. Create `workspace/features/<folder-name>/env_<slug>.md` with this exact format:
+5. Scan `workspace/context/` for all files (e.g. `project.md`, `domain.md`, etc.) and collect their relative paths as a list.
+6. Create `workspace/features/<folder-name>/env_<slug>.md` with this exact format, inserting each file found in step 5 as a `- workspace/context/<filename>` line under **Context files:**:
 
 ```
 # Environment
@@ -28,15 +29,18 @@ You are a Senior Business Analyst setting up the working environment for a new f
 **BA Task Jira ticket:** <jira-ticket-url>
 
 **Context files:**
-- <additional-context-file-or-confluence-url>
+- workspace/context/project.md
+- <other files found in workspace/context/, one per line>
 
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
 ```
 
-6. Confirm:
+> If `workspace/context/` is empty or does not exist, leave **Context files:** section empty (no items).
+
+7. Confirm:
 ```
 ✓ workspace/features/<folder-name>/env_<slug>.md
 
-Fill in the placeholders (Jira ticket, context files, Confluence pages), then run /gen-brief <Feature Name> to continue.
+Fill in the placeholders (Jira ticket, Confluence pages), then run /gen-brief <Feature Name> to continue.
 ```

@@ -42,7 +42,7 @@ code .
 
 ### Step 5 — Fill in project context (one-time setup)
 
-Create the file `workspace/context/project.md` and fill in your project background. Claude reads this file as context when generating documents.
+Open `workspace/context/project.md` (already in the repo) and fill in your project background. Claude reads all files in this folder automatically when generating documents.
 
 ---
 
@@ -81,13 +81,13 @@ Open the generated `env_<slug>.md` and replace all placeholders:
 **BA Task Jira ticket:** https://jira.example.com/browse/INV-456
 
 **Context files:**
-- https://confluence.example.com/pages/viewpage.action?pageId=12345
+- workspace/context/project.md
 
 **Confluence output pages:**
 - BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
 ```
 
-> **Context files** — list any Confluence pages, local `.md` files, or URLs Claude should read as reference material. Leave the section empty if there are none.
+> **Context files** — files in `workspace/context/` are auto-populated by `/gen-ba`. You can also add Confluence URLs or other local `.md` files here.
 
 ---
 
