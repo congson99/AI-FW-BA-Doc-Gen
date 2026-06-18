@@ -151,18 +151,18 @@ workspace/features/cancel-purchase-request/
 Review and edit the AC if needed, then run:
 
 ```
-/gen-br <Feature Name>
+/gen-business-rule <Feature Name>
 ```
 
 **Example:**
 ```
-/gen-br Cancel Purchase Request
+/gen-business-rule Cancel Purchase Request
 ```
 
 Claude reads the env file, brief, AC, and context files, then generates:
 ```
 workspace/features/cancel-purchase-request/
-  br_cancel_purchase_request.md   ← generated
+  business_rule_cancel_purchase_request.md   ← generated
 ```
 
 ---
@@ -174,7 +174,7 @@ workspace/features/cancel-purchase-request/
 | `/gen-ba <Feature Name>` | Initialize feature folder and env file | — |
 | `/gen-brief <Feature Name>` | Generate Brief from chat description | `env_<slug>.md` filled in |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
-| `/gen-br <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
 
@@ -190,18 +190,18 @@ AI-FW-Doc-Generation/
 │       ├── gen-ba.md                  ← /gen-ba command definition
 │       ├── gen-brief.md               ← /gen-brief command definition
 │       ├── gen-ac.md                  ← /gen-ac command definition
-│       ├── gen-br.md                  ← /gen-br command definition
+│       ├── gen-business-rule.md        ← /gen-business-rule command definition
 │       └── clear-feature.md           ← /clear-feature command definition
 ├── framework/
 │   ├── rules/
 │   │   ├── rule_brief.md              ← writing rules for Brief
 │   │   ├── rule_ac.md                 ← writing rules for Acceptance Criteria
-│   │   └── rule_br.md                 ← writing rules for Business Rules
+│   │   └── rule_business_rule.md      ← writing rules for Business Rules
 │   └── styles/
 │       ├── style_general.md           ← general writing style (all docs)
 │       ├── style_brief.md             ← format rules for Brief
 │       ├── style_ac.md                ← format rules for Acceptance Criteria
-│       └── style_br.md                ← format rules for Business Rules
+│       └── style_business_rule.md     ← format rules for Business Rules
 └── workspace/                         ← your working area (not committed to git)
     ├── context/
     │   └── project.md                 ← project background context
@@ -211,7 +211,7 @@ AI-FW-Doc-Generation/
             ├── idea_<slug>.md         ← created by /gen-ba (fill in before /gen-brief)
             ├── brief_<slug>.md        ← created by /gen-brief
             ├── ac_<slug>.md           ← created by /gen-ac
-            └── br_<slug>.md           ← created by /gen-br
+            └── business_rule_<slug>.md ← created by /gen-business-rule
 ```
 
 > `workspace/` is in `.gitignore` — your documents stay local and are never pushed to the repository.

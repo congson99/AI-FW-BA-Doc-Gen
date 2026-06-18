@@ -50,5 +50,5 @@ You are a Senior Business Analyst.
 ```
 ✓ workspace/features/<folder-name>/ac_<slug>.md
 
-Review the ACs and edit if needed, then run /gen-br <Feature Name> to continue.
+Review the ACs and edit if needed, then run /gen-business-rule <Feature Name> to continue.
 ```

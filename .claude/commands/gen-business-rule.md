@@ -1,6 +1,6 @@
 ---
 name: "Generate Business Rules"
-description: "Generate Business Rules for a feature. Usage: /gen-br <Feature Name>"
+description: "Generate Business Rules for a feature. Usage: /gen-business-rule <Feature Name>"
 ---
 
 You are a Senior Business Analyst.
@@ -18,7 +18,7 @@ You are a Senior Business Analyst.
 3. Check `workspace/features/<folder-name>/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/gen-ba <Feature Name>` first to set up the environment."
 4. Check the **Context files:** section in the env file:
-   - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "**Context files** in `env_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /gen-br."
+   - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "**Context files** in `env_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /gen-business-rule."
    - An empty **Context files:** section (no items listed) is allowed — continue.
 5. Read `workspace/features/<folder-name>/env_<slug>.md` and load every file listed under **Context files** — read each one before proceeding.
 6. Check `workspace/features/<folder-name>/brief_<slug>.md` exists:
@@ -29,11 +29,11 @@ You are a Senior Business Analyst.
    - If exists → read it before proceeding.
 8. Check for conflicts across all loaded context files, brief, and AC:
    - Look for contradictions in business rules, field definitions, status flows, permissions, or scope between any two sources.
-   - If conflicts are found → stop and list each conflict clearly: "Conflicts found: [describe each conflict and which files it involves]. Resolve before running /gen-br."
+   - If conflicts are found → stop and list each conflict clearly: "Conflicts found: [describe each conflict and which files it involves]. Resolve before running /gen-business-rule."
    - If no conflicts → continue.
 9. Read `framework/styles/style_general.md` — general writing style rules.
-10. Read `framework/styles/style_br.md` — style rules specific to Business Rules.
-11. Read `framework/rules/rule_br.md` — writing quality rules for Business Rules content.
+10. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
+11. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
 
 ## Steps
 
@@ -46,11 +46,11 @@ You are a Senior Business Analyst.
    - Rollback rules
    - Any other business-level constraints present in the source
 
-2. Create `workspace/features/<folder-name>/br_<slug>.md` using the format defined in `framework/styles/style_br.md`.
+2. Create `workspace/features/<folder-name>/business_rule_<slug>.md` using the format defined in `framework/styles/style_business_rule.md`.
 
 3. Confirm:
 ```
-✓ workspace/features/<folder-name>/br_<slug>.md
+✓ workspace/features/<folder-name>/business_rule_<slug>.md
 
 Review the Business Rules and edit if needed.
 ```

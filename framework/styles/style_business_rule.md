@@ -1,6 +1,6 @@
 # Style: Business Rules
 
-Applies to `br_<slug>.md` documents.
+Applies to `business_rule_<slug>.md` documents.
 
 ---
 
