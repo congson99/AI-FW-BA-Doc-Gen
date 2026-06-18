@@ -30,17 +30,29 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 **Context files:**
 <context files>
+- workspace/features/<folder-name>/idea_<slug>.md
 - <confluence-page-url>
 
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
 ```
 
-> If `workspace/context/` is empty or does not exist, leave **Context files:** section empty (no items).
+> If `workspace/context/` is empty or does not exist, only list the idea file under **Context files:**.
 
-7. Confirm:
+7. Create `workspace/features/<folder-name>/idea_<slug>.md` with this exact content:
+
+```
+# Feature Idea
+
+<add feature description here>
+```
+
+8. Confirm:
 ```
 ✓ workspace/features/<folder-name>/env_<slug>.md
+✓ workspace/features/<folder-name>/idea_<slug>.md
 
-Fill in the placeholders (Jira ticket, Confluence pages), then run /gen-brief <Feature Name> to continue.
+1. Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages).
+2. Replace the placeholder in idea_<slug>.md with your feature description.
+Then run /gen-brief <Feature Name> to continue.
 ```

@@ -32,6 +32,7 @@ Writing quality standards for Feature Brief content.
 - Keep all items at a similar level of abstraction
 - Do not include technical implementation details
 - Do not list form fields, validations, UI interactions, or sub-steps of another capability
+- Do not enumerate specific field names in parentheses (e.g. write "Update basic information", not "Update basic information (Name, Date, Notes)")
 
 Example:
 

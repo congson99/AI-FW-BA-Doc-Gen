@@ -46,8 +46,6 @@ Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — C
 
 ---
 
----
-
 ## Generating BA Documents
 
 ### Step 1 — Initialize the feature environment
@@ -66,14 +64,15 @@ In the Claude Code chat, run:
 This creates:
 ```
 workspace/features/cancel-purchase-request/
-  env_cancel_purchase_request.md   ← fill this in before the next step
+  env_cancel_purchase_request.md    ← fill in Jira tickets and Confluence pages
+  idea_cancel_purchase_request.md   ← fill in your feature description
 ```
 
 ---
 
-### Step 2 — Fill in the environment file
+### Step 2 — Fill in the environment and idea files
 
-Open the generated `env_<slug>.md` and replace all placeholders:
+**`env_<slug>.md`** — replace Jira ticket and Confluence page placeholders:
 
 ```
 # Environment
@@ -84,37 +83,65 @@ Open the generated `env_<slug>.md` and replace all placeholders:
 
 **Context files:**
 - workspace/context/project.md
+- workspace/features/cancel-purchase-request/idea_cancel_purchase_request.md
 
 **Confluence output pages:**
 - BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
 ```
 
-> **Context files** — files in `workspace/context/` are auto-populated by `/gen-ba`. You can also add Confluence URLs or other local `.md` files here.
+> **Context files** — files in `workspace/context/` and the idea file are auto-populated by `/gen-ba`. You can also add Confluence URLs or other local `.md` files here.
+
+**`idea_<slug>.md`** — replace the placeholder with your feature description, requirements, constraints, or any notes:
+
+```
+# Feature Idea
+
+Allow users to cancel a Purchase Request that is in Draft or Pending Approval status.
+Once cancelled, the PR cannot be edited or resubmitted.
+```
+
+> `/gen-brief` will stop if the placeholder in `idea_<slug>.md` has not been replaced.
 
 ---
 
 ### Step 3 — Generate the Brief
 
-Describe the feature in the Claude Code chat, then run:
+Run:
 
 ```
 /gen-brief <Feature Name>
 ```
 
 **Example:**
-
-First, describe the feature in chat:
-> "Allow users to cancel a Purchase Request that is in Draft or Pending Approval status. Once cancelled, the PR cannot be edited or resubmitted."
-
-Then run:
 ```
 /gen-brief Cancel Purchase Request
 ```
 
-Claude reads the env file and context files, then generates:
+Claude reads the env file, idea file, and context files, then generates:
 ```
 workspace/features/cancel-purchase-request/
   brief_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 4 — Generate the Acceptance Criteria
+
+Review and edit the brief if needed, then run:
+
+```
+/gen-ac <Feature Name>
+```
+
+**Example:**
+```
+/gen-ac Cancel Purchase Request
+```
+
+Claude reads the env file, brief, and context files, then generates:
+```
+workspace/features/cancel-purchase-request/
+  ac_cancel_purchase_request.md   ← generated
 ```
 
 ---
@@ -125,6 +152,7 @@ workspace/features/cancel-purchase-request/
 |---|---|---|
 | `/gen-ba <Feature Name>` | Initialize feature folder and env file | — |
 | `/gen-brief <Feature Name>` | Generate Brief from chat description | `env_<slug>.md` filled in |
+| `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
 
@@ -139,17 +167,25 @@ AI-FW-Doc-Generation/
 │   └── commands/
 │       ├── gen-ba.md                  ← /gen-ba command definition
 │       ├── gen-brief.md               ← /gen-brief command definition
+│       ├── gen-ac.md                  ← /gen-ac command definition
 │       └── clear-feature.md           ← /clear-feature command definition
 ├── framework/
-│   └── rules/
-│       └── rule_brief.md              ← writing rules for Brief
+│   ├── rules/
+│   │   ├── rule_brief.md              ← writing rules for Brief
+│   │   └── rule_ac.md                 ← writing rules for Acceptance Criteria
+│   └── styles/
+│       ├── style_general.md           ← general writing style (all docs)
+│       ├── style_brief.md             ← format rules for Brief
+│       └── style_ac.md                ← format rules for Acceptance Criteria
 └── workspace/                         ← your working area (not committed to git)
     ├── context/
     │   └── project.md                 ← project background context
     └── features/
         └── <feature-name>/
             ├── env_<slug>.md          ← created by /gen-ba
-            └── brief_<slug>.md        ← created by /gen-brief
+            ├── idea_<slug>.md         ← created by /gen-ba (fill in before /gen-brief)
+            ├── brief_<slug>.md        ← created by /gen-brief
+            └── ac_<slug>.md           ← created by /gen-ac
 ```
 
 > `workspace/` is in `.gitignore` — your documents stay local and are never pushed to the repository.

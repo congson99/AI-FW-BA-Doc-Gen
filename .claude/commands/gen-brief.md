@@ -23,36 +23,27 @@ You are a Senior Business Analyst.
    - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "**Context files** in `env_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /gen-brief."
    - An empty **Context files:** section (no items listed) is allowed — continue.
 5. Read `workspace/features/<folder-name>/env_<slug>.md` and load every file listed under **Context files** — read each one before proceeding.
-5. Read `framework/rules/rule_brief.md` — writing quality rules for brief content.
+6. If `idea_<slug>.md` was loaded and its content still contains `<add feature description here>` → stop and inform user: "Fill in `workspace/features/<folder-name>/idea_<slug>.md` with the feature description before running /gen-brief."
+7. Check for conflicts across all loaded context files:
+   - Look for contradictions in business rules, field definitions, status flows, permissions, or scope between any two context files.
+   - If conflicts are found → stop and list each conflict clearly: "Conflicts found in context files: [describe each conflict and which files it involves]. Resolve before running /gen-brief."
+   - If no conflicts → continue.
+9. Read `framework/styles/style_general.md` — general writing style rules.
+10. Read `framework/styles/style_brief.md` — style rules specific to Brief.
+11. Read `framework/rules/rule_brief.md` — writing quality rules for brief content.
 
 ## Steps
 
-1. Take:
+1. Create `workspace/features/<folder-name>/brief_<slug>.md` using the format defined in `framework/styles/style_brief.md`, filling in:
    - **Feature name** — from `$ARGUMENTS` directly (no modification)
-   - **Goal** — generate one sentence from the user's description in chat
-   - **In Scope** — derive from the user's description
-   - **Out of Scope** — derive from the user's description
+   - **Goal** — one sentence derived from the user's description in chat
+   - **In Scope** — derived from the user's description
+   - **Out of Scope** — derived from the user's description
 
-2. Create `workspace/features/<folder-name>/brief_<slug>.md` with this exact format:
-
-```
-# 1. Brief
-
-**Feature name:** <Feature name>
-
-**Goal:** <one sentence>
-
-**In scope:**
-- <item>
-
-**Out of scope:**
-- <item>
-```
-
-3. Confirm:
+2. Confirm:
 ```
 ✓ workspace/features/<folder-name>/brief_<slug>.md
 
-Review the brief and edit if needed, then run /generate-spec <folder-name> to continue.
+Review the brief and edit if needed, then run /gen-ac <Feature Name> to continue.
 ```
 
