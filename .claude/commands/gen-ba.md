@@ -44,7 +44,41 @@ You are a Senior Business Analyst setting up the working environment for a new f
 ```
 # Feature Idea
 
-<add feature description here>
+## Overview
+<describe the feature goal in 1–2 sentences>
+
+## User-provided fields
+### <Main Entity>
+- <field>
+- <field>
+
+### <Sub-entity> (if applicable)
+- <field>
+- <field>
+
+## System-generated fields
+### <Main Entity>
+- <field>: <how generated or default value>
+
+### <Sub-entity> (if applicable)
+- <field>: <default value>
+
+## Search
+- Search target: <entity being searched>
+- Search by: <field(s)>
+- Matching rule: <e.g. partial match on name>
+
+## Validation
+- <field>: <rule, e.g. required / must be > 0>
+
+## Default Values
+- <field>: <value>
+
+## Permissions
+- <PERMISSION_CONSTANT>
+
+## Notes
+<any additional rules or constraints>
 ```
 
 8. Confirm:

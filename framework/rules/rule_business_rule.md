@@ -2,9 +2,11 @@
 
 ## Main Principle
 
-Business Rules define business behavior and cross-field rules.
+Business Rules define business-level constraints and behaviors.
 
-They should not simply repeat all field validation rules unless the rule is important at the business level.
+They describe rules that affect multiple fields, objects, statuses, or business processes.
+
+Do not repeat field-level validations, UI behavior, or Acceptance Criteria unless they represent an important business constraint.
 
 ---
 
@@ -12,18 +14,21 @@ They should not simply repeat all field validation rules unless the rule is impo
 
 - Keep each rule short and focused on one business behavior.
 - Use present tense.
-- Use consistent terms from Data Definition.
-- Do not add inferred business rules not present in the source.
-- Do not mix UI display rules into Business Rules.
-- Do not repeat every required field rule.
+- Use consistent terminology from Data Definition.
+- Do not add inferred rules not present in the source.
+- Do not include UI behavior.
+- Do not restate field validations or Acceptance Criteria.
 
 ---
 
 ## Include When Present
 
 - Permission enforcement rules
-- Numbering / auto-generation rules
-- Search behavior rules
-- Concurrency rules
+- Numbering or auto-generation rules
 - Status assignment rules
-- Rollback rules
+- State transition rules
+- Calculation rules
+- Cross-field rules
+- Cross-entity rules
+- Concurrency rules
+- Transactional or all-or-nothing business rules

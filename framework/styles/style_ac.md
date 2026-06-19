@@ -24,21 +24,21 @@ Applies to `ac_<slug>.md` documents.
 
 ## Groups
 
-Use only groups relevant to the feature:
+Use only groups relevant to the feature. The order below is canonical — always follow it:
 
 ```
 ### Access Control
 ### Search / Lookup
 ### Validation
+### Default Values
 ### Processing
+### Calculation
 ### Data Persistence
 ### Concurrency
-### Response
 ### Data Consistency
-### Calculation
-### Default Values
 ### Notification
 ### Audit / History
+### Response
 ```
 
 ---
