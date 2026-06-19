@@ -6,7 +6,8 @@ AI-assisted framework for Business Analysts to generate a complete BA documentat
 
 | Command | Purpose | Requires |
 |---|---|---|
-| `/gen-ba <Feature Name>` | Init folder + env + idea file | — |
+| `/start <Feature Name>` | Init folder + env + idea file | — |
+| `/check <Feature Name>` | Show doc status + suggest next step | — |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
@@ -15,7 +16,8 @@ AI-assisted framework for Business Analysts to generate a complete BA documentat
 
 ```
 .claude/commands/           ← slash commands (Claude Code requirement)
-  gen-ba.md
+  start.md
+  check.md
   gen-brief.md
   gen-ac.md
   gen-business-rule.md
@@ -37,8 +39,8 @@ workspace/                  ← context nghiệp vụ + doc được gen
     project.md
   features/
     <feature-name>/
-      env_<slug>.md              ← /gen-ba (init)
-      idea_<slug>.md             ← /gen-ba (fill before /gen-brief)
+      env_<slug>.md              ← /start (init)
+      idea_<slug>.md             ← /start (fill before /gen-brief)
       brief_<slug>.md            ← /gen-brief
       ac_<slug>.md               ← /gen-ac
       business_rule_<slug>.md    ← /gen-business-rule
