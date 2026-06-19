@@ -48,20 +48,18 @@ Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — C
 
 ## Generating BA Documents
 
-### Step 1 — Initialize the feature environment
-
-In the Claude Code chat, run:
+### Step 1 — Initialize the feature
 
 ```
-/gen-ba <Feature Name>
+/start <Feature Name>
 ```
 
 **Example:**
 ```
-/gen-ba Cancel Purchase Request
+/start Cancel Purchase Request
 ```
 
-This creates:
+Creates:
 ```
 workspace/features/cancel-purchase-request/
   env_cancel_purchase_request.md    ← fill in Jira tickets and Confluence pages
@@ -89,8 +87,6 @@ workspace/features/cancel-purchase-request/
 - BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
 ```
 
-> **Context files** — files in `workspace/context/` and the idea file are auto-populated by `/gen-ba`. You can also add Confluence URLs or other local `.md` files here.
-
 **`idea_<slug>.md`** — replace the placeholder with your feature description, requirements, constraints, or any notes:
 
 ```
@@ -106,18 +102,11 @@ Once cancelled, the PR cannot be edited or resubmitted.
 
 ### Step 3 — Generate the Brief
 
-Run:
-
 ```
 /gen-brief <Feature Name>
 ```
 
-**Example:**
-```
-/gen-brief Cancel Purchase Request
-```
-
-Claude reads the env file, idea file, and context files, then generates:
+Generates:
 ```
 workspace/features/cancel-purchase-request/
   brief_cancel_purchase_request.md   ← generated
@@ -125,7 +114,7 @@ workspace/features/cancel-purchase-request/
 
 ---
 
-### Step 4 — Generate the Acceptance Criteria
+### Step 4 — Generate Acceptance Criteria
 
 Review and edit the brief if needed, then run:
 
@@ -133,12 +122,7 @@ Review and edit the brief if needed, then run:
 /gen-ac <Feature Name>
 ```
 
-**Example:**
-```
-/gen-ac Cancel Purchase Request
-```
-
-Claude reads the env file, brief, and context files, then generates:
+Generates:
 ```
 workspace/features/cancel-purchase-request/
   ac_cancel_purchase_request.md   ← generated
@@ -154,12 +138,7 @@ Review and edit the AC if needed, then run:
 /gen-business-rule <Feature Name>
 ```
 
-**Example:**
-```
-/gen-business-rule Cancel Purchase Request
-```
-
-Claude reads the env file, brief, AC, and context files, then generates:
+Generates:
 ```
 workspace/features/cancel-purchase-request/
   business_rule_cancel_purchase_request.md   ← generated
@@ -167,14 +146,41 @@ workspace/features/cancel-purchase-request/
 
 ---
 
+### Step 6 — Package into BA Doc
+
+```
+/gen-ba-doc <Feature Name>
+```
+
+Packages Brief, AC, and Business Rules into a single document:
+```
+workspace/features/cancel-purchase-request/
+  ba_doc_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 7 — Publish and close
+
+```
+/done <Feature Name>
+```
+
+Publishes the BA Doc to Confluence, updates the Jira ticket status, and optionally clears the local feature folder.
+
+---
+
 ## Available Commands
 
 | Command | Purpose | Requires |
 |---|---|---|
-| `/gen-ba <Feature Name>` | Initialize feature folder and env file | — |
-| `/gen-brief <Feature Name>` | Generate Brief from chat description | `env_<slug>.md` filled in |
+| `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
+| `/check <Feature Name>` | Show doc status and suggest next step | — |
+| `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package Brief, AC, and Business Rules into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
 
@@ -184,34 +190,38 @@ workspace/features/cancel-purchase-request/
 
 ```
 AI-FW-Doc-Generation/
-├── CLAUDE.md                          ← project instructions for Claude
+├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/
-│       ├── gen-ba.md                  ← /gen-ba command definition
-│       ├── gen-brief.md               ← /gen-brief command definition
-│       ├── gen-ac.md                  ← /gen-ac command definition
-│       ├── gen-business-rule.md        ← /gen-business-rule command definition
-│       └── clear-feature.md           ← /clear-feature command definition
+│       ├── start.md                       ← /start command definition
+│       ├── check.md                       ← /check command definition
+│       ├── gen-brief.md                   ← /gen-brief command definition
+│       ├── gen-ac.md                      ← /gen-ac command definition
+│       ├── gen-business-rule.md           ← /gen-business-rule command definition
+│       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
+│       ├── done.md                        ← /done command definition
+│       └── clear-feature.md              ← /clear-feature command definition
 ├── framework/
 │   ├── rules/
-│   │   ├── rule_brief.md              ← writing rules for Brief
-│   │   ├── rule_ac.md                 ← writing rules for Acceptance Criteria
-│   │   └── rule_business_rule.md      ← writing rules for Business Rules
+│   │   ├── rule_brief.md                  ← writing rules for Brief
+│   │   ├── rule_ac.md                     ← writing rules for Acceptance Criteria
+│   │   └── rule_business_rule.md          ← writing rules for Business Rules
 │   └── styles/
-│       ├── style_general.md           ← general writing style (all docs)
-│       ├── style_brief.md             ← format rules for Brief
-│       ├── style_ac.md                ← format rules for Acceptance Criteria
-│       └── style_business_rule.md     ← format rules for Business Rules
-└── workspace/                         ← your working area (not committed to git)
+│       ├── style_general.md               ← general writing style (all docs)
+│       ├── style_brief.md                 ← format rules for Brief
+│       ├── style_ac.md                    ← format rules for Acceptance Criteria
+│       └── style_business_rule.md         ← format rules for Business Rules
+└── workspace/                             ← your working area (not committed to git)
     ├── context/
-    │   └── project.md                 ← project background context
+    │   └── project.md                     ← project background context
     └── features/
         └── <feature-name>/
-            ├── env_<slug>.md          ← created by /gen-ba
-            ├── idea_<slug>.md         ← created by /gen-ba (fill in before /gen-brief)
-            ├── brief_<slug>.md        ← created by /gen-brief
-            ├── ac_<slug>.md           ← created by /gen-ac
-            └── business_rule_<slug>.md ← created by /gen-business-rule
+            ├── env_<slug>.md              ← created by /start
+            ├── idea_<slug>.md             ← created by /start (fill in before /gen-brief)
+            ├── brief_<slug>.md            ← created by /gen-brief
+            ├── ac_<slug>.md               ← created by /gen-ac
+            ├── business_rule_<slug>.md    ← created by /gen-business-rule
+            └── ba_doc_<slug>.md           ← created by /gen-ba-doc
 ```
 
 > `workspace/` is in `.gitignore` — your documents stay local and are never pushed to the repository.
