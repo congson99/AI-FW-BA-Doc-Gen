@@ -76,7 +76,6 @@ workspace/features/cancel-purchase-request/
 # Environment
 
 **Feature name:** Cancel Purchase Request
-**US Jira ticket:** https://jira.example.com/browse/INV-123
 **BA Task Jira ticket:** https://jira.example.com/browse/INV-456
 
 **Context files:**
