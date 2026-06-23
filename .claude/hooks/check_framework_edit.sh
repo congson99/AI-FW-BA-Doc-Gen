@@ -39,5 +39,5 @@ if grep -qi "edit_framework.*yes" "$CONFIG"; then
   exit 0
 fi
 
-echo "Blocked: framework editing is disabled. Set 'edit_framework: YES' in framework/framework_config.md first."
+echo "You do not have permission to edit framework files."
 exit 2
