@@ -73,7 +73,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
   - Preserve all text, numbering, and links exactly.
 - Prepend a Confluence Table of Contents macro at the very beginning of the converted body, before any other content. Use the HTML extension format (required when `contentFormat` is `html`):
   ```html
-  <div data-type="extension" data-extension-key="toc" data-extension-type="com.atlassian.confluence.macro.core" data-layout="default" data-parameters="{&quot;macroParams&quot;:{&quot;style&quot;:{&quot;value&quot;:&quot;none&quot;},&quot;minLevel&quot;:{&quot;value&quot;:&quot;2&quot;},&quot;maxLevel&quot;:{&quot;value&quot;:&quot;3&quot;}},&quot;macroMetadata&quot;:{&quot;schemaVersion&quot;:{&quot;value&quot;:&quot;1&quot;},&quot;title&quot;:&quot;Table of Contents&quot;}}"></div>
+  <div data-type="extension" data-extension-key="toc" data-extension-type="com.atlassian.confluence.macro.core" data-layout="default" data-parameters="{&quot;macroParams&quot;:{&quot;style&quot;:{&quot;value&quot;:&quot;none&quot;},&quot;minLevel&quot;:{&quot;value&quot;:&quot;1&quot;},&quot;maxLevel&quot;:{&quot;value&quot;:&quot;3&quot;}},&quot;macroMetadata&quot;:{&quot;schemaVersion&quot;:{&quot;value&quot;:&quot;1&quot;},&quot;title&quot;:&quot;Table of Contents&quot;}}"></div>
   ```
 - Use the Atlassian MCP tool `updateConfluencePage` with:
   - The page ID from 1b

@@ -28,7 +28,7 @@ You are a Senior Business Analyst.
 1. Create `workspace/<folder-name>/ba_doc_<slug>.md` with the following structure — copy content from each source file exactly, preserving all formatting, numbering, and wording:
 
 ```
-# BA Doc — <Feature Name>
+# A. BUSINESS
 
 <full content of brief_<slug>.md>
 
@@ -45,6 +45,8 @@ You are a Senior Business Analyst.
 <full content of data_definition_<slug>.md>
 
 ---
+
+# B. BEHAVIOR
 
 <full content of navigation_<slug>.md>
 ```

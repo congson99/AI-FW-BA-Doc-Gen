@@ -36,7 +36,7 @@ You are a Senior Business Analyst.
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
 9. Check if `project/reference/navigation/` exists and contains any `.md` files:
-   - If files exist → read all of them as navigation reference context before proceeding.
+   - If files exist → read all of them as reference guidelines before proceeding. These files define shared navigation patterns, button naming conventions, confirmation dialog rules, and similar standards that apply across features. Use them to inform generation — do not extract navigation actions directly from them.
    - If the folder is empty or does not exist → skip, proceed normally.
 10. Read `framework/styles/style_general.md` — general writing style rules.
 11. Read `framework/styles/style_navigation.md` — style rules specific to Navigation.
@@ -44,7 +44,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze all loaded context (env file, brief, AC, context files, and navigation reference files from `project/reference/navigation/`) to identify:
+1. Analyze the feature source (env file, brief, AC, and context files) to identify the navigation for this feature. Apply the reference guidelines from `project/reference/navigation/` (shared patterns, button conventions, confirmation rules) when making decisions — do not extract navigation actions from those files. Identify:
 
    - Entry pages that lead to the feature
    - Main page (the primary page for the feature)
