@@ -51,7 +51,7 @@ Open `project/sync_config.md` and fill in the Confluence URLs for your project p
 /sync
 ```
 
-This fetches the Confluence content into the local `project/context/` and `project/reference/` files, giving Claude background knowledge about your domain before generating any documents.
+This fetches the Confluence content into the local `project/context/` and `project/reference/` files, giving Claude background knowledge about your domain before generating any documents. After syncing, `/sync` will also detect any local files that are no longer mapped in `sync_config.md` and ask if you want to delete them.
 
 ---
 
@@ -189,6 +189,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-ba-doc <Feature Name>` | Package Brief, AC, and Business Rules into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
@@ -210,6 +212,8 @@ AI-FW-Doc-Generation/
 │       ├── gen-brief.md                   ← /gen-brief command definition
 │       ├── gen-ac.md                      ← /gen-ac command definition
 │       ├── gen-business-rule.md           ← /gen-business-rule command definition
+│       ├── gen-data-definition.md         ← /gen-data-definition command definition
+│       ├── gen-navigation.md              ← /gen-navigation command definition
 │       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
 │       ├── done.md                        ← /done command definition
 │       └── clear-feature.md              ← /clear-feature command definition
@@ -217,16 +221,24 @@ AI-FW-Doc-Generation/
 │   ├── rules/
 │   │   ├── rule_brief.md                  ← writing rules for Brief
 │   │   ├── rule_ac.md                     ← writing rules for Acceptance Criteria
-│   │   └── rule_business_rule.md          ← writing rules for Business Rules
+│   │   ├── rule_business_rule.md          ← writing rules for Business Rules
+│   │   ├── rule_data_definition.md        ← writing rules for Data Definition
+│   │   └── rule_navigation.md             ← writing rules for Navigation
 │   └── styles/
 │       ├── style_general.md               ← general writing style (all docs)
 │       ├── style_brief.md                 ← format rules for Brief
 │       ├── style_ac.md                    ← format rules for Acceptance Criteria
-│       └── style_business_rule.md         ← format rules for Business Rules
+│       ├── style_business_rule.md         ← format rules for Business Rules
+│       ├── style_data_definition.md       ← format rules for Data Definition
+│       └── style_navigation.md            ← format rules for Navigation
 ├── project/                               ← project-level context (not committed)
 │   ├── sync_config.md                     ← Confluence URL → local file mapping
 │   ├── context/                           ← domain overview, modules, user stories
 │   └── reference/                         ← spec sheets, Confluence exports
+│       ├── business-rules/                ← general business rules (used by /gen-business-rule)
+│       ├── ui-rules/                      ← UI/UX rules and standards
+│       ├── navigation/                    ← navigation patterns (used by /gen-navigation)
+│       └── messages/                      ← system message definitions
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
         ├── env_<slug>.md                  ← created by /start
@@ -234,5 +246,7 @@ AI-FW-Doc-Generation/
         ├── brief_<slug>.md                ← created by /gen-brief
         ├── ac_<slug>.md                   ← created by /gen-ac
         ├── business_rule_<slug>.md        ← created by /gen-business-rule
+        ├── data_definition_<slug>.md      ← created by /gen-data-definition
+        ├── navigation_<slug>.md           ← created by /gen-navigation
         └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```

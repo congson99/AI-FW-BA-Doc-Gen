@@ -40,7 +40,9 @@ Check for the existence of each file below (true/false):
 | 3 | `brief_<slug>.md` | Brief |
 | 4 | `ac_<slug>.md` | Acceptance Criteria |
 | 5 | `business_rule_<slug>.md` | Business Rules |
-| 6 | `ba_doc_<slug>.md` | BA Doc |
+| 6 | `data_definition_<slug>.md` | Data Definition |
+| 7 | `navigation_<slug>.md` | Navigation |
+| 8 | `ba_doc_<slug>.md` | BA Doc |
 
 ### 3. For files that exist, detect issues
 
@@ -58,8 +60,10 @@ Use this priority order — stop at the first condition that is true:
 4. `brief_<slug>.md` missing → next: `/gen-brief <Feature Name>`
 5. `ac_<slug>.md` missing → next: `/gen-ac <Feature Name>`
 6. `business_rule_<slug>.md` missing → next: `/gen-business-rule <Feature Name>`
-7. `ba_doc_<slug>.md` missing → next: `/gen-ba-doc <Feature Name>`
-8. All files exist → next: `/done <Feature Name>`
+7. `data_definition_<slug>.md` missing → next: `/gen-data-definition <Feature Name>`
+8. `navigation_<slug>.md` missing → next: `/gen-navigation <Feature Name>`
+9. `ba_doc_<slug>.md` missing → next: `/gen-ba-doc <Feature Name>`
+10. All files exist → next: `/done <Feature Name>`
 
 ### 5. Output the status report
 
@@ -75,6 +79,8 @@ Print the report in this exact format:
 | Brief | ✓ Ready / ✗ Missing |
 | Acceptance Criteria | ✓ Ready / ✗ Missing |
 | Business Rules | ✓ Ready / ✗ Missing |
+| Data Definition | ✓ Ready / ✗ Missing |
+| Navigation | ✓ Ready / ✗ Missing |
 | BA Doc | ✓ Ready / ✗ Missing |
 
 → Next step: <command or action to take>

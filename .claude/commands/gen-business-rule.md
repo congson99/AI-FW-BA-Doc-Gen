@@ -39,24 +39,44 @@ You are a Senior Business Analyst.
      > Regenerating Business Rules will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
-10. Read `framework/styles/style_general.md` — general writing style rules.
-11. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
-12. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
+10. Check if `project/reference/business-rules/` exists and contains any `.md` files:
+    - If files exist → read all of them and note which rule groups each file contains (e.g. Email, Phone Number, Attachment, Pagination).
+    - If the folder is empty or does not exist → skip, proceed normally.
+11. Read `framework/styles/style_general.md` — general writing style rules.
+12. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
+13. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
 
 ## Steps
 
-1. Analyze all loaded context (env file, brief, AC, context files) to identify business rules:
+1. Analyze all loaded context (env file, brief, AC, and context files) to identify business rules, including:
+
    - Permission enforcement rules
-   - Numbering / auto-generation rules
+   - Numbering or auto-generation rules
+   - Uniqueness rules
    - Status assignment rules
-   - Cross-field or cross-entity rules
+   - State transition rules
+   - Calculation rules
+   - Cross-field rules
+   - Cross-entity rules
+   - External dependency rules
    - Concurrency rules
-   - Rollback rules
-   - Any other business-level constraints present in the source
+   - Record consistency rules across related business objects
+   - Any other business policies or constraints explicitly present in the source
 
-2. Create `workspace/<folder-name>/business_rule_<slug>.md` using the format defined in `framework/styles/style_business_rule.md`.
+   Determine whether each candidate rule represents a business policy or business constraint.
 
-3. Confirm:
+   Exclude behaviors that belong to Acceptance Criteria, including validation, search, processing, persistence, response, audit, notification, and UI behavior.
+
+2. If any files from `project/reference/business-rules/` were loaded, identify which rule groups from those files are relevant to this feature:
+   - A rule group is relevant if the feature involves a field or behavior that the group governs (e.g. a phone number field → Phone Number rules apply).
+   - Do not re-list the rules. Instead, for each relevant group, append one rule entry at the end of the numbered list (continuing the R-number sequence), with a blank line between each rule:
+     > `**R<N>:** <Rule Group>: follow General Business Rules`
+   - Feature-specific rules must always come first. General rule references are appended last, each as its own numbered rule in the same list, following the same blank-line spacing as all other rules.
+
+3. Create `workspace/<folder-name>/business_rule_<slug>.md` using the format defined in `framework/styles/style_business_rule.md`.
+   - If no business rules were identified, still create the file with the section heading but write: `No specific business rules identified for this feature.`
+
+4. Confirm:
 ```
 ✓ workspace/<folder-name>/business_rule_<slug>.md
 

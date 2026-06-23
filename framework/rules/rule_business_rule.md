@@ -6,7 +6,7 @@ Business Rules define business-level constraints and behaviors.
 
 They describe rules that affect multiple fields, objects, statuses, or business processes.
 
-Do not repeat field-level validations, UI behavior, or Acceptance Criteria unless they represent an important business constraint.
+Do not repeat field-level validations or behaviors already covered by Acceptance Criteria unless they represent a business policy or business constraint.
 
 ---
 
@@ -28,12 +28,15 @@ Business Rules describe business policies, constraints, and business-visible beh
 Do not use Business Rules for:
 
 - Required field validations
+- Minimum item count or structural validations
 - Search behavior
 - Success or error responses
 - UI behavior
 - Messages
+- Processing, audit, or notification behavior already covered by Acceptance Criteria
 - Data persistence behavior already covered by Acceptance Criteria
-- Referential integrity validations
+- Default value behavior already covered by Acceptance Criteria unless it represents a business policy
+- Entity existence checks that do not represent a business policy
 
 Entity existence checks belong to Validation Acceptance Criteria unless they represent a cross-entity business policy.
 
@@ -66,7 +69,6 @@ Avoid describing implementation mechanisms such as:
 - Cross-entity rules
 - External dependency rules
 - Concurrency rules
-- Consistency rules across related records
 
 ---
 
@@ -75,5 +77,11 @@ Avoid describing implementation mechanisms such as:
 - Keep one business behavior per rule.
 - Split numbering policies into separate rules when format, uniqueness, sequence, or reset policies are independently meaningful.
 - Group fields only when they always share the same policy.
-- Business-visible formats, sequences, and numbering policies may be described when no separate Design Document exists.
-- Avoid describing implementation mechanisms such as algorithms, database sequences, or locking strategies.
+
+---
+
+## Business Policy Test
+
+Business Rules should describe business policies and business constraints.
+
+Validation, search, processing, persistence, response, audit, notification, and UI behavior belong to Acceptance Criteria.

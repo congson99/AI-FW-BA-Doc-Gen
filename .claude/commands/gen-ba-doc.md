@@ -1,6 +1,6 @@
 ---
 name: "Package BA Doc"
-description: "Package Brief, AC, and Business Rules into a single BA Doc. Usage: /gen-ba-doc <Feature Name>"
+description: "Package Brief, AC, Business Rules, and Data Definition into a single BA Doc. Usage: /gen-ba-doc <Feature Name>"
 ---
 
 You are a Senior Business Analyst.
@@ -19,7 +19,9 @@ You are a Senior Business Analyst.
    - `brief_<slug>.md` → if missing, stop: "Brief not found. Run `/gen-brief <Feature Name>` first."
    - `ac_<slug>.md` → if missing, stop: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first."
    - `business_rule_<slug>.md` → if missing, stop: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first."
-4. Read all three files before proceeding.
+   - `data_definition_<slug>.md` → if missing, stop: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first."
+   - `navigation_<slug>.md` → if missing, stop: "Navigation not found. Run `/gen-navigation <Feature Name>` first."
+4. Read all five files before proceeding.
 
 ## Steps
 
@@ -37,6 +39,14 @@ You are a Senior Business Analyst.
 ---
 
 <full content of business_rule_<slug>.md>
+
+---
+
+<full content of data_definition_<slug>.md>
+
+---
+
+<full content of navigation_<slug>.md>
 ```
 
 2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:

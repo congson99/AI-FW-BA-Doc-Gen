@@ -36,3 +36,24 @@ Sync complete:
 
 Skipped (no URL): <count> entries
 ```
+
+6. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/sync_config.md`:
+   - `project/context/`
+   - `project/reference/` (top-level files only)
+   - `project/reference/business-rules/`
+   - `project/reference/ui-rules/`
+   - `project/reference/navigation/`
+   - `project/reference/messages/`
+
+   If orphaned files are found → ask the user:
+   ```
+   The following local files are not mapped in sync_config.md:
+     - project/reference/business-rules/old-rules.md
+     - ...
+
+   Delete these files? (yes/no)
+   ```
+   - **yes** → delete all listed files and confirm: `✓ Deleted <count> orphaned file(s).`
+   - **no** → leave them untouched and note: `Orphaned files kept.`
+
+   If no orphaned files are found → skip this step silently.
