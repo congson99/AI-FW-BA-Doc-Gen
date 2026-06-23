@@ -236,5 +236,3 @@ AI-FW-Doc-Generation/
         ├── business_rule_<slug>.md        ← created by /gen-business-rule
         └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```
-
-> `project/` and `workspace/` are in `.gitignore` — your documents stay local and are never pushed to the repository.
