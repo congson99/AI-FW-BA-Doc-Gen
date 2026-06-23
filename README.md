@@ -154,13 +154,45 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 6 — Package into BA Doc
+### Step 6 — Generate Data Definition
+
+Review and edit the Business Rules if needed, then run:
+
+```
+/gen-data-definition <Feature Name>
+```
+
+Generates:
+```
+workspace/cancel-purchase-request/
+  data_definition_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 7 — Generate Navigation
+
+Review and edit the Data Definition if needed, then run:
+
+```
+/gen-navigation <Feature Name>
+```
+
+Generates:
+```
+workspace/cancel-purchase-request/
+  navigation_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 8 — Package into BA Doc
 
 ```
 /gen-ba-doc <Feature Name>
 ```
 
-Packages Brief, AC, and Business Rules into a single document:
+Packages Brief, AC, Business Rules, Data Definition, and Navigation into a single document:
 ```
 workspace/cancel-purchase-request/
   ba_doc_cancel_purchase_request.md   ← generated
@@ -168,7 +200,7 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 7 — Publish and close
+### Step 9 — Publish and close
 
 ```
 /done <Feature Name>
@@ -191,7 +223,7 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
 | `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package Brief, AC, and Business Rules into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
