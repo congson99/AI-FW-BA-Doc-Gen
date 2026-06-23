@@ -7,42 +7,51 @@ AI-assisted framework for Business Analysts to generate a complete BA documentat
 ## Prerequisites
 
 - [VS Code](https://code.visualstudio.com/) installed
-- Git installed
 
 ---
 
 ## Setup
 
-### Step 1 — Clone the repository
+### Step 1 — Extract the zip and open the project in VS Code
 
-```bash
-git clone https://github.com/congson99/AI-FW-Doc-Generation.git
-cd AI-FW-Doc-Generation
-```
+Extract the downloaded zip file, then open the folder in VS Code:
+
+1. Open VS Code
+2. Go to **File → Open Folder**
+3. Select the extracted folder
 
 ### Step 2 — Install the Claude Code extension in VS Code
 
-1. Open VS Code
-2. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for **Claude Code**
-4. Click **Install**
+1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
+2. Search for **Claude Code**
+3. Click **Install**
 
-> Alternatively, install the [Claude Code CLI](https://claude.ai/code) and run `claude` in the terminal from the project root.
-
-### Step 3 — Open the project in VS Code
-
-```bash
-code .
-```
-
-### Step 4 — Open the Claude Code panel
+### Step 3 — Open the Claude Code panel
 
 - Click the **Claude** icon in the VS Code sidebar, or
 - Use the keyboard shortcut shown after the extension installs
 
-### Step 5 — Connect Atlassian via MCP (one-time setup)
+### Step 4 — Connect Atlassian via MCP (one-time setup)
 
 Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — Claude will automatically prompt you to connect Atlassian and guide you through the authentication flow.
+
+### Step 5 — Initialize the workspace
+
+```
+/init
+```
+
+Creates the `project/` and `workspace/` folders if they don't already exist, and generates `project/sync_config.md`.
+
+### Step 6 — Configure project context (optional)
+
+Open `project/sync_config.md` and fill in the Confluence URLs for your project pages, then run:
+
+```
+/sync
+```
+
+This fetches the Confluence content into the local `project/context/` and `project/reference/` files, giving Claude background knowledge about your domain before generating any documents.
 
 ---
 
@@ -61,8 +70,8 @@ Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — C
 
 Creates:
 ```
-workspace/features/cancel-purchase-request/
-  env_cancel_purchase_request.md    ← fill in Jira tickets and Confluence pages
+workspace/cancel-purchase-request/
+  env_cancel_purchase_request.md    ← fill in Jira ticket and Confluence pages
   idea_cancel_purchase_request.md   ← fill in your feature description
 ```
 
@@ -79,8 +88,8 @@ workspace/features/cancel-purchase-request/
 **BA Task Jira ticket:** https://jira.example.com/browse/INV-456
 
 **Context files:**
-- workspace/context/project.md
-- workspace/features/cancel-purchase-request/idea_cancel_purchase_request.md
+- project/context/project.md
+- workspace/cancel-purchase-request/idea_cancel_purchase_request.md
 
 **Confluence output pages:**
 - BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
@@ -107,7 +116,7 @@ Once cancelled, the PR cannot be edited or resubmitted.
 
 Generates:
 ```
-workspace/features/cancel-purchase-request/
+workspace/cancel-purchase-request/
   brief_cancel_purchase_request.md   ← generated
 ```
 
@@ -123,7 +132,7 @@ Review and edit the brief if needed, then run:
 
 Generates:
 ```
-workspace/features/cancel-purchase-request/
+workspace/cancel-purchase-request/
   ac_cancel_purchase_request.md   ← generated
 ```
 
@@ -139,7 +148,7 @@ Review and edit the AC if needed, then run:
 
 Generates:
 ```
-workspace/features/cancel-purchase-request/
+workspace/cancel-purchase-request/
   business_rule_cancel_purchase_request.md   ← generated
 ```
 
@@ -153,7 +162,7 @@ workspace/features/cancel-purchase-request/
 
 Packages Brief, AC, and Business Rules into a single document:
 ```
-workspace/features/cancel-purchase-request/
+workspace/cancel-purchase-request/
   ba_doc_cancel_purchase_request.md   ← generated
 ```
 
@@ -173,6 +182,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 
 | Command | Purpose | Requires |
 |---|---|---|
+| `/init` | Initialize project/ and workspace/ folder structure | — |
+| `/sync` | Fetch Confluence pages into local project files | `project/sync_config.md` filled |
 | `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
 | `/check <Feature Name>` | Show doc status and suggest next step | — |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
@@ -192,6 +203,8 @@ AI-FW-Doc-Generation/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/
+│       ├── init.md                        ← /init command definition
+│       ├── sync.md                        ← /sync command definition
 │       ├── start.md                       ← /start command definition
 │       ├── check.md                       ← /check command definition
 │       ├── gen-brief.md                   ← /gen-brief command definition
@@ -210,17 +223,18 @@ AI-FW-Doc-Generation/
 │       ├── style_brief.md                 ← format rules for Brief
 │       ├── style_ac.md                    ← format rules for Acceptance Criteria
 │       └── style_business_rule.md         ← format rules for Business Rules
-└── workspace/                             ← your working area (not committed to git)
-    ├── context/
-    │   └── project.md                     ← project background context
-    └── features/
-        └── <feature-name>/
-            ├── env_<slug>.md              ← created by /start
-            ├── idea_<slug>.md             ← created by /start (fill in before /gen-brief)
-            ├── brief_<slug>.md            ← created by /gen-brief
-            ├── ac_<slug>.md               ← created by /gen-ac
-            ├── business_rule_<slug>.md    ← created by /gen-business-rule
-            └── ba_doc_<slug>.md           ← created by /gen-ba-doc
+├── project/                               ← project-level context (not committed)
+│   ├── sync_config.md                     ← Confluence URL → local file mapping
+│   ├── context/                           ← domain overview, modules, user stories
+│   └── reference/                         ← spec sheets, Confluence exports
+└── workspace/                             ← per-feature working area (not committed)
+    └── <feature-name>/
+        ├── env_<slug>.md                  ← created by /start
+        ├── idea_<slug>.md                 ← created by /start (fill in before /gen-brief)
+        ├── brief_<slug>.md                ← created by /gen-brief
+        ├── ac_<slug>.md                   ← created by /gen-ac
+        ├── business_rule_<slug>.md        ← created by /gen-business-rule
+        └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```
 
-> `workspace/` is in `.gitignore` — your documents stay local and are never pushed to the repository.
+> `project/` and `workspace/` are in `.gitignore` — your documents stay local and are never pushed to the repository.

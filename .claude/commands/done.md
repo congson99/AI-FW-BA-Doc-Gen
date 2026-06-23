@@ -15,14 +15,14 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 1. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
 2. Derive file slug: replace `-` with `_` (e.g. `create-po` → `create_po`)
-3. Read `workspace/features/<folder-name>/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
-4. Check `workspace/features/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/gen-ba-doc <Feature Name>` first."
+3. Read `workspace/<folder-name>/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
+4. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/gen-ba-doc <Feature Name>` first."
 
 ---
 
 ## Step 0 — Check Manual Tasks
 
-- Read `workspace/features/<folder-name>/manual_tasks_<slug>.md`.
+- Read `workspace/<folder-name>/manual_tasks_<slug>.md`.
 - If the file does not exist → skip this step and continue.
 - If the file exists but is empty or contains only the heading with no tasks → continue.
 - If the file contains any remaining tasks (lines starting with `- [ ]`) → stop and tell the user:
@@ -63,7 +63,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ### 1d. Update the Confluence page
 
-- Read the full text of `workspace/features/<folder-name>/ba_doc_<slug>.md`.
+- Read the full text of `workspace/<folder-name>/ba_doc_<slug>.md`.
 - Convert the Markdown content to Confluence storage format (XHTML):
   - `# Heading` → `<h1>`, `## Heading` → `<h2>`, etc.
   - `**bold**` → `<strong>`
@@ -111,12 +111,12 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 ## Step 3 — Clear Feature (optional)
 
 Ask the user:
-> "Do you want to clear the feature folder `workspace/features/<folder-name>/`? (yes/no)"
+> "Do you want to clear the feature folder `workspace/<folder-name>/`? (yes/no)"
 
 - **no** → skip.
 - **yes** → follow the clear-feature logic:
-  1. Confirm with the user: "Delete `workspace/features/<folder-name>/` and all its contents? (yes/no)"
-  2. If confirmed → delete the folder and all contents, confirm: "✓ Deleted workspace/features/<folder-name>/"
+  1. Confirm with the user: "Delete `workspace/<folder-name>/` and all its contents? (yes/no)"
+  2. If confirmed → delete the folder and all contents, confirm: "✓ Deleted workspace/<folder-name>/"
   3. If cancelled → note: "Feature folder kept."
 
 ---

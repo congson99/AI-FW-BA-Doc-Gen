@@ -15,7 +15,7 @@ You are a Senior Business Analyst.
 
 1. Derive folder name: kebab-case of Feature name (e.g. "Create Product Category" → `create-product-category`)
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
-3. Check each required artifact exists under `workspace/features/<folder-name>/`:
+3. Check each required artifact exists under `workspace/<folder-name>/`:
    - `brief_<slug>.md` → if missing, stop: "Brief not found. Run `/gen-brief <Feature Name>` first."
    - `ac_<slug>.md` → if missing, stop: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first."
    - `business_rule_<slug>.md` → if missing, stop: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first."
@@ -23,7 +23,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Create `workspace/features/<folder-name>/ba_doc_<slug>.md` with the following structure — copy content from each source file exactly, preserving all formatting, numbering, and wording:
+1. Create `workspace/<folder-name>/ba_doc_<slug>.md` with the following structure — copy content from each source file exactly, preserving all formatting, numbering, and wording:
 
 ```
 # BA Doc — <Feature Name>
@@ -39,7 +39,7 @@ You are a Senior Business Analyst.
 <full content of business_rule_<slug>.md>
 ```
 
-2. Update `workspace/features/<folder-name>/manual_tasks_<slug>.md`:
+2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:
    - Scan `ac_<slug>.md` for permission constants in the Access Control group (identifiable by `SCREAMING_SNAKE_CASE` format, e.g. `UPDATE_PURCHASE_ORDER`).
    - For each permission constant found that is not already listed in `manual_tasks_<slug>.md`, append it under a `## Permissions` section (create the section if it does not exist):
      ```
@@ -50,6 +50,6 @@ You are a Senior Business Analyst.
 
 3. Confirm:
 ```
-✓ workspace/features/<folder-name>/ba_doc_<slug>.md
-✓ workspace/features/<folder-name>/manual_tasks_<slug>.md (updated)
+✓ workspace/<folder-name>/ba_doc_<slug>.md
+✓ workspace/<folder-name>/manual_tasks_<slug>.md (updated)
 ```

@@ -9,7 +9,7 @@ You are a Senior Business Analyst reviewing documentation progress for a feature
 
 `$ARGUMENTS` is the **Feature name** exactly as typed by the user.
 
-- If `$ARGUMENTS` is empty → list all feature folders under `workspace/features/` and ask: "Which feature do you want to check?"
+- If `$ARGUMENTS` is empty → list all feature folders under `workspace/` and ask: "Which feature do you want to check?"
 
 ## Feature Name Normalization
 
@@ -21,7 +21,7 @@ You are a Senior Business Analyst reviewing documentation progress for a feature
 
 ### 1. Check if the feature folder exists
 
-- If `workspace/features/<folder-name>/` does not exist → stop and output:
+- If `workspace/<folder-name>/` does not exist → stop and output:
 
 ```
 Feature `<Feature Name>` not found.
