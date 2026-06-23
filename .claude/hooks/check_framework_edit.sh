@@ -16,7 +16,7 @@ if [ -z "$FILE_PATH" ]; then
   exit 0
 fi
 
-PROTECTED=("framework/" ".claude/commands/" "CLAUDE.md")
+PROTECTED=("framework/" ".claude/" "CLAUDE.md" "README.md" ".gitignore")
 
 IS_PROTECTED=false
 for pattern in "${PROTECTED[@]}"; do

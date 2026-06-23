@@ -8,7 +8,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 **`edit_framework = no` (default)**
 - Only perform document generation tasks.
-- Do not modify, suggest changes to, or ask questions about any framework files: `.claude/commands/`, `framework/rules/`, `framework/styles/`, `framework/framework_config.md`, or `CLAUDE.md`.
+- Do not modify, suggest changes to, or ask questions about any framework files: `.claude/`, `framework/`, or `CLAUDE.md`.
 - When asked to edit framework files, respond only with: "You do not have permission to edit framework files." Do not explain how to enable editing.
 
 **`edit_framework = yes`**
