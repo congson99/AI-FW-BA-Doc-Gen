@@ -73,7 +73,6 @@ project/                        ← project-level context (not committed)
   context/                      ← domain overview, module map, user stories
   reference/                    ← spec sheets, Confluence exports, detailed docs
     business-rules/             ← general business rules (read by /gen-business-rule)
-    ui-rules/                   ← UI/UX rules and standards
     navigation/                 ← navigation patterns (read by /gen-navigation)
     ui-behavior/                ← shared UI behavior groups (read by /gen-ui-behavior)
     messages/                   ← system message definitions

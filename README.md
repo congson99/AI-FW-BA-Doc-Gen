@@ -308,7 +308,6 @@ AI-FW-Doc-Generation/
 │   ├── context/                           ← domain overview, modules, user stories
 │   └── reference/                         ← spec sheets, Confluence exports
 │       ├── business-rules/                ← general business rules (used by /gen-business-rule)
-│       ├── ui-rules/                      ← UI/UX rules and standards
 │       ├── navigation/                    ← navigation patterns (used by /gen-navigation)
 │       ├── ui-behavior/                   ← shared UI behavior groups (used by /gen-ui-behavior)
 │       └── messages/                      ← system message definitions
