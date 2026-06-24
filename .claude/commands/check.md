@@ -43,7 +43,8 @@ Check for the existence of each file below (true/false):
 | 6 | `data_definition_<slug>.md` | Data Definition |
 | 7 | `navigation_<slug>.md` | Navigation |
 | 8 | `flow_<slug>.md` | Flow |
-| 9 | `ba_doc_<slug>.md` | BA Doc |
+| 9 | `ui_behavior_<slug>.md` | UI Behavior |
+| 10 | `ba_doc_<slug>.md` | BA Doc |
 
 ### 3. For files that exist, detect issues
 
@@ -64,8 +65,9 @@ Use this priority order — stop at the first condition that is true:
 7. `data_definition_<slug>.md` missing → next: `/gen-data-definition <Feature Name>`
 8. `navigation_<slug>.md` missing → next: `/gen-navigation <Feature Name>`
 9. `flow_<slug>.md` missing → next: `/gen-flow <Feature Name>`
-10. `ba_doc_<slug>.md` missing → next: `/gen-ba-doc <Feature Name>`
-11. All files exist → next: `/done <Feature Name>`
+10. `ui_behavior_<slug>.md` missing → next: `/gen-ui-behavior <Feature Name>`
+11. `ba_doc_<slug>.md` missing → next: `/gen-ba-doc <Feature Name>`
+12. All files exist → next: `/done <Feature Name>`
 
 ### 5. Output the status report
 
@@ -84,6 +86,7 @@ Print the report in this exact format:
 | Data Definition | ✓ Ready / ✗ Missing |
 | Navigation | ✓ Ready / ✗ Missing |
 | Flow | ✓ Ready / ✗ Missing |
+| UI Behavior | ✓ Ready / ✗ Missing |
 | BA Doc | ✓ Ready / ✗ Missing |
 
 → Next step: <command or action to take>

@@ -22,7 +22,8 @@ You are a Senior Business Analyst.
    - `data_definition_<slug>.md` → if missing, stop: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first."
    - `navigation_<slug>.md` → if missing, stop: "Navigation not found. Run `/gen-navigation <Feature Name>` first."
    - `flow_<slug>.md` → if missing, stop: "Flow not found. Run `/gen-flow <Feature Name>` first."
-4. Read all six files before proceeding.
+   - `ui_behavior_<slug>.md` → if missing, stop: "UI Behavior not found. Run `/gen-ui-behavior <Feature Name>` first."
+4. Read all seven files before proceeding.
 
 ## Steps
 
@@ -54,6 +55,10 @@ You are a Senior Business Analyst.
 ---
 
 <full content of flow_<slug>.md>
+
+---
+
+<full content of ui_behavior_<slug>.md>
 ```
 
 2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:

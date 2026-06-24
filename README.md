@@ -202,13 +202,29 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 9 — Package into BA Doc
+### Step 9 — Generate UI Behavior
+
+Review and edit the Flow if needed, then run:
+
+```
+/gen-ui-behavior <Feature Name>
+```
+
+Generates:
+```
+workspace/cancel-purchase-request/
+  ui_behavior_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 10 — Package into BA Doc
 
 ```
 /gen-ba-doc <Feature Name>
 ```
 
-Packages Brief, AC, Business Rules, Data Definition, and Navigation into a single document:
+Packages all artifacts into a single document:
 ```
 workspace/cancel-purchase-request/
   ba_doc_cancel_purchase_request.md   ← generated
@@ -216,7 +232,7 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 10 — Publish and close
+### Step 11 — Publish and close
 
 ```
 /done <Feature Name>
@@ -240,7 +256,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
 | `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
+| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
@@ -264,6 +281,7 @@ AI-FW-Doc-Generation/
 │       ├── gen-data-definition.md         ← /gen-data-definition command definition
 │       ├── gen-navigation.md              ← /gen-navigation command definition
 │       ├── gen-flow.md                    ← /gen-flow command definition
+│       ├── gen-ui-behavior.md             ← /gen-ui-behavior command definition
 │       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
 │       ├── done.md                        ← /done command definition
 │       └── clear-feature.md              ← /clear-feature command definition
@@ -274,7 +292,8 @@ AI-FW-Doc-Generation/
 │   │   ├── rule_business_rule.md          ← writing rules for Business Rules
 │   │   ├── rule_data_definition.md        ← writing rules for Data Definition
 │   │   ├── rule_navigation.md             ← writing rules for Navigation
-│   │   └── rule_flow.md                   ← writing rules for Flow
+│   │   ├── rule_flow.md                   ← writing rules for Flow
+│   │   └── rule_ui_behavior.md            ← writing rules for UI Behavior
 │   └── styles/
 │       ├── style_general.md               ← general writing style (all docs)
 │       ├── style_brief.md                 ← format rules for Brief
@@ -282,7 +301,8 @@ AI-FW-Doc-Generation/
 │       ├── style_business_rule.md         ← format rules for Business Rules
 │       ├── style_data_definition.md       ← format rules for Data Definition
 │       ├── style_navigation.md            ← format rules for Navigation
-│       └── style_flow.md                  ← format rules for Flow
+│       ├── style_flow.md                  ← format rules for Flow
+│       └── style_ui_behavior.md           ← format rules for UI Behavior
 ├── project/                               ← project-level context (not committed)
 │   ├── sync_config.md                     ← Confluence URL → local file mapping
 │   ├── context/                           ← domain overview, modules, user stories
@@ -290,6 +310,7 @@ AI-FW-Doc-Generation/
 │       ├── business-rules/                ← general business rules (used by /gen-business-rule)
 │       ├── ui-rules/                      ← UI/UX rules and standards
 │       ├── navigation/                    ← navigation patterns (used by /gen-navigation)
+│       ├── ui-behavior/                   ← shared UI behavior groups (used by /gen-ui-behavior)
 │       └── messages/                      ← system message definitions
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
@@ -301,5 +322,6 @@ AI-FW-Doc-Generation/
         ├── data_definition_<slug>.md      ← created by /gen-data-definition
         ├── navigation_<slug>.md           ← created by /gen-navigation
         ├── flow_<slug>.md                 ← created by /gen-flow
+        ├── ui_behavior_<slug>.md          ← created by /gen-ui-behavior
         └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```
