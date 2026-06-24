@@ -21,7 +21,8 @@ You are a Senior Business Analyst.
    - `business_rule_<slug>.md` → if missing, stop: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first."
    - `data_definition_<slug>.md` → if missing, stop: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first."
    - `navigation_<slug>.md` → if missing, stop: "Navigation not found. Run `/gen-navigation <Feature Name>` first."
-4. Read all five files before proceeding.
+   - `flow_<slug>.md` → if missing, stop: "Flow not found. Run `/gen-flow <Feature Name>` first."
+4. Read all six files before proceeding.
 
 ## Steps
 
@@ -49,6 +50,10 @@ You are a Senior Business Analyst.
 # B. BEHAVIOR
 
 <full content of navigation_<slug>.md>
+
+---
+
+<full content of flow_<slug>.md>
 ```
 
 2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:

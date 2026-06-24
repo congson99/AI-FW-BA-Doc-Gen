@@ -28,7 +28,8 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
 | `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
+| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 
 ## Structure
@@ -44,6 +45,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
   gen-business-rule.md
   gen-data-definition.md
   gen-navigation.md
+  gen-flow.md
 CLAUDE.md                       ← project instructions (Claude Code requirement)
 
 framework/                      ← reusable rules and styles, domain-agnostic
@@ -53,6 +55,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
     rule_business_rule.md
     rule_data_definition.md
     rule_navigation.md
+    rule_flow.md
   styles/
     style_general.md            ← general writing style (all docs)
     style_brief.md              ← style specific to Brief
@@ -60,6 +63,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
     style_business_rule.md      ← style specific to Business Rules
     style_data_definition.md    ← style specific to Data Definition
     style_navigation.md         ← style specific to Navigation
+    style_flow.md               ← style specific to Flow
 
 project/                        ← project-level context (not committed)
   sync_config.md                ← Confluence URL → local file mapping for /sync
@@ -79,6 +83,7 @@ workspace/                      ← per-feature working area (not committed)
     business_rule_<slug>.md     ← /gen-business-rule
     data_definition_<slug>.md   ← /gen-data-definition
     navigation_<slug>.md        ← /gen-navigation
+    flow_<slug>.md              ← /gen-flow
     ba_doc_<slug>.md            ← /gen-ba-doc
 ```
 

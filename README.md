@@ -186,7 +186,23 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 8 — Package into BA Doc
+### Step 8 — Generate Flow
+
+Review and edit the Navigation if needed, then run:
+
+```
+/gen-flow <Feature Name>
+```
+
+Generates:
+```
+workspace/cancel-purchase-request/
+  flow_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 9 — Package into BA Doc
 
 ```
 /gen-ba-doc <Feature Name>
@@ -200,7 +216,7 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 9 — Publish and close
+### Step 10 — Publish and close
 
 ```
 /done <Feature Name>
@@ -223,7 +239,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
 | `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
+| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
@@ -246,6 +263,7 @@ AI-FW-Doc-Generation/
 │       ├── gen-business-rule.md           ← /gen-business-rule command definition
 │       ├── gen-data-definition.md         ← /gen-data-definition command definition
 │       ├── gen-navigation.md              ← /gen-navigation command definition
+│       ├── gen-flow.md                    ← /gen-flow command definition
 │       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
 │       ├── done.md                        ← /done command definition
 │       └── clear-feature.md              ← /clear-feature command definition
@@ -255,14 +273,16 @@ AI-FW-Doc-Generation/
 │   │   ├── rule_ac.md                     ← writing rules for Acceptance Criteria
 │   │   ├── rule_business_rule.md          ← writing rules for Business Rules
 │   │   ├── rule_data_definition.md        ← writing rules for Data Definition
-│   │   └── rule_navigation.md             ← writing rules for Navigation
+│   │   ├── rule_navigation.md             ← writing rules for Navigation
+│   │   └── rule_flow.md                   ← writing rules for Flow
 │   └── styles/
 │       ├── style_general.md               ← general writing style (all docs)
 │       ├── style_brief.md                 ← format rules for Brief
 │       ├── style_ac.md                    ← format rules for Acceptance Criteria
 │       ├── style_business_rule.md         ← format rules for Business Rules
 │       ├── style_data_definition.md       ← format rules for Data Definition
-│       └── style_navigation.md            ← format rules for Navigation
+│       ├── style_navigation.md            ← format rules for Navigation
+│       └── style_flow.md                  ← format rules for Flow
 ├── project/                               ← project-level context (not committed)
 │   ├── sync_config.md                     ← Confluence URL → local file mapping
 │   ├── context/                           ← domain overview, modules, user stories
@@ -280,5 +300,6 @@ AI-FW-Doc-Generation/
         ├── business_rule_<slug>.md        ← created by /gen-business-rule
         ├── data_definition_<slug>.md      ← created by /gen-data-definition
         ├── navigation_<slug>.md           ← created by /gen-navigation
+        ├── flow_<slug>.md                 ← created by /gen-flow
         └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```
