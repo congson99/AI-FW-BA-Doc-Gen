@@ -8,7 +8,7 @@ You are setting up the workspace directory structure for the BA Documentation Ge
 ## Steps
 
 1. Check whether `project/` exists in the project root.
-2. Check each required subfolder: `project/context/`, `project/reference/`, `project/reference/business-rules/`, `project/reference/ui-behavior/`, `project/reference/navigation/`, `project/reference/messages/`, `workspace/`.
+2. Check each required subfolder: `project/context/`, `project/reference/`, `project/reference/business-rules/`, `project/reference/business-rules/principles/`, `project/reference/business-rules/shared-references/`, `project/reference/ui-behavior/`, `project/reference/ui-behavior/principles/`, `project/reference/ui-behavior/shared-references/`, `project/reference/navigation/`, `project/reference/messages/`, `workspace/`.
 3. For each folder that is missing, create it. For folders that already exist, leave them untouched.
 4. Check whether `project/sync_config.md` exists:
    - If it does not exist → create it with the template below.
@@ -21,7 +21,11 @@ You are setting up the workspace directory structure for the BA Documentation Ge
 ✓ Created project/context/
 ✓ Created project/reference/
 ✓ Created project/reference/business-rules/
+✓ Created project/reference/business-rules/principles/
+✓ Created project/reference/business-rules/shared-references/
 ✓ Created project/reference/ui-behavior/
+✓ Created project/reference/ui-behavior/principles/
+✓ Created project/reference/ui-behavior/shared-references/
 ✓ Created project/reference/navigation/
 ✓ Created project/reference/messages/
 ✓ Created project/sync_config.md
@@ -46,7 +50,11 @@ project/ is already initialized:
   ✓ project/context/
   ✓ project/reference/
   ✓ project/reference/business-rules/
+  ✓ project/reference/business-rules/principles/
+  ✓ project/reference/business-rules/shared-references/
   ✓ project/reference/ui-behavior/
+  ✓ project/reference/ui-behavior/principles/
+  ✓ project/reference/ui-behavior/shared-references/
   ✓ project/reference/navigation/
   ✓ project/reference/messages/
   ✓ project/sync_config.md
@@ -73,14 +81,24 @@ Run /sync to pull the latest content from these pages into the local files.
 - project/reference/<filename>.md
   url: <confluence-page-url>
 
-## Business Rules
+## Business Rules — Principles
 
-- project/reference/business-rules/<filename>.md
+- project/reference/business-rules/principles/<filename>.md
   url: <confluence-page-url>
 
-## UI Behavior
+## Business Rules — Shared References
 
-- project/reference/ui-behavior/<filename>.md
+- project/reference/business-rules/shared-references/<filename>.md
+  url: <confluence-page-url>
+
+## UI Behavior — Principles
+
+- project/reference/ui-behavior/principles/<filename>.md
+  url: <confluence-page-url>
+
+## UI Behavior — Shared References
+
+- project/reference/ui-behavior/shared-references/<filename>.md
   url: <confluence-page-url>
 
 ## Navigation

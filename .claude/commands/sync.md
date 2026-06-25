@@ -40,8 +40,10 @@ Skipped (no URL): <count> entries
 6. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/sync_config.md`:
    - `project/context/`
    - `project/reference/` (top-level files only)
-   - `project/reference/business-rules/`
-   - `project/reference/ui-rules/`
+   - `project/reference/business-rules/principles/`
+   - `project/reference/business-rules/shared-references/`
+   - `project/reference/ui-behavior/principles/`
+   - `project/reference/ui-behavior/shared-references/`
    - `project/reference/navigation/`
    - `project/reference/messages/`
 

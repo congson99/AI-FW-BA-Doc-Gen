@@ -39,12 +39,15 @@ You are a Senior Business Analyst.
      > Regenerating Business Rules will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
-10. Check if `project/reference/business-rules/` exists and contains any `.md` files:
-    - If files exist → read all of them and note which rule groups each file contains (e.g. Email, Phone Number, Attachment, Pagination).
-    - If the folder is empty or does not exist → skip, proceed normally.
-11. Read `framework/styles/style_general.md` — general writing style rules.
-12. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
-13. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
+10. Check `project/reference/business-rules/principles/` for `.md` files:
+    - If files exist → read all of them. Apply these principles when analyzing the feature to identify business rules (step 1). Do not copy principle content into the output.
+    - If the folder is empty or does not exist → skip.
+11. Check `project/reference/business-rules/shared-references/` for `.md` files:
+    - If files exist → read all of them and note which rule groups each file contains (e.g. Email, Phone Number, Attachment, Pagination). These groups will be appended as reference lines in the output.
+    - If the folder is empty or does not exist → skip.
+12. Read `framework/styles/style_general.md` — general writing style rules.
+13. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
+14. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
 
 ## Steps
 
@@ -63,11 +66,13 @@ You are a Senior Business Analyst.
    - Record consistency rules across related business objects
    - Any other business policies or constraints explicitly present in the source
 
+   Apply any principles loaded from `principles/` as guiding rules during this analysis.
+
    Determine whether each candidate rule represents a business policy or business constraint.
 
    Exclude behaviors that belong to Acceptance Criteria, including validation, search, processing, persistence, response, audit, notification, and UI behavior.
 
-2. If any files from `project/reference/business-rules/` were loaded, identify which rule groups from those files are relevant to this feature:
+2. If any files from `project/reference/business-rules/shared-references/` were loaded, identify which rule groups from those files are relevant to this feature:
    - A rule group is relevant if the feature involves a field or behavior that the group governs (e.g. a phone number field → Phone Number rules apply).
    - Do not re-list the rules. Instead, for each relevant group, append one rule entry at the end of the numbered list (continuing the R-number sequence), with a blank line between each rule:
      > `**R<N>:** <Rule Group>: follow General Business Rules`

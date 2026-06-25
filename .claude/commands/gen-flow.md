@@ -30,7 +30,13 @@ You are a Senior Business Analyst.
 8. Check `workspace/<folder-name>/business_rule_<slug>.md` exists:
    - If missing → stop and inform user: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-9. Check for existing downstream documents in `workspace/<folder-name>/`:
+9. Check `workspace/<folder-name>/data_definition_<slug>.md` exists:
+   - If missing → stop and inform user: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first to generate it."
+   - If exists → read it before proceeding.
+10. Check `workspace/<folder-name>/navigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Navigation not found. Run `/gen-navigation <Feature Name>` first to generate it."
+   - If exists → read it before proceeding.
+11. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if Flow is regenerated:
@@ -38,16 +44,16 @@ You are a Senior Business Analyst.
      > Regenerating Flow will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
-10. Check if `project/reference/flow/` exists and contains any `.md` files:
+12. Check if `project/reference/flow/` exists and contains any `.md` files:
     - If files exist → read all of them as reference guidelines before proceeding. These files define shared flow patterns and conventions that apply across features. Use them to inform generation — do not extract flow steps directly from them.
     - If the folder is empty or does not exist → skip, proceed normally.
-11. Read `framework/styles/style_general.md` — general writing style rules.
-12. Read `framework/styles/style_flow.md` — style rules specific to Flow.
-13. Read `framework/rules/rule_flow.md` — writing quality rules for Flow content.
+13. Read `framework/styles/style_general.md` — general writing style rules.
+14. Read `framework/styles/style_flow.md` — style rules specific to Flow.
+15. Read `framework/rules/rule_flow.md` — writing quality rules for Flow content.
 
 ## Steps
 
-1. Analyze the feature source (env file, brief, AC, business rules, and context files) to identify:
+1. Analyze the feature source (env file, brief, AC, business rules, data definition, navigation, and context files) to identify:
 
    - How the feature is triggered (user action, external event, or scheduled/system event explicitly described)
    - Preconditions that must be true before the feature can proceed

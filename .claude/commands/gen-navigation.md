@@ -27,7 +27,13 @@ You are a Senior Business Analyst.
 7. Check `workspace/<folder-name>/ac_<slug>.md` exists:
    - If missing → stop and inform user: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-8. Check for existing downstream documents in `workspace/<folder-name>/`:
+8. Check `workspace/<folder-name>/business_rule_<slug>.md` exists:
+   - If missing → stop and inform user: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first to generate it."
+   - If exists → read it before proceeding.
+9. Check `workspace/<folder-name>/data_definition_<slug>.md` exists:
+   - If missing → stop and inform user: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first to generate it."
+   - If exists → read it before proceeding.
+10. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if Navigation is regenerated:
@@ -35,16 +41,16 @@ You are a Senior Business Analyst.
      > Regenerating Navigation will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
-9. Check if `project/reference/navigation/` exists and contains any `.md` files:
+11. Check if `project/reference/navigation/` exists and contains any `.md` files:
    - If files exist → read all of them as reference guidelines before proceeding. These files define shared navigation patterns, button naming conventions, confirmation dialog rules, and similar standards that apply across features. Use them to inform generation — do not extract navigation actions directly from them.
    - If the folder is empty or does not exist → skip, proceed normally.
-10. Read `framework/styles/style_general.md` — general writing style rules.
-11. Read `framework/styles/style_navigation.md` — style rules specific to Navigation.
-12. Read `framework/rules/rule_navigation.md` — writing quality rules for Navigation content.
+12. Read `framework/styles/style_general.md` — general writing style rules.
+13. Read `framework/styles/style_navigation.md` — style rules specific to Navigation.
+14. Read `framework/rules/rule_navigation.md` — writing quality rules for Navigation content.
 
 ## Steps
 
-1. Analyze the feature source (env file, brief, AC, and context files) to identify the navigation for this feature. Apply the reference guidelines from `project/reference/navigation/` (shared patterns, button conventions, confirmation rules) when making decisions — do not extract navigation actions from those files. Identify:
+1. Analyze the feature source (env file, brief, AC, business rules, data definition, and context files) to identify the navigation for this feature. Apply the reference guidelines from `project/reference/navigation/` (shared patterns, button conventions, confirmation rules) when making decisions — do not extract navigation actions from those files. Identify:
 
    - Entry pages that lead to the feature
    - Main page (the primary page for the feature)

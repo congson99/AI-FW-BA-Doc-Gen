@@ -218,7 +218,23 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 10 — Package into BA Doc
+### Step 10 — Generate Messages
+
+Review and edit the UI Behavior if needed, then run:
+
+```
+/gen-messages <Feature Name>
+```
+
+Generates:
+```
+workspace/cancel-purchase-request/
+  messages_cancel_purchase_request.md   ← generated
+```
+
+---
+
+### Step 11 — Package into BA Doc
 
 ```
 /gen-ba-doc <Feature Name>
@@ -232,7 +248,7 @@ workspace/cancel-purchase-request/
 
 ---
 
-### Step 11 — Publish and close
+### Step 12 — Publish and close
 
 ```
 /done <Feature Name>
@@ -254,10 +270,11 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
+| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
+| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md` |
+| `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
@@ -282,6 +299,7 @@ AI-FW-Doc-Generation/
 │       ├── gen-navigation.md              ← /gen-navigation command definition
 │       ├── gen-flow.md                    ← /gen-flow command definition
 │       ├── gen-ui-behavior.md             ← /gen-ui-behavior command definition
+│       ├── gen-messages.md                ← /gen-messages command definition
 │       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
 │       ├── done.md                        ← /done command definition
 │       └── clear-feature.md              ← /clear-feature command definition
@@ -293,7 +311,8 @@ AI-FW-Doc-Generation/
 │   │   ├── rule_data_definition.md        ← writing rules for Data Definition
 │   │   ├── rule_navigation.md             ← writing rules for Navigation
 │   │   ├── rule_flow.md                   ← writing rules for Flow
-│   │   └── rule_ui_behavior.md            ← writing rules for UI Behavior
+│   │   ├── rule_ui_behavior.md            ← writing rules for UI Behavior
+│   │   └── rule_messages.md               ← writing rules for Messages
 │   └── styles/
 │       ├── style_general.md               ← general writing style (all docs)
 │       ├── style_brief.md                 ← format rules for Brief
@@ -302,15 +321,20 @@ AI-FW-Doc-Generation/
 │       ├── style_data_definition.md       ← format rules for Data Definition
 │       ├── style_navigation.md            ← format rules for Navigation
 │       ├── style_flow.md                  ← format rules for Flow
-│       └── style_ui_behavior.md           ← format rules for UI Behavior
+│       ├── style_ui_behavior.md           ← format rules for UI Behavior
+│       └── style_messages.md              ← format rules for Messages
 ├── project/                               ← project-level context (not committed)
 │   ├── sync_config.md                     ← Confluence URL → local file mapping
 │   ├── context/                           ← domain overview, modules, user stories
 │   └── reference/                         ← spec sheets, Confluence exports
-│       ├── business-rules/                ← general business rules (used by /gen-business-rule)
+│       ├── business-rules/
+│       │   ├── principles/                ← general principles (applied when generating rules)
+│       │   └── shared-references/         ← shared rule groups (appended as reference lines in output)
 │       ├── navigation/                    ← navigation patterns (used by /gen-navigation)
-│       ├── ui-behavior/                   ← shared UI behavior groups (used by /gen-ui-behavior)
-│       └── messages/                      ← system message definitions
+│       ├── ui-behavior/
+│       │   ├── principles/                ← general UI principles (applied when generating entries)
+│       │   └── shared-references/         ← shared UI groups (appended as reference lines in output)
+│       └── messages/                      ← message templates and wording conventions (used by /gen-messages)
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
         ├── env_<slug>.md                  ← created by /start
@@ -322,5 +346,6 @@ AI-FW-Doc-Generation/
         ├── navigation_<slug>.md           ← created by /gen-navigation
         ├── flow_<slug>.md                 ← created by /gen-flow
         ├── ui_behavior_<slug>.md          ← created by /gen-ui-behavior
+        ├── messages_<slug>.md             ← created by /gen-messages
         └── ba_doc_<slug>.md               ← created by /gen-ba-doc
 ```

@@ -23,7 +23,8 @@ You are a Senior Business Analyst.
    - `navigation_<slug>.md` → if missing, stop: "Navigation not found. Run `/gen-navigation <Feature Name>` first."
    - `flow_<slug>.md` → if missing, stop: "Flow not found. Run `/gen-flow <Feature Name>` first."
    - `ui_behavior_<slug>.md` → if missing, stop: "UI Behavior not found. Run `/gen-ui-behavior <Feature Name>` first."
-4. Read all seven files before proceeding.
+   - `messages_<slug>.md` → if missing, stop: "Messages not found. Run `/gen-messages <Feature Name>` first."
+4. Read all eight files before proceeding.
 
 ## Steps
 
@@ -59,6 +60,10 @@ You are a Senior Business Analyst.
 ---
 
 <full content of ui_behavior_<slug>.md>
+
+---
+
+<full content of messages_<slug>.md>
 ```
 
 2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:

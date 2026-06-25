@@ -27,10 +27,11 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md` |
+| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
+| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
+| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
+| `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
 | `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 
 ## Structure
@@ -58,6 +59,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
     rule_navigation.md
     rule_flow.md
     rule_ui_behavior.md
+    rule_messages.md
   styles/
     style_general.md            ← general writing style (all docs)
     style_brief.md              ← style specific to Brief
@@ -67,15 +69,20 @@ framework/                      ← reusable rules and styles, domain-agnostic
     style_navigation.md         ← style specific to Navigation
     style_flow.md               ← style specific to Flow
     style_ui_behavior.md        ← style specific to UI Behavior
+    style_messages.md           ← style specific to Messages
 
 project/                        ← project-level context (not committed)
   sync_config.md                ← Confluence URL → local file mapping for /sync
   context/                      ← domain overview, module map, user stories
   reference/                    ← spec sheets, Confluence exports, detailed docs
-    business-rules/             ← general business rules (read by /gen-business-rule)
+    business-rules/
+      principles/               ← general principles (applied when generating rules)
+      shared-references/        ← shared rule groups (appended as reference lines in output)
     navigation/                 ← navigation patterns (read by /gen-navigation)
-    ui-behavior/                ← shared UI behavior groups (read by /gen-ui-behavior)
-    messages/                   ← system message definitions
+    ui-behavior/
+      principles/               ← general UI principles (applied when generating entries)
+      shared-references/        ← shared UI groups (appended as reference lines in output)
+    messages/                   ← message templates and wording conventions (read by /gen-messages)
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
@@ -88,6 +95,7 @@ workspace/                      ← per-feature working area (not committed)
     navigation_<slug>.md        ← /gen-navigation
     flow_<slug>.md              ← /gen-flow
     ui_behavior_<slug>.md       ← /gen-ui-behavior
+    messages_<slug>.md          ← /gen-messages
     ba_doc_<slug>.md            ← /gen-ba-doc
 ```
 
