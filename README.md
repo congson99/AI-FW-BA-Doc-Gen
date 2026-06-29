@@ -75,7 +75,7 @@ Fetches Confluence pages into local `project/` files so Claude has background kn
 /start <Feature Name>
 ```
 
-**Example:**
+Example:
 ```
 /start Create User
 ```
