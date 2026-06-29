@@ -274,23 +274,23 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 
 | Command | Purpose | Requires |
 |---|---|---|
-| `/init` | Initialize project/ and workspace/ folder structure | — |
-| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
-| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
-| `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
 | `/check <Feature Name>` | Show doc status and suggest next step | — |
-| `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
+| `/clear-feature` | Delete all feature folders | — |
+| `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
+| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
+| `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
 | `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
+| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
+| `/init` | Initialize project/ and workspace/ folder structure | — |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
-| `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
-| `/clear-feature` | Delete all feature folders | — |
+| `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
+| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
 
 ---
 
