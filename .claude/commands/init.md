@@ -10,7 +10,7 @@ You are setting up the workspace directory structure for the BA Documentation Ge
 1. Check whether `project/` exists in the project root.
 2. Check each required subfolder: `project/context/`, `project/reference/`, `project/reference/business-rules/`, `project/reference/business-rules/principles/`, `project/reference/business-rules/shared-references/`, `project/reference/ui-behavior/`, `project/reference/ui-behavior/principles/`, `project/reference/ui-behavior/shared-references/`, `project/reference/navigation/`, `project/reference/messages/`, `workspace/`.
 3. For each folder that is missing, create it. For folders that already exist, leave them untouched.
-4. Check whether `project/sync_config.md` exists:
+4. Check whether `project/project_config.md` exists:
    - If it does not exist → create it with the template below.
    - If it already exists → leave it untouched.
 5. Report the result:
@@ -28,12 +28,14 @@ You are setting up the workspace directory structure for the BA Documentation Ge
 ✓ Created project/reference/ui-behavior/shared-references/
 ✓ Created project/reference/navigation/
 ✓ Created project/reference/messages/
-✓ Created project/sync_config.md
+✓ Created project/project_config.md
 ✓ Created workspace/
 
 Initialized. Next steps:
-1. Open project/sync_config.md and fill in the Confluence URLs for each entry.
-2. Run /start <Feature Name> to begin working on a feature.
+1. Open project/project_config.md and fill in the values for your project.
+2. Run /connect-mcp to connect to the configured MCP servers.
+3. Run /sync to fetch Confluence content into local project files.
+4. Run /start <Feature Name> to begin working on a feature.
 ```
 
 **If project/ existed but some items were missing** — list only the created ones:
@@ -57,57 +59,103 @@ project/ is already initialized:
   ✓ project/reference/ui-behavior/shared-references/
   ✓ project/reference/navigation/
   ✓ project/reference/messages/
-  ✓ project/sync_config.md
+  ✓ project/project_config.md
   ✓ workspace/
 
 No changes made.
 ```
 
-## Template for project/sync_config.md
+## Template for project/project_config.md
 
 ```markdown
-# Confluence Sync Config
+# Project Config
+
+---
+
+## 1. MCP Config
+
+MCP servers used by this project.
+
+- Atlassian: <confluence-mcp-url>
+
+---
+
+## 2. Context Sync
 
 Map each Confluence page to a local file in `project/`.
-Run /sync to pull the latest content from these pages into the local files.
+Run `/sync` to pull the latest content from these pages into the local files.
 
-## Context
+### Context
 
-- project/context/project.md
-  url: <confluence-page-url>
-
-## Reference
+### Reference
 
 - project/reference/<filename>.md
   url: <confluence-page-url>
 
-## Business Rules — Principles
+### Business Rules — Principles
 
 - project/reference/business-rules/principles/<filename>.md
   url: <confluence-page-url>
 
-## Business Rules — Shared References
+### Business Rules — Shared References
 
 - project/reference/business-rules/shared-references/<filename>.md
   url: <confluence-page-url>
 
-## UI Behavior — Principles
+### UI Behavior — Principles
 
 - project/reference/ui-behavior/principles/<filename>.md
   url: <confluence-page-url>
 
-## UI Behavior — Shared References
+### UI Behavior — Shared References
 
 - project/reference/ui-behavior/shared-references/<filename>.md
   url: <confluence-page-url>
 
-## Navigation
+### Navigation
 
 - project/reference/navigation/<filename>.md
   url: <confluence-page-url>
 
-## Messages
+### Messages
 
 - project/reference/messages/<filename>.md
   url: <confluence-page-url>
+
+---
+
+## 3. Task Environment
+
+Default structure for `env_<slug>.md` files created by `/start`.
+Edit the values below to match your project before running `/start`.
+
+\`\`\`
+**BA Task Jira ticket:** <jira-ticket-url>
+
+**Context files:**
+- project/context/project.md
+
+**Confluence output pages:**
+- BA Doc: <confluence-page-url>
+\`\`\`
+
+---
+
+## 4. Task Automation
+
+Actions Claude automatically performs when running `/publish` for each feature task.
+Fill in the Jira and Confluence targets for this project.
+
+### Jira
+
+- Update ticket status to: <jira-status>
+  jira-project: <jira-project-key>
+
+- Add Confluence page link as comment on ticket
+  jira-project: <jira-project-key>
+
+### Confluence
+
+- Publish BA Doc to parent page
+  confluence-parent: <confluence-parent-page-url>
 ```

@@ -20,7 +20,8 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | Command | Purpose | Requires |
 |---|---|---|
 | `/init` | Initialize project/ and workspace/ folder structure | — |
-| `/sync` | Fetch Confluence pages into local project files | `project/sync_config.md` filled |
+| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
+| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
 | `/start <Feature Name>` | Init feature folder + env + idea file | — |
 | `/check <Feature Name>` | Show doc status + suggest next step | — |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
@@ -31,8 +32,8 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
 | `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
-| `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
+| `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
+| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 
 ## Structure
 
@@ -72,7 +73,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
     style_messages.md           ← style specific to Messages
 
 project/                        ← project-level context (not committed)
-  sync_config.md                ← Confluence URL → local file mapping for /sync
+  project_config.md                ← project config (MCP, sync, env template, automation)
   context/                      ← domain overview, module map, user stories
   reference/                    ← spec sheets, Confluence exports, detailed docs
     business-rules/

@@ -1,5 +1,5 @@
 # Framework Config
 
-> Do not modify this file. Only the user may change values here.
+> Do not modify this file.
 
-- edit_framework: NO
+- edit_framework: YES

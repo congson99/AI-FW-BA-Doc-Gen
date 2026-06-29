@@ -68,8 +68,8 @@ Use this priority order — stop at the first condition that is true:
 9. `flow_<slug>.md` missing → next: `/gen-flow <Feature Name>`
 10. `ui_behavior_<slug>.md` missing → next: `/gen-ui-behavior <Feature Name>`
 11. `messages_<slug>.md` missing → next: `/gen-messages <Feature Name>`
-12. `ba_doc_<slug>.md` missing → next: `/gen-ba-doc <Feature Name>`
-13. All files exist → next: `/done <Feature Name>`
+12. `ba_doc_<slug>.md` missing → next: `/package <Feature Name>`
+13. All files exist → next: `/publish <Feature Name>`
 
 ### 5. Output the status report
 

@@ -11,6 +11,23 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 - If `$ARGUMENTS` is empty → ask the user: "What is the feature name?"
 
+## Pre-flight
+
+1. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest sync:` line with a real timestamp (not a placeholder):
+   - If not found → stop and inform the user:
+     > "Project has not been synced yet. Please run /sync before starting a feature."
+
+2. Scan `## 3. Task Environment` in `project/project_config.md` for unfilled placeholders (pattern `<...>`), including content inside code blocks (fenced with ` ``` `) — the template lives inside the code block.
+   - If any placeholders are found → stop and inform the user:
+     ```
+     project/project_config.md — Task Environment has unfilled placeholders:
+       - <placeholder 1>
+       ...
+     Please complete section 3 before running /start.
+     ```
+
+---
+
 ## Feature Name Normalization
 
 Before any steps, normalize the feature name:
@@ -37,24 +54,18 @@ Before any steps, normalize the feature name:
    - **yes** → delete all files in `workspace/<folder-name>/`, then continue to step 4.
 4. Create folder `workspace/<folder-name>/` if it does not exist.
 5. Scan `project/context/` for all files (e.g. `project.md`, `domain.md`, etc.) and collect their relative paths as a list.
-6. Create `workspace/<folder-name>/env_<slug>.md` with this exact format, replacing `<context files>` with one `- project/context/<filename>` line per file found in step 5:
-
-```
-# Environment
-
-**Feature name:** <Feature name>
-**BA Task Jira ticket:** <jira-ticket-url>
-
-**Context files:**
-<context files>
-- workspace/<folder-name>/idea_<slug>.md
-- <confluence-page-url>
-
-**Confluence output pages:**
-- BA Doc: <confluence-page-url>
-```
-
-> If `project/context/` is empty or does not exist, only list the idea file under **Context files:**.
+6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. Extract the template content inside the code block (stop at the closing fence). Create `workspace/<folder-name>/env_<slug>.md` with:
+   - Line 1: `**Feature name:** <normalized Feature name>`
+   - Line 2: blank
+   - Line 3 onwards: the extracted template content verbatim, as-is, without any modification.
+   - After writing the template content, inject the idea file path:
+     - If the env file contains a `**Context files:**` line → append `- workspace/<folder-name>/idea_<slug>.md` as the last item under that section.
+     - If no `**Context files:**` section exists → append the following block at the end of the file:
+       ```
+       **Context files:**
+       - workspace/<folder-name>/idea_<slug>.md
+       ```
+   - If `project/project_config.md` does not exist or `## 3. Task Environment` is not found → create the file with only: `**Feature name:** <normalized Feature name>`
 
 7. Create `workspace/<folder-name>/idea_<slug>.md` with this exact content:
 

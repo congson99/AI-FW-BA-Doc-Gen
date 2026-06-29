@@ -1,6 +1,6 @@
 ---
 name: "Package BA Doc"
-description: "Package Brief, AC, Business Rules, and Data Definition into a single BA Doc. Usage: /gen-ba-doc <Feature Name>"
+description: "Package Brief, AC, Business Rules, and Data Definition into a single BA Doc. Usage: /package <Feature Name>"
 ---
 
 You are a Senior Business Analyst.
@@ -66,17 +66,7 @@ You are a Senior Business Analyst.
 <full content of messages_<slug>.md>
 ```
 
-2. Update `workspace/<folder-name>/manual_tasks_<slug>.md`:
-   - Scan `ac_<slug>.md` for permission constants in the Access Control group (identifiable by `SCREAMING_SNAKE_CASE` format, e.g. `UPDATE_PURCHASE_ORDER`).
-   - For each permission constant found that is not already listed in `manual_tasks_<slug>.md`, append it under a `## Permissions` section (create the section if it does not exist):
-     ```
-     ## Permissions
-     - [ ] Register `<PERMISSION_CONSTANT>` in the permission definition file
-     ```
-   - If no permission constants are found, or all are already listed, skip this step.
-
-3. Confirm:
+2. Confirm:
 ```
 ✓ workspace/<folder-name>/ba_doc_<slug>.md
-✓ workspace/<folder-name>/manual_tasks_<slug>.md (updated)
 ```

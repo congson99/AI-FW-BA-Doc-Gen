@@ -1,4 +1,4 @@
-# BA Documentation Generation Framework
+# BA Documentation Generation Tool
 
 AI-assisted framework for Business Analysts to generate a complete BA documentation set from a single input using Claude Code.
 
@@ -6,7 +6,7 @@ AI-assisted framework for Business Analysts to generate a complete BA documentat
 
 ## Prerequisites
 
-- [VS Code](https://code.visualstudio.com/) installed
+- [VS Code](https://code.visualstudio.com/) installed, or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs)
 
 ---
 
@@ -31,27 +31,39 @@ Extract the downloaded zip file, then open the folder in VS Code:
 - Click the **Claude** icon in the VS Code sidebar, or
 - Use the keyboard shortcut shown after the extension installs
 
-### Step 4 — Connect Atlassian via MCP (one-time setup)
-
-Paste any Jira ticket URL or Confluence page URL into the Claude Code chat — Claude will automatically prompt you to connect Atlassian and guide you through the authentication flow.
-
-### Step 5 — Initialize the workspace
+### Step 4 — Initialize the workspace
 
 ```
 /init
 ```
 
-Creates the `project/` and `workspace/` folders if they don't already exist, and generates `project/sync_config.md`.
+Creates the `project/` and `workspace/` folders if they don't already exist, and generates `project/project_config.md`.
 
-### Step 6 — Configure project context (optional)
+### Step 5 — Fill in project config
 
-Open `project/sync_config.md` and fill in the Confluence URLs for your project pages, then run:
+Open `project/project_config.md` and fill in the values for your project:
+
+- **MCP Config** — add the MCP server URLs (e.g. Atlassian Confluence URL)
+- **Context Sync** — map each Confluence page to a local file path
+- **Task Environment** — set the default structure for feature env files
+
+### Step 6 — Connect MCP servers
+
+Run:
+
+```
+/connect-mcp
+```
+
+This connects Claude to the configured MCP servers (e.g. Atlassian) and guides you through the authentication flow.
+
+### Step 7 — Sync project context (optional)
 
 ```
 /sync
 ```
 
-This fetches the Confluence content into the local `project/context/` and `project/reference/` files, giving Claude background knowledge about your domain before generating any documents. After syncing, `/sync` will also detect any local files that are no longer mapped in `sync_config.md` and ask if you want to delete them.
+Fetches Confluence pages into local `project/` files so Claude has background knowledge before generating documents.
 
 ---
 
@@ -65,14 +77,14 @@ This fetches the Confluence content into the local `project/context/` and `proje
 
 **Example:**
 ```
-/start Cancel Purchase Request
+/start Create User
 ```
 
 Creates:
 ```
-workspace/cancel-purchase-request/
-  env_cancel_purchase_request.md    ← fill in Jira ticket and Confluence pages
-  idea_cancel_purchase_request.md   ← fill in your feature description
+workspace/create-user/
+  env_create_user.md    ← fill in Jira ticket and Confluence pages
+  idea_create_user.md   ← fill in your feature description
 ```
 
 ---
@@ -84,12 +96,12 @@ workspace/cancel-purchase-request/
 ```
 # Environment
 
-**Feature name:** Cancel Purchase Request
-**BA Task Jira ticket:** https://jira.example.com/browse/INV-456
+**Feature name:** Create User
+**BA Task Jira ticket:** https://jira.example.com/browse/PROJ-123
 
 **Context files:**
 - project/context/project.md
-- workspace/cancel-purchase-request/idea_cancel_purchase_request.md
+- workspace/create-user/idea_create_user.md
 
 **Confluence output pages:**
 - BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
@@ -100,8 +112,8 @@ workspace/cancel-purchase-request/
 ```
 # Feature Idea
 
-Allow users to cancel a Purchase Request that is in Draft or Pending Approval status.
-Once cancelled, the PR cannot be edited or resubmitted.
+Allow administrators to create a new user account with basic profile information.
+The user will receive an email with login credentials upon successful creation.
 ```
 
 > `/gen-brief` will stop if the placeholder in `idea_<slug>.md` has not been replaced.
@@ -116,8 +128,8 @@ Once cancelled, the PR cannot be edited or resubmitted.
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  brief_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  brief_create_user.md   ← generated
 ```
 
 ---
@@ -132,8 +144,8 @@ Review and edit the brief if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  ac_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  ac_create_user.md   ← generated
 ```
 
 ---
@@ -148,8 +160,8 @@ Review and edit the AC if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  business_rule_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  business_rule_create_user.md   ← generated
 ```
 
 ---
@@ -164,8 +176,8 @@ Review and edit the Business Rules if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  data_definition_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  data_definition_create_user.md   ← generated
 ```
 
 ---
@@ -180,8 +192,8 @@ Review and edit the Data Definition if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  navigation_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  navigation_create_user.md   ← generated
 ```
 
 ---
@@ -196,8 +208,8 @@ Review and edit the Navigation if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  flow_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  flow_create_user.md   ← generated
 ```
 
 ---
@@ -212,8 +224,8 @@ Review and edit the Flow if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  ui_behavior_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  ui_behavior_create_user.md   ← generated
 ```
 
 ---
@@ -228,8 +240,8 @@ Review and edit the UI Behavior if needed, then run:
 
 Generates:
 ```
-workspace/cancel-purchase-request/
-  messages_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  messages_create_user.md   ← generated
 ```
 
 ---
@@ -237,13 +249,13 @@ workspace/cancel-purchase-request/
 ### Step 11 — Package into BA Doc
 
 ```
-/gen-ba-doc <Feature Name>
+/package <Feature Name>
 ```
 
 Packages all artifacts into a single document:
 ```
-workspace/cancel-purchase-request/
-  ba_doc_cancel_purchase_request.md   ← generated
+workspace/create-user/
+  ba_doc_create_user.md   ← generated
 ```
 
 ---
@@ -251,7 +263,7 @@ workspace/cancel-purchase-request/
 ### Step 12 — Publish and close
 
 ```
-/done <Feature Name>
+/publish <Feature Name>
 ```
 
 Publishes the BA Doc to Confluence, updates the Jira ticket status, and optionally clears the local feature folder.
@@ -263,7 +275,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | Command | Purpose | Requires |
 |---|---|---|
 | `/init` | Initialize project/ and workspace/ folder structure | — |
-| `/sync` | Fetch Confluence pages into local project files | `project/sync_config.md` filled |
+| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
+| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
 | `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
 | `/check <Feature Name>` | Show doc status and suggest next step | — |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
@@ -274,8 +287,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-ba-doc <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
-| `/done <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
+| `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
+| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
 | `/clear-feature` | Delete all feature folders | — |
 
@@ -300,8 +313,8 @@ AI-FW-Doc-Generation/
 │       ├── gen-flow.md                    ← /gen-flow command definition
 │       ├── gen-ui-behavior.md             ← /gen-ui-behavior command definition
 │       ├── gen-messages.md                ← /gen-messages command definition
-│       ├── gen-ba-doc.md                  ← /gen-ba-doc command definition
-│       ├── done.md                        ← /done command definition
+│       ├── package.md                  ← /gen-ba-doc command definition
+│       ├── publish.md                     ← /publish command definition
 │       └── clear-feature.md              ← /clear-feature command definition
 ├── framework/
 │   ├── rules/
@@ -324,7 +337,7 @@ AI-FW-Doc-Generation/
 │       ├── style_ui_behavior.md           ← format rules for UI Behavior
 │       └── style_messages.md              ← format rules for Messages
 ├── project/                               ← project-level context (not committed)
-│   ├── sync_config.md                     ← Confluence URL → local file mapping
+│   ├── project_config.md                     ← project config (MCP, sync, env template, automation)
 │   ├── context/                           ← domain overview, modules, user stories
 │   └── reference/                         ← spec sheets, Confluence exports
 │       ├── business-rules/

@@ -9,7 +9,7 @@ Applies to `messages_<slug>.md` documents.
 ```md
 ## 8. Messages
 
-| Case | Message Type | Source | UI Display | Message |
+| **Case** | **Message Type** | **Source** | **UI Display** | **Message** |
 |---|---|---|---|---|
 | [Case] | [Message Type] | [Source] | [UI Display] | [Message] |
 ```
