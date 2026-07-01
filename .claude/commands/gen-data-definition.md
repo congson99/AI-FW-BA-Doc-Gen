@@ -99,5 +99,5 @@ You are a Senior Business Analyst.
 ```
 ✓ workspace/<folder-name>/data_definition_<slug>.md
 
-Review the Data Definition and edit if needed.
+Review the Data Definition and edit if needed, then run /gen-navigation <Feature Name> to continue.
 ```

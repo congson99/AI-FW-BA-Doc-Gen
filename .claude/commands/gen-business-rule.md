@@ -85,5 +85,5 @@ You are a Senior Business Analyst.
 ```
 ✓ workspace/<folder-name>/business_rule_<slug>.md
 
-Review the Business Rules and edit if needed.
+Review the Business Rules and edit if needed, then run /gen-data-definition <Feature Name> to continue.
 ```

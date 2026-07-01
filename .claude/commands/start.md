@@ -17,15 +17,6 @@ You are a Senior Business Analyst setting up the working environment for a new f
    - If not found → stop and inform the user:
      > "Project has not been synced yet. Please run /sync before starting a feature."
 
-2. Scan `## 3. Task Environment` in `project/project_config.md` for unfilled placeholders (pattern `<...>`), including content inside code blocks (fenced with ` ``` `) — the template lives inside the code block.
-   - If any placeholders are found → stop and inform the user:
-     ```
-     project/project_config.md — Task Environment has unfilled placeholders:
-       - <placeholder 1>
-       ...
-     Please complete section 3 before running /start.
-     ```
-
 ---
 
 ## Feature Name Normalization
@@ -67,37 +58,68 @@ Before any steps, normalize the feature name:
        ```
    - If `project/project_config.md` does not exist or `## 3. Task Environment` is not found → create the file with only: `**Feature name:** <normalized Feature name>`
 
-7. Create `workspace/<folder-name>/idea_<slug>.md` with this exact content:
+7. Create `workspace/<folder-name>/idea_<slug>.md` using a two-pass approach:
 
-```
-# Feature Idea
+   **Pass 1 — Fill from context**
 
-## Overview
-<describe the feature goal in 1–2 sentences>
+   Read available context files (e.g. `project/context/project.md`, `project/reference/`). Cross-reference the normalized feature name against known features, modules, tickets, and descriptions.
 
-## User-provided fields
-### <Entity>
-- <field>
-- <field>
+   Rules:
+   - Only fill content that is clearly derivable from existing context files. Do not invent or assume anything not found there.
+   - If a section cannot be determined from context, leave its placeholder text as-is for now (it will be handled in Pass 2).
+   - The Overview should come from the feature description in context (e.g. from the Scope of Work table in project.md).
+   - Permissions should be left as `<PERMISSION_CONSTANT>` unless a matching permission constant is found in context.
 
-## System-generated fields
-### <Entity>
-- <field>: <how generated or default value>
+   **Pass 2 — Ask user for remaining unknowns**
 
-## Search
-- Search target: <entity being searched>
-- Search by: <field(s)>
-- Matching rule: <e.g. partial match on name>
+   After Pass 1, identify which sections still contain placeholder text. For each such section, ask the user a focused question to gather the missing information. Ask all questions together in one message — do not ask one at a time.
 
-## Validation
-- <field>: <rule, e.g. required / must be > 0>
+   Format the questions clearly, for example:
+   > A few questions to complete `idea_update_po.md`:
+   >
+   > **1. User-provided fields** — What fields can the user edit on a PO? (e.g. supplier, delivery date, line items)
+   > **2. Validation** — Any validation rules for those fields? (e.g. required, format, constraints)
+   > **3. Permissions** — What permission constant controls this action? (e.g. `PO_UPDATE`)
+   > **4. Notes** — Any special business rules or constraints?
+   >
+   > Answer what you know — type "skip" for any you want to leave for later.
 
-## Permissions
-- <PERMISSION_CONSTANT>
+   After the user responds:
+   - Fill in each answered section with the user's input.
+   - For any section the user skipped or left blank, keep the original placeholder text.
+   - Write the final file with all filled and unfilled sections combined.
 
-## Notes
-<any additional rules or constraints>
-```
+   Template:
+
+   ```
+   # Feature Idea
+
+   ## Overview
+   <describe the feature goal in 1–2 sentences>
+
+   ## User-provided fields
+   ### <Entity>
+   - <field>
+   - <field>
+
+   ## System-generated fields
+   ### <Entity>
+   - <field>: <how generated or default value>
+
+   ## Search
+   - Search target: <entity being searched>
+   - Search by: <field(s)>
+   - Matching rule: <e.g. partial match on name>
+
+   ## Validation
+   - <field>: <rule, e.g. required / must be > 0>
+
+   ## Permissions
+   - <PERMISSION_CONSTANT>
+
+   ## Notes
+   <any additional rules or constraints>
+   ```
 
 8. Create `workspace/<folder-name>/manual_tasks_<slug>.md` with this exact content:
 
@@ -111,7 +133,10 @@ Before any steps, normalize the feature name:
 ✓ workspace/<folder-name>/idea_<slug>.md
 ✓ workspace/<folder-name>/manual_tasks_<slug>.md
 
-1. Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages).
-2. Replace the placeholder in idea_<slug>.md with your feature description.
+Next: Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages).
 Then run /gen-brief <Feature Name> to continue.
+```
+If any sections in `idea_<slug>.md` still have placeholder text (user skipped them), also note:
+```
+⚠ idea_<slug>.md has unfilled sections — you can complete them before running /gen-brief, or let the generator handle them with available context.
 ```

@@ -25,7 +25,15 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 2. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
 3. Derive file slug: replace `-` with `_` (e.g. `create-po` → `create_po`)
 4. Read `workspace/<folder-name>/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
-5. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
+5. Scan `workspace/<folder-name>/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
+   - If any placeholders are found → stop and inform the user:
+     ```
+     env_<slug>.md has unfilled placeholders:
+       - <placeholder 1>
+       ...
+     Please fill these in before running /publish.
+     ```
+6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
 6. Read `workspace/<folder-name>/manual_tasks_<slug>.md`:
    - If the file does not exist or is empty → continue.
    - If it contains any remaining tasks (lines starting with `- [ ]`) → stop and tell the user:
