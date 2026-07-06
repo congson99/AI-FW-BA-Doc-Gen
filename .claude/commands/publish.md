@@ -49,6 +49,8 @@ Read `project/project_config.md` and locate the `## 4. Task Automation` section.
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 
+**Section numbering on split pages:** When an action publishes only a subset of BA Doc sections (e.g. "Publish sections Navigation, Flow, UI Behavior, Messages ... to Flow confluence output page") to its own standalone Confluence page, renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original BA Doc numbering (e.g. `5. Navigation` becomes `1. Navigation`, `6. Flow` becomes `2. Flow`, etc.). This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `ba_doc_<slug>.md` stays unchanged.
+
 ---
 
 ## Step 2 — Clear Feature (optional)
