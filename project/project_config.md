@@ -1,10 +1,12 @@
 # Project Config
 
+> Fill in this file for your project. Placeholders look like `<this>` — replace them with real values, then delete this note.
+
 ---
 
 ## 1. MCP Config
 
-MCP servers used by this project.
+MCP servers used by this project. One line per server: `- <server-name>: <url>`.
 
 - Atlassian: <confluence-mcp-url>
 
@@ -12,8 +14,12 @@ MCP servers used by this project.
 
 ## 2. Context Sync
 
-Map each Confluence page to a local file in `project/`.
-Run `/sync` to pull the latest content from these pages into the local files.
+Map each Confluence page to a local file in `project/`. Each entry:
+```
+- <local-file-path>
+  url: <confluence-page-url>
+```
+Run `/sync-project` to pull the latest content from these pages into the local files.
 
 ### Context
 
