@@ -31,23 +31,15 @@ Extract the downloaded zip file, then open the folder in VS Code:
 - Click the **Claude** icon in the VS Code sidebar, or
 - Use the keyboard shortcut shown after the extension installs
 
-### Step 4 — Initialize the workspace
+### Step 4 — Fill in project config
 
-```
-/init
-```
-
-Creates the `project/` and `workspace/` folders if they don't already exist, and generates `project/project_config.md`.
-
-### Step 5 — Fill in project config
-
-Open `project/project_config.md` and fill in the values for your project:
+`project/project_config.md` already comes with the repo (as a placeholder template). Open it and fill in the values for your project:
 
 - **MCP Config** — add the MCP server URLs (e.g. Atlassian Confluence URL)
 - **Context Sync** — map each Confluence page to a local file path
 - **Task Environment** — set the default structure for feature env files
 
-### Step 6 — Connect MCP servers
+### Step 5 — Connect MCP servers
 
 Run:
 
@@ -57,7 +49,7 @@ Run:
 
 This connects Claude to the configured MCP servers (e.g. Atlassian) and guides you through the authentication flow.
 
-### Step 7 — Sync project context (optional)
+### Step 6 — Sync project context (optional)
 
 ```
 /sync
@@ -286,7 +278,6 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
 | `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/init` | Initialize project/ and workspace/ folder structure | — |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
@@ -301,7 +292,6 @@ AI-FW-Doc-Generation/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/
-│       ├── init.md                        ← /init command definition
 │       ├── sync.md                        ← /sync command definition
 │       ├── start.md                       ← /start command definition
 │       ├── check.md                       ← /check command definition
@@ -336,10 +326,10 @@ AI-FW-Doc-Generation/
 │       ├── style_flow.md                  ← format rules for Flow
 │       ├── style_ui_behavior.md           ← format rules for UI Behavior
 │       └── style_messages.md              ← format rules for Messages
-├── project/                               ← project-level context (not committed)
-│   ├── project_config.md                     ← project config (MCP, sync, env template, automation)
-│   ├── context/                           ← domain overview, modules, user stories
-│   └── reference/                         ← spec sheets, Confluence exports
+├── project/                               ← project-level context
+│   ├── project_config.md                     ← project config (tracked — committed as a placeholder template; fill in locally per project)
+│   ├── context/                           ← domain overview, modules, user stories (not committed)
+│   └── reference/                         ← spec sheets, Confluence exports (not committed)
 │       ├── business-rules/
 │       │   ├── principles/                ← general principles (applied when generating rules)
 │       │   └── shared-references/         ← shared rule groups (appended as reference lines in output)

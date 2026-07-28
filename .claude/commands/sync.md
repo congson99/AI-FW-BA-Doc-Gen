@@ -8,7 +8,7 @@ You are syncing project context files from Confluence into the local `project/` 
 ## Steps
 
 1. Check whether `project/project_config.md` exists:
-   - If not → stop and inform the user: "project/project_config.md not found. Run /init first."
+   - If not → stop and inform the user: "project/project_config.md not found. See README.md for setup."
 
 2. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest MCP connect:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user: "MCP not connected yet. Please run /connect-mcp first."

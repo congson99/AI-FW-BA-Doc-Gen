@@ -8,7 +8,7 @@ You are connecting to the MCP servers configured for this project.
 ## Steps
 
 1. Check whether `project/project_config.md` exists:
-   - If not → stop and inform the user: "project/project_config.md not found. Run /init first."
+   - If not → stop and inform the user: "project/project_config.md not found. See README.md for setup."
 
 2. Read `project/project_config.md` and locate the `## 1. MCP Config` section. Parse all entries within that section. Each entry has this format:
    ```

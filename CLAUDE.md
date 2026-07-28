@@ -19,7 +19,6 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 | Command | Purpose | Requires |
 |---|---|---|
-| `/init` | Initialize project/ and workspace/ folder structure | — |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
 | `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
 | `/start <Feature Name>` | Init feature folder + env + idea file | — |
@@ -39,7 +38,6 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ```
 .claude/commands/               ← slash commands (Claude Code requirement)
-  init.md
   sync.md
   start.md
   check.md
@@ -72,10 +70,10 @@ framework/                      ← reusable rules and styles, domain-agnostic
     style_ui_behavior.md        ← style specific to UI Behavior
     style_messages.md           ← style specific to Messages
 
-project/                        ← project-level context (not committed)
-  project_config.md                ← project config (MCP, sync, env template, automation)
-  context/                      ← domain overview, module map, user stories
-  reference/                    ← spec sheets, Confluence exports, detailed docs
+project/                        ← project-level context
+  project_config.md                ← project config (tracked — committed as a placeholder template; fill in locally per project)
+  context/                      ← domain overview, module map, user stories (not committed)
+  reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
     business-rules/
       principles/               ← general principles (applied when generating rules)
       shared-references/        ← shared rule groups (appended as reference lines in output)
