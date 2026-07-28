@@ -1,3 +1,4 @@
 .claude/settings.local.json
-project/
+project/*
+!project/project_config.md
 workspace/
