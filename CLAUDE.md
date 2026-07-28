@@ -20,7 +20,8 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | Command | Purpose | Requires |
 |---|---|---|
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
-| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
+| `/sync-project` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
+| `/clear-project` | Delete all content in project/, including project_config.md | — |
 | `/start <Feature Name>` | Init feature folder + env + idea file | — |
 | `/check <Feature Name>` | Show doc status + suggest next step | — |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
@@ -38,7 +39,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ```
 .claude/commands/               ← slash commands (Claude Code requirement)
-  sync.md
+  sync-project.md
   start.md
   check.md
   gen-brief.md

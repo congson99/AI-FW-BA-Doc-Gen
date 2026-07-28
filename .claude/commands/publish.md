@@ -59,7 +59,7 @@ Ask the user:
 > "Do you want to clear the feature folder `workspace/<folder-name>/`? (yes/no)"
 
 - **no** → skip.
-- **yes** → follow the clear-feature logic:
+- **yes** → delete the feature folder:
   1. Confirm with the user: "Delete `workspace/<folder-name>/` and all its contents? (yes/no)"
   2. If confirmed → delete the folder and all contents, confirm: "✓ Deleted workspace/<folder-name>/"
   3. If cancelled → note: "Feature folder kept."

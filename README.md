@@ -24,28 +24,15 @@ Extract the downloaded zip file, then open the folder in VS Code:
 2. Search for **Claude Code**
 3. Click **Install**
 
-### Step 4 — Open the Claude Code panel
+### Step 4 — Open the Claude Code panel and sync project context
 
-- Click the **Claude** icon in the VS Code sidebar, or
-- Use the keyboard shortcut shown after the extension installs
-
-### Step 5 — Connect MCP servers
-
-Run:
+Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install), then run:
 
 ```
-/connect-mcp
+/sync-project
 ```
 
-This connects Claude to the configured MCP servers (e.g. Atlassian) and guides you through the authentication flow.
-
-### Step 6 — Sync project context (optional)
-
-```
-/sync
-```
-
-Fetches Confluence pages into local `project/` files so Claude has background knowledge before generating documents.
+Fetches Confluence pages into local `project/` files so Claude has background knowledge before generating documents. If MCP servers (e.g. Atlassian) aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
 
 ---
 
@@ -257,8 +244,8 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | Command | Purpose | Requires |
 |---|---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step | — |
-| `/clear-feature` | Delete all feature folders | — |
-| `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
+| `/clear-project` | Delete all content in project/, including project_config.md | — |
+| `/clear-workspace` | Delete all feature folders in workspace/ | — |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
 | `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
@@ -271,7 +258,7 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
 | `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
-| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
+| `/sync-project` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
 
 ---
 
@@ -282,7 +269,7 @@ AI-FW-Doc-Generation/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/
-│       ├── sync.md                        ← /sync command definition
+│       ├── sync-project.md                ← /sync-project command definition
 │       ├── start.md                       ← /start command definition
 │       ├── check.md                       ← /check command definition
 │       ├── gen-brief.md                   ← /gen-brief command definition
@@ -295,7 +282,8 @@ AI-FW-Doc-Generation/
 │       ├── gen-messages.md                ← /gen-messages command definition
 │       ├── package.md                  ← /gen-ba-doc command definition
 │       ├── publish.md                     ← /publish command definition
-│       └── clear-feature.md              ← /clear-feature command definition
+│       ├── clear-project.md              ← /clear-project command definition
+│       └── clear-workspace.md            ← /clear-workspace command definition
 ├── framework/
 │   ├── rules/
 │   │   ├── rule_brief.md                  ← writing rules for Brief

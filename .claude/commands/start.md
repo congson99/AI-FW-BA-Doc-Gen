@@ -15,7 +15,7 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 1. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest sync:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user:
-     > "Project has not been synced yet. Please run /sync before starting a feature."
+     > "Project has not been synced yet. Please run /sync-project before starting a feature."
 
 ---
 
