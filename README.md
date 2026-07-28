@@ -1,18 +1,16 @@
 # BA Documentation Generation Tool
 
-AI-assisted framework for Business Analysts to generate a complete BA documentation set from a single input using Claude Code.
-
----
-
-## Prerequisites
-
-- [VS Code](https://code.visualstudio.com/) installed, or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs)
+v2.1
 
 ---
 
 ## Setup
 
-### Step 1 — Extract the zip and open the project in VS Code
+### Step 1 — Install VS Code
+
+Install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
+
+### Step 2 — Extract the zip and open the project in VS Code
 
 Extract the downloaded zip file, then open the folder in VS Code:
 
@@ -20,24 +18,16 @@ Extract the downloaded zip file, then open the folder in VS Code:
 2. Go to **File → Open Folder**
 3. Select the extracted folder
 
-### Step 2 — Install the Claude Code extension in VS Code
+### Step 3 — Install the Claude Code extension in VS Code
 
 1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
 2. Search for **Claude Code**
 3. Click **Install**
 
-### Step 3 — Open the Claude Code panel
+### Step 4 — Open the Claude Code panel
 
 - Click the **Claude** icon in the VS Code sidebar, or
 - Use the keyboard shortcut shown after the extension installs
-
-### Step 4 — Fill in project config
-
-`project/project_config.md` already comes with the repo (as a placeholder template). Open it and fill in the values for your project:
-
-- **MCP Config** — add the MCP server URLs (e.g. Atlassian Confluence URL)
-- **Context Sync** — map each Confluence page to a local file path
-- **Task Environment** — set the default structure for feature env files
 
 ### Step 5 — Connect MCP servers
 
