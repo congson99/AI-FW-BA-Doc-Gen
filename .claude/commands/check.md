@@ -35,22 +35,24 @@ Check for the existence of each file below (true/false):
 
 | # | File | Label |
 |---|---|---|
-| 1 | `env_<slug>.md` | Environment |
-| 2 | `idea_<slug>.md` | Idea |
-| 3 | `brief_<slug>.md` | Brief |
-| 4 | `ac_<slug>.md` | Acceptance Criteria |
-| 5 | `business_rule_<slug>.md` | Business Rules |
-| 6 | `data_definition_<slug>.md` | Data Definition |
-| 7 | `navigation_<slug>.md` | Navigation |
-| 8 | `flow_<slug>.md` | Flow |
-| 9 | `ui_behavior_<slug>.md` | UI Behavior |
-| 10 | `messages_<slug>.md` | Messages |
-| 11 | `ba_doc_<slug>.md` | BA Doc |
+| 1 | `input/env_<slug>.md` | Environment |
+| 2 | `input/context_<slug>.md` | Context Files |
+| 3 | `input/idea_<slug>.md` | Idea |
+| 4 | `docs/brief_<slug>.md` | Brief |
+| 5 | `docs/ac_<slug>.md` | Acceptance Criteria |
+| 6 | `docs/business_rule_<slug>.md` | Business Rules |
+| 7 | `docs/data_definition_<slug>.md` | Data Definition |
+| 8 | `docs/navigation_<slug>.md` | Navigation |
+| 9 | `docs/flow_<slug>.md` | Flow |
+| 10 | `docs/ui_behavior_<slug>.md` | UI Behavior |
+| 11 | `docs/messages_<slug>.md` | Messages |
+| 12 | `ba_doc_<slug>.md` | BA Doc |
 
 ### 3. For files that exist, detect issues
 
 - **env file**: check if it still contains unfilled placeholders like `<jira-ticket-url>` or `<confluence-page-url>`. If yes → flag as "⚠ has unfilled placeholders".
-- **idea file**: check if it still contains `<describe the feature goal` or `<field>` placeholder content. If yes → flag as "⚠ not yet filled in".
+- **context file**: check if it still contains unfilled placeholders (pattern `<...>`). If yes → flag as "⚠ has unfilled placeholders".
+- **idea file**: check if any section still contains its placeholder text (pattern `<...>`). If yes → flag as "⚠ has unfilled sections" (this no longer blocks progress — later gen-* commands will ask about it if the information turns out to be needed).
 - All other files: if the file exists, treat it as complete (✓).
 
 ### 4. Determine the next step
@@ -59,17 +61,19 @@ Use this priority order — stop at the first condition that is true:
 
 1. `env_<slug>.md` missing → next: `/start <Feature Name>`
 2. `env_<slug>.md` has unfilled placeholders → next: "Fill in the placeholders in `env_<slug>.md`"
-3. `idea_<slug>.md` missing or not yet filled → next: "Fill in `idea_<slug>.md`", then `/gen-brief <Feature Name>`
-4. `brief_<slug>.md` missing → next: `/gen-brief <Feature Name>`
-5. `ac_<slug>.md` missing → next: `/gen-ac <Feature Name>`
-6. `business_rule_<slug>.md` missing → next: `/gen-business-rule <Feature Name>`
-7. `data_definition_<slug>.md` missing → next: `/gen-data-definition <Feature Name>`
-8. `navigation_<slug>.md` missing → next: `/gen-navigation <Feature Name>`
-9. `flow_<slug>.md` missing → next: `/gen-flow <Feature Name>`
-10. `ui_behavior_<slug>.md` missing → next: `/gen-ui-behavior <Feature Name>`
-11. `messages_<slug>.md` missing → next: `/gen-messages <Feature Name>`
-12. `ba_doc_<slug>.md` missing → next: `/package <Feature Name>`
-13. All files exist → next: `/publish <Feature Name>`
+3. `context_<slug>.md` missing → next: `/start <Feature Name>`
+4. `context_<slug>.md` has unfilled placeholders → next: "Fill in the placeholders in `context_<slug>.md`"
+5. `idea_<slug>.md` missing → next: `/investigate <Feature Name>`
+6. `brief_<slug>.md` missing → next: `/gen-brief <Feature Name>`
+7. `ac_<slug>.md` missing → next: `/gen-ac <Feature Name>`
+8. `business_rule_<slug>.md` missing → next: `/gen-business-rule <Feature Name>`
+9. `data_definition_<slug>.md` missing → next: `/gen-data-definition <Feature Name>`
+10. `navigation_<slug>.md` missing → next: `/gen-navigation <Feature Name>`
+11. `flow_<slug>.md` missing → next: `/gen-flow <Feature Name>`
+12. `ui_behavior_<slug>.md` missing → next: `/gen-ui-behavior <Feature Name>`
+13. `messages_<slug>.md` missing → next: `/gen-messages <Feature Name>`
+14. `ba_doc_<slug>.md` missing → next: `/package <Feature Name>`
+15. All files exist → next: `/publish <Feature Name>`
 
 ### 5. Output the status report
 
@@ -81,7 +85,8 @@ Print the report in this exact format:
 | Doc | Status |
 |---|---|
 | Environment | ✓ Ready / ⚠ Has unfilled placeholders / ✗ Missing |
-| Idea | ✓ Ready / ⚠ Not yet filled in / ✗ Missing |
+| Context Files | ✓ Ready / ⚠ Has unfilled placeholders / ✗ Missing |
+| Idea | ✓ Ready / ⚠ Has unfilled sections / ✗ Missing |
 | Brief | ✓ Ready / ✗ Missing |
 | Acceptance Criteria | ✓ Ready / ✗ Missing |
 | Business Rules | ✓ Ready / ✗ Missing |

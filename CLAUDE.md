@@ -17,86 +17,64 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ## Commands
 
-| Command | Purpose | Requires |
-|---|---|---|
-| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
-| `/sync-project` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
-| `/clear-project` | Delete all content in project/, including project_config.md | — |
-| `/start <Feature Name>` | Init feature folder + env + idea file | — |
-| `/check <Feature Name>` | Show doc status + suggest next step | — |
-| `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
-| `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
-| `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
-| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md` |
-| `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
-| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
+### BA Doc Gen Flow Commands
+
+Used as part of the regular per-feature BA document generation flow.
+
+| Command | Purpose |
+|---|---|
+| `/start <Feature Name>` | Initialize feature folder, env file, and context file |
+| `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
+| `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
+| `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
+| `/gen-business-rule <Feature Name>` | Generate Business Rules |
+| `/gen-data-definition <Feature Name>` | Generate Data Definition |
+| `/gen-navigation <Feature Name>` | Generate Navigation |
+| `/gen-flow <Feature Name>` | Generate Flow |
+| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
+| `/gen-messages <Feature Name>` | Generate Messages |
+| `/gen-ba-doc <Feature Name>` | Run investigate through gen-messages and package back-to-back |
+| `/package <Feature Name>` | Package all artifacts into a single BA Doc |
+| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
+
+### Other Commands
+
+Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
+
+| Command | Purpose |
+|---|---|
+| `/check <Feature Name>` | Show doc status and suggest next step |
+| `/clear-project` | Delete synced context/reference files, reset project_config.md to its blank template, and clear workspace/ |
+| `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/config-project` | Interactively fill in project_config.md via Q&A instead of manual editing |
+| `/connect-mcp` | Connect to MCP servers listed in project_config.md |
+| `/sync-project` | Fetch Confluence pages into local project files |
 
 ## Structure
 
 ```
-.claude/commands/               ← slash commands (Claude Code requirement)
-  sync-project.md
-  start.md
-  check.md
-  gen-brief.md
-  gen-ac.md
-  gen-business-rule.md
-  gen-data-definition.md
-  gen-navigation.md
-  gen-flow.md
-CLAUDE.md                       ← project instructions (Claude Code requirement)
+.claude/commands/               ← slash command definitions (see Commands above)
 
 framework/                      ← reusable rules and styles, domain-agnostic
-  rules/
-    rule_brief.md
-    rule_ac.md
-    rule_business_rule.md
-    rule_data_definition.md
-    rule_navigation.md
-    rule_flow.md
-    rule_ui_behavior.md
-    rule_messages.md
-  styles/
-    style_general.md            ← general writing style (all docs)
-    style_brief.md              ← style specific to Brief
-    style_ac.md                 ← style specific to AC
-    style_business_rule.md      ← style specific to Business Rules
-    style_data_definition.md    ← style specific to Data Definition
-    style_navigation.md         ← style specific to Navigation
-    style_flow.md               ← style specific to Flow
-    style_ui_behavior.md        ← style specific to UI Behavior
-    style_messages.md           ← style specific to Messages
+  framework_config.md           ← edit_framework setting (do not modify)
+  rules/                        ← writing/content rules, one file per doc type
+  styles/                       ← format rules, one file per doc type + style_general.md
+  templates/                    ← project_config_blank.md (blank project_config.md template)
 
 project/                        ← project-level context
-  project_config.md                ← project config (tracked — committed as a placeholder template; fill in locally per project)
+  project_config.md             ← project config (tracked — committed as a placeholder template; fill in locally per project)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
-    business-rules/
-      principles/               ← general principles (applied when generating rules)
-      shared-references/        ← shared rule groups (appended as reference lines in output)
-    navigation/                 ← navigation patterns (read by /gen-navigation)
-    ui-behavior/
-      principles/               ← general UI principles (applied when generating entries)
-      shared-references/        ← shared UI groups (appended as reference lines in output)
-    messages/                   ← message templates and wording conventions (read by /gen-messages)
+    business-rules/             ← principles + shared references for Business Rules
+    navigation/                 ← shared navigation patterns
+    ui-behavior/                ← principles + shared references for UI Behavior
+    messages/                   ← shared message templates and wording conventions
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
-    env_<slug>.md               ← /start (init)
-    idea_<slug>.md              ← /start (fill before /gen-brief)
-    brief_<slug>.md             ← /gen-brief
-    ac_<slug>.md                ← /gen-ac
-    business_rule_<slug>.md     ← /gen-business-rule
-    data_definition_<slug>.md   ← /gen-data-definition
-    navigation_<slug>.md        ← /gen-navigation
-    flow_<slug>.md              ← /gen-flow
-    ui_behavior_<slug>.md       ← /gen-ui-behavior
-    messages_<slug>.md          ← /gen-messages
-    ba_doc_<slug>.md            ← /gen-ba-doc
+    input/                      ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
+    docs/                       ← generated BA doc sections (Brief through Messages)
+    ba_doc_<slug>.md            ← final packaged document
 ```
 
 > slug = kebab-case folder name with `-` replaced by `_` (e.g. `cancel-pr` → `cancel_pr`)

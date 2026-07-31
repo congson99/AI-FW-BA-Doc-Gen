@@ -42,101 +42,29 @@ Before any steps, normalize the feature name:
      > [list each file]
      > Running /start again will delete all of these and reinitialize the folder. Continue? (yes/no)"
    - **no** → stop. Do not change anything.
-   - **yes** → delete all files in `workspace/<folder-name>/`, then continue to step 4.
-4. Create folder `workspace/<folder-name>/` if it does not exist.
-5. Scan `project/context/` for all files (e.g. `project.md`, `domain.md`, etc.) and collect their relative paths as a list.
-6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. Extract the template content inside the code block (stop at the closing fence). Create `workspace/<folder-name>/env_<slug>.md` with:
+   - **yes** → delete all files and subfolders in `workspace/<folder-name>/`, then continue to step 4.
+4. Create folders `workspace/<folder-name>/input/` and `workspace/<folder-name>/docs/` if they do not exist.
+5. Read `project/project_config.md` and locate the `## 2. Language` section. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
+
+6. Read `project/project_config.md` and locate the `## 4. Task Environment` section. It contains two labeled code blocks: `### env_<slug>.md template` and `### context_<slug>.md template`.
+
+   Create `workspace/<folder-name>/input/env_<slug>.md` with:
    - Line 1: `**Feature name:** <normalized Feature name>`
    - Line 2: blank
-   - Line 3 onwards: the extracted template content verbatim, as-is, without any modification.
-   - After writing the template content, inject the idea file path:
-     - If the env file contains a `**Context files:**` line → append `- workspace/<folder-name>/idea_<slug>.md` as the last item under that section.
-     - If no `**Context files:**` section exists → append the following block at the end of the file:
-       ```
-       **Context files:**
-       - workspace/<folder-name>/idea_<slug>.md
-       ```
-   - If `project/project_config.md` does not exist or `## 3. Task Environment` is not found → create the file with only: `**Feature name:** <normalized Feature name>`
+   - Line 3: `**Document language:** <resolved Document language from step 5>`
+   - Line 4: blank
+   - Line 5 onwards: the contents of the `env_<slug>.md template` code block, verbatim, without any modification.
+   - If `project/project_config.md` does not exist or the `env_<slug>.md template` block is not found → create the file with only: `**Feature name:** <normalized Feature name>` and `**Document language:** English`
 
-7. Create `workspace/<folder-name>/idea_<slug>.md` using a two-pass approach:
+   Create `workspace/<folder-name>/input/context_<slug>.md` with:
+   - The contents of the `context_<slug>.md template` code block, verbatim (it already starts with `# Context Files`).
+   - If the `context_<slug>.md template` block is not found → create the file with only `# Context Files` and a blank line.
 
-   **Pass 1 — Fill from context**
-
-   Read available context files (e.g. `project/context/project.md`, `project/reference/`). Cross-reference the normalized feature name against known features, modules, tickets, and descriptions.
-
-   Rules:
-   - Only fill content that is clearly derivable from existing context files. Do not invent or assume anything not found there.
-   - If a section cannot be determined from context, leave its placeholder text as-is for now (it will be handled in Pass 2).
-   - The Overview should come from the feature description in context (e.g. from the Scope of Work table in project.md).
-   - Permissions should be left as `<PERMISSION_CONSTANT>` unless a matching permission constant is found in context.
-
-   **Pass 2 — Ask user for remaining unknowns**
-
-   After Pass 1, identify which sections still contain placeholder text. For each such section, ask the user a focused question to gather the missing information. Ask all questions together in one message — do not ask one at a time.
-
-   Format the questions clearly, for example:
-   > A few questions to complete `idea_update_po.md`:
-   >
-   > **1. User-provided fields** — What fields can the user edit on a PO? (e.g. supplier, delivery date, line items)
-   > **2. Validation** — Any validation rules for those fields? (e.g. required, format, constraints)
-   > **3. Permissions** — What permission constant controls this action? (e.g. `PO_UPDATE`)
-   > **4. Notes** — Any special business rules or constraints?
-   >
-   > Answer what you know — type "skip" for any you want to leave for later.
-
-   After the user responds:
-   - Fill in each answered section with the user's input.
-   - For any section the user skipped or left blank, keep the original placeholder text.
-   - Write the final file with all filled and unfilled sections combined.
-
-   Template:
-
-   ```
-   # Feature Idea
-
-   ## Overview
-   <describe the feature goal in 1–2 sentences>
-
-   ## User-provided fields
-   ### <Entity>
-   - <field>
-   - <field>
-
-   ## System-generated fields
-   ### <Entity>
-   - <field>: <how generated or default value>
-
-   ## Search
-   - Search target: <entity being searched>
-   - Search by: <field(s)>
-   - Matching rule: <e.g. partial match on name>
-
-   ## Validation
-   - <field>: <rule, e.g. required / must be > 0>
-
-   ## Permissions
-   - <PERMISSION_CONSTANT>
-
-   ## Notes
-   <any additional rules or constraints>
-   ```
-
-8. Create `workspace/<folder-name>/manual_tasks_<slug>.md` with this exact content:
-
+7. Confirm:
 ```
-# Manual Tasks — <Feature Name>
-```
+✓ workspace/<folder-name>/input/env_<slug>.md
+✓ workspace/<folder-name>/input/context_<slug>.md
 
-9. Confirm:
-```
-✓ workspace/<folder-name>/env_<slug>.md
-✓ workspace/<folder-name>/idea_<slug>.md
-✓ workspace/<folder-name>/manual_tasks_<slug>.md
-
-Next: Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages).
-Then run /gen-brief <Feature Name> to continue.
-```
-If any sections in `idea_<slug>.md` still have placeholder text (user skipped them), also note:
-```
-⚠ idea_<slug>.md has unfilled sections — you can complete them before running /gen-brief, or let the generator handle them with available context.
+Next: Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages) and list every relevant context file in context_<slug>.md.
+Then run /investigate <Feature Name> to continue.
 ```

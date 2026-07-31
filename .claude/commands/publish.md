@@ -13,7 +13,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ## Pre-flight
 
-1. Scan `## 4. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
+1. Scan `## 5. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md — Task Automation has unfilled placeholders:
@@ -24,8 +24,8 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 2. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
 3. Derive file slug: replace `-` with `_` (e.g. `create-po` → `create_po`)
-4. Read `workspace/<folder-name>/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
-5. Scan `workspace/<folder-name>/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
+4. Read `workspace/<folder-name>/input/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
+5. Scan `workspace/<folder-name>/input/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
      env_<slug>.md has unfilled placeholders:
@@ -34,18 +34,12 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
      Please fill these in before running /publish.
      ```
 6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
-6. Read `workspace/<folder-name>/manual_tasks_<slug>.md`:
-   - If the file does not exist or is empty → continue.
-   - If it contains any remaining tasks (lines starting with `- [ ]`) → stop and tell the user:
-     > "The following manual tasks are still pending:
-     > [list each `- [ ]` task]
-     > Complete these tasks, then remove them from `manual_tasks_<slug>.md` before running /publish again."
 
 ---
 
 ## Step 1 — Execute Task Automation
 
-Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
+Read `project/project_config.md` and locate the `## 5. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 

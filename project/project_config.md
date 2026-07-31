@@ -1,96 +1,90 @@
 # Project Config
 
-> Fill in this file for your project. Placeholders look like `<this>` — replace them with real values, then delete this note.
+## 0. Status
+Latest MCP connect: 2026/07/31 14:53:38
+Latest sync: 2026/07/31 15:13:40
+---
+
+> See README.md § "Configure the Project" for detailed guidance on filling in each section below. Placeholders look like `<this>` — replace them with real values.
 
 ---
 
 ## 1. MCP Config
 
-MCP servers used by this project. One line per server: `- <server-name>: <url>`.
-
-- Atlassian: <confluence-mcp-url>
+- Atlassian: https://dc32claude.atlassian.net/wiki/spaces/INV/overview?homepageId=98414
 
 ---
 
-## 2. Context Sync
+## 2. Language
 
-Map each Confluence page to a local file in `project/`. Each entry:
-```
-- <local-file-path>
-  url: <confluence-page-url>
-```
-Run `/sync-project` to pull the latest content from these pages into the local files.
+- Document language: English
+
+---
+
+## 3. Context Sync
 
 ### Context
 
-### Reference
-
-- project/reference/<filename>.md
-  url: <confluence-page-url>
+- project/context/project-overview.md
+  url: https://dc32claude.atlassian.net/wiki/spaces/INV/overview?homepageId=98414
 
 ### Business Rules — Principles
 
-- project/reference/business-rules/principles/<filename>.md
-  url: <confluence-page-url>
-
 ### Business Rules — Shared References
 
-- project/reference/business-rules/shared-references/<filename>.md
-  url: <confluence-page-url>
+- project/reference/business-rules/shared-references/general-business-rules.md
+  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/43548674/General+Business+Rules
 
 ### UI Behavior — Principles
 
-- project/reference/ui-behavior/principles/<filename>.md
-  url: <confluence-page-url>
-
 ### UI Behavior — Shared References
 
-- project/reference/ui-behavior/shared-references/<filename>.md
-  url: <confluence-page-url>
+- project/reference/ui-behavior/shared-references/ui-rules.md
+  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/35717128/UI+Rules
 
 ### Navigation
 
-- project/reference/navigation/<filename>.md
-  url: <confluence-page-url>
-
 ### Messages
 
-- project/reference/messages/<filename>.md
-  url: <confluence-page-url>
+- project/reference/messages/message-format.md
+  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/10190877/Message+Format+Definition
 
 ---
 
-## 3. Task Environment
+## 4. Task Environment
 
-Default structure for `env_<slug>.md` files created by `/start`.
-Edit the values below to match your project before running `/start`.
+### env_<slug>.md template
 
 ```
 **BA Task Jira ticket:** <jira-ticket-url>
 
-**Context files:**
-- project/context/project.md
-
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
+- Spec: <confluence-page-url>
+- Flow: <confluence-page-url>
+```
+
+### context_<slug>.md template
+
+```
+# Context Files
+
+- project/context/project-overview.md
 ```
 
 ---
 
-## 4. Task Automation
-
-Actions Claude automatically performs when running `/publish` for each feature task.
-Fill in the Jira and Confluence targets for this project.
+## 5. Task Automation
 
 ### Jira
 
-- Update ticket status to: <jira-status>
-  jira-project: <jira-project-key>
-
-- Add Confluence page link as comment on ticket
-  jira-project: <jira-project-key>
+- Update ticket status to: In Review
+  jira-project: IN
 
 ### Confluence
 
-- Publish BA Doc to parent page
-  confluence-parent: <confluence-parent-page-url>
+- Publish BA Doc to "BA Doc" confluence output page
+- Publish sections Brief, AC, Business Rules, Data Definition from BA Doc to "Spec" confluence output page
+- Publish sections Navigation, Flow, UI Behavior, Messages from BA Doc to "Flow" confluence output page
+- Check the BA Doc for any permissions defined for the feature (permission key + description); if found, add each one under its corresponding module section (matching the "Module" column) on the Permission Definition page — creating a new module section if the module doesn't exist yet
+  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/17465348/Permission+Definition

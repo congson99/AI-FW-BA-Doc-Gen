@@ -15,26 +15,21 @@ You are a Senior Business Analyst.
 
 1. Derive folder name: kebab-case of Feature name (e.g. "Create Product Category" → `create-product-category`)
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
-3. Check `workspace/<folder-name>/env_<slug>.md` exists:
+3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check the **Context files:** section in the env file:
-   - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "**Context files** in `env_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /gen-data-definition."
-   - An empty **Context files:** section (no items listed) is allowed — continue.
-5. Read `workspace/<folder-name>/env_<slug>.md` and load every file listed under **Context files** — read each one before proceeding.
-6. Check `workspace/<folder-name>/brief_<slug>.md` exists:
+4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
+   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-7. Check `workspace/<folder-name>/ac_<slug>.md` exists:
+7. Check `workspace/<folder-name>/docs/ac_<slug>.md` exists:
    - If missing → stop and inform user: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-8. Check `workspace/<folder-name>/business_rule_<slug>.md` exists:
+8. Check `workspace/<folder-name>/docs/business_rule_<slug>.md` exists:
    - If missing → stop and inform user: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-9. Check for conflicts across all loaded context files, brief, AC, and Business Rules:
-   - Look for contradictions in field names, types, required/editable flags, or validation rules between any two sources.
-   - If conflicts are found → stop and list each conflict clearly: "Conflicts found: [describe each conflict and which files it involves]. Resolve before running /gen-data-definition."
-   - If no conflicts → continue.
-10. Check for existing downstream documents in `workspace/<folder-name>/`:
+9. Check for existing downstream documents in `workspace/<folder-name>/`:
     - Look for: `ba_doc_<slug>.md`
     - If any exist → warn the user:
       > "The following downstream documents already exist and will become outdated if Data Definition is regenerated:
@@ -42,13 +37,13 @@ You are a Senior Business Analyst.
       > Regenerating Data Definition will delete these files. Continue? (yes/no)"
     - **no** → stop. Do not generate.
     - **yes** → delete the listed downstream files, then continue.
-11. Read `framework/styles/style_general.md` — general writing style rules.
-12. Read `framework/styles/style_data_definition.md` — style rules specific to Data Definition.
-13. Read `framework/rules/rule_data_definition.md` — writing quality rules for Data Definition content.
+10. Read `framework/styles/style_general.md` — general writing style rules.
+11. Read `framework/styles/style_data_definition.md` — style rules specific to Data Definition.
+12. Read `framework/rules/rule_data_definition.md` — writing quality rules for Data Definition content.
 
 ## Steps
 
-1. Analyze all loaded context (env file, brief, AC, Business Rules, and context files) to identify:
+1. Analyze all loaded context (idea file, brief, AC, Business Rules) to identify. If information needed is missing from all of these, ask the user a focused question rather than inventing it:
 
    - All data objects involved in this feature
    - Parent-child relationships between objects
@@ -92,12 +87,12 @@ You are a Senior Business Analyst.
 
 5. Define child objects as separate object sections following their parent.
 
-6. Create `workspace/<folder-name>/data_definition_<slug>.md` using the format defined in `framework/styles/style_data_definition.md`.
+6. Create `workspace/<folder-name>/docs/data_definition_<slug>.md` using the format defined in `framework/styles/style_data_definition.md`.
    - If no data objects or fields were identified, still create the file with the section heading but write: `No data definition identified for this feature.`
 
 7. Confirm:
 ```
-✓ workspace/<folder-name>/data_definition_<slug>.md
+✓ workspace/<folder-name>/docs/data_definition_<slug>.md
 
 Review the Data Definition and edit if needed, then run /gen-navigation <Feature Name> to continue.
 ```

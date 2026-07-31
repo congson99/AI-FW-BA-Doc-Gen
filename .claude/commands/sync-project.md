@@ -46,7 +46,7 @@ You are syncing project context files from Confluence into the local `project/` 
         ⚠ <server-name> — requires manual setup (see Claude Code MCP settings)
         ```
 
-3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
+3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 3. Context Sync` section. Stop scanning at `## 4.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md has unfilled placeholders:
@@ -56,12 +56,12 @@ You are syncing project context files from Confluence into the local `project/` 
      Please complete these sections before running /sync-project.
      ```
 
-4. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
+4. Read `project/project_config.md` and locate the `## 3. Context Sync` section. Parse only the entries within that section. Each entry has this format:
    ```
    - <local-file-path>
      url: <confluence-page-url>
    ```
-   Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
+   Stop parsing at the next `## ` heading (i.e. `## 4.`) — do not read entries from other sections.
 
 5. For each valid entry:
    a. Fetch the Confluence page content using the provided URL.
@@ -74,7 +74,6 @@ You are syncing project context files from Confluence into the local `project/` 
 Sync complete:
 
 ✓ project/context/project.md — fetched from <url>
-✓ project/reference/<filename>.md — fetched from <url>
 ✗ project/context/<filename>.md — failed: <reason>
 
 Skipped (no URL): <count> entries
@@ -82,7 +81,6 @@ Skipped (no URL): <count> entries
 
 7. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/project_config.md`:
    - `project/context/`
-   - `project/reference/` (top-level files only)
    - `project/reference/business-rules/principles/`
    - `project/reference/business-rules/shared-references/`
    - `project/reference/ui-behavior/principles/`

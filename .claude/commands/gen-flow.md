@@ -15,25 +15,24 @@ You are a Senior Business Analyst.
 
 1. Derive folder name: kebab-case of Feature name (e.g. "Create Product Category" → `create-product-category`)
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
-3. Check `workspace/<folder-name>/env_<slug>.md` exists:
+3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check the **Context files:** section in the env file:
-   - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "**Context files** in `env_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /gen-flow."
-   - An empty **Context files:** section (no items listed) is allowed — continue.
-5. Read `workspace/<folder-name>/env_<slug>.md` and load every file listed under **Context files** — read each one before proceeding.
-6. Check `workspace/<folder-name>/brief_<slug>.md` exists:
+4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
+   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-7. Check `workspace/<folder-name>/ac_<slug>.md` exists:
+7. Check `workspace/<folder-name>/docs/ac_<slug>.md` exists:
    - If missing → stop and inform user: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-8. Check `workspace/<folder-name>/business_rule_<slug>.md` exists:
+8. Check `workspace/<folder-name>/docs/business_rule_<slug>.md` exists:
    - If missing → stop and inform user: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-9. Check `workspace/<folder-name>/data_definition_<slug>.md` exists:
+9. Check `workspace/<folder-name>/docs/data_definition_<slug>.md` exists:
    - If missing → stop and inform user: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-10. Check `workspace/<folder-name>/navigation_<slug>.md` exists:
+10. Check `workspace/<folder-name>/docs/navigation_<slug>.md` exists:
    - If missing → stop and inform user: "Navigation not found. Run `/gen-navigation <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
 11. Check for existing downstream documents in `workspace/<folder-name>/`:
@@ -53,7 +52,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze the feature source (env file, brief, AC, business rules, data definition, navigation, and context files) to identify:
+1. Analyze the feature source (idea file, brief, AC, business rules, data definition, navigation) to identify. If information needed is missing from all loaded sources, ask the user a focused question rather than inventing it:
 
    - How the feature is triggered (user action, external event, or scheduled/system event explicitly described)
    - Preconditions that must be true before the feature can proceed
@@ -83,12 +82,12 @@ You are a Senior Business Analyst.
    - **Secondary Flows** (if any): one `#### [Name]` block per secondary flow using `[Start]`/`[End]` markers.
    - Omit Alternate Flows and Secondary Flows sections entirely if none are identified.
 
-3. Create `workspace/<folder-name>/flow_<slug>.md` using the format defined in `framework/styles/style_flow.md`.
+3. Create `workspace/<folder-name>/docs/flow_<slug>.md` using the format defined in `framework/styles/style_flow.md`.
    - If no flow steps were identified, still create the file with the section heading but write: `No flow identified for this feature.`
 
 4. Confirm:
 ```
-✓ workspace/<folder-name>/flow_<slug>.md
+✓ workspace/<folder-name>/docs/flow_<slug>.md
 
-Review the Flow and edit if needed.
+Review the Flow and edit if needed, then run /gen-ui-behavior <Feature Name> to continue.
 ```
