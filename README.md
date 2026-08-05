@@ -8,8 +8,8 @@ v2.1
 
 1. [Overview](#1-overview)
 2. [Setup Environment](#2-setup-environment-one-time-only)
-3. [Generating BA Documents](#3-generating-ba-documents)
-4. [Configure the Project](#4-configure-the-project-for-ba-leader)
+3. [Configure the Project](#3-configure-the-project-for-ba-leader)
+4. [Generating BA Documents](#4-generating-ba-documents)
 5. [Available Commands](#5-available-commands)
 6. [Folder Structure](#6-folder-structure)
 
@@ -17,11 +17,44 @@ v2.1
 
 ## 1. Overview
 
-**DC32 BA Documentation Claude Tool** is an AI-assisted framework built on Claude Code that lets Business Analysts generate a complete BA documentation set — Brief, Acceptance Criteria, Business Rules, Data Definition, Navigation, Flow, UI Behavior, and Messages — from a single feature idea, then publish it straight to Confluence and update Jira.
+**DC32 BA Documentation Claude Tool** is an AI-assisted framework built on Claude Code that lets Business Analysts automatically generate a complete BA documentation set — using already-analyzed project data plus clarifying questions along the way — then publish it straight to Confluence. A few things are fixed by design, the same for every project:
+
+- The BA documentation set has a fixed architecture.
+- The doc generation flow is fixed.
+- Only Atlassian is supported as an MCP connection.
+
+### Document Architecture
+
+1. Brief
+2. Acceptance Criteria (AC)
+3. Business Rules
+4. Data Definition
+5. Navigation
+6. Flow
+7. UI Behavior
+8. Messages
+
+### Generation Flow
+
+1. `/start` — initialize the feature folder, env file, and context file
+2. `/gen-ba-doc` — runs the following commands in sequence to generate the BA doc:
+   - `/investigate` — generate the Idea file from project context
+   - `/gen-brief` — generate Brief
+   - `/gen-ac` — generate Acceptance Criteria
+   - `/gen-business-rule` — generate Business Rules
+   - `/gen-data-definition` — generate Data Definition
+   - `/gen-navigation` — generate Navigation
+   - `/gen-flow` — generate Flow
+   - `/gen-ui-behavior` — generate UI Behavior
+   - `/gen-messages` — generate Messages
+   - `/package` — combine all docs into a single BA Doc
+3. `/publish` — publish the BA Doc to Confluence and automatically run whatever tasks were configured (e.g. update Jira status, update Confluence page content, etc.)
+
+See [4. Generating BA Documents](#4-generating-ba-documents) for the full walkthrough.
 
 **Where to start:**
-- **Joining an existing, already-configured project to generate docs?** Do [2. Setup Environment](#2-setup-environment-one-time-only), then go straight to [3. Generating BA Documents](#3-generating-ba-documents).
-- **Setting up a brand-new project for the first time?** That's the BA leader's job — after [2. Setup Environment](#2-setup-environment-one-time-only), do [4. Configure the Project](#4-configure-the-project-for-ba-leader) once, then push the result to the repo so the rest of the team can just clone and go.
+- If you're a BA and need to generate a BA doc for a project that's already set up: go to [2. Setup Environment](#2-setup-environment-one-time-only), then [4. Generating BA Documents](#4-generating-ba-documents).
+- If you're the BA leader setting up a brand-new project: go to [2. Setup Environment](#2-setup-environment-one-time-only), then [3. Configure the Project](#3-configure-the-project-for-ba-leader). Do it once, then share `project/project_config.md` with everyone on the team.
 
 ---
 
@@ -53,13 +86,31 @@ Clone the branch corresponding to your project, then open the folder in VS Code:
 /sync-project
 ```
 
-Fetches the Confluence pages mapped in `project/project_config.md` into local `project/` files, so Claude has background knowledge before generating documents. If MCP servers (e.g. Atlassian) aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
+Run `/sync-project` to fetch the Confluence pages mapped in `project/project_config.md` into local `project/` files. If MCP servers aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
 
-> Re-run `/sync-project` any time the source data changes (e.g. someone updates a mapped Confluence page) to pull the latest content locally.
+> If `project/project_config.md` doesn't have any content yet, contact your team leader to get the right file for this project.
+
+> Re-run `/sync-project` any time the source data changes to pull the latest content locally.
 
 ---
 
-## 3. Generating BA Documents
+## 3. Configure the Project (for BA leader)
+
+> This section is intended only for the BA leader who is setting up a new project or updating its configuration. If you are only here to generate documents for a project that has already been configured, you may skip this section and proceed directly to [4. Generating BA Documents](#4-generating-ba-documents).
+
+Configure it once, then push `project/project_config.md` to the repo so the whole team can clone and reuse it — only needs to be done once per project (or again whenever the configuration needs updating).
+
+```
+/config-project
+```
+
+Run this to configure interactively — asks one question at a time and builds `project/project_config.md` as you go.
+
+> `project/project_config.md` is not meant to be edited by hand — `/config-project` is the only supported way to set it up or change it. Skip anything you don't have yet; run it again any time to fill in the rest or change values.
+
+---
+
+## 4. Generating BA Documents
 
 ### Step 1 — Initialize the feature
 
@@ -148,55 +199,6 @@ Publishes the BA Doc to Confluence, updates the Jira ticket status, and optional
 
 ---
 
-## 4. Configure the Project (for BA leader)
-
-This is for the BA leader to set up once when starting a new project. Configure it, then push `project/project_config.md` to the repo so the whole team can clone and reuse it — only needs to be done once per project.
-
-```
-/config-project
-```
-
-Run this to configure interactively — asks one question at a time and fills in `project/project_config.md` as you go. Skip anything you don't have yet; run it again any time to fill in the rest or change values.
-
-Or follow the steps below to edit `project/project_config.md` directly:
-
-### Step 1 — Set up MCP Config
-
-Edit `## 1. MCP Config`. This tells Claude which external MCP servers to connect to — `/sync-project` and `/publish` both need this connection to fetch Confluence content and publish back to it. Add one line per server: `- Atlassian: <confluence-mcp-url>`.
-
-### Step 2 — Set the document language
-
-Edit `## 2. Language`. This controls what language the prose content of every generated document is written in — the Idea file and all 8 BA docs (Brief, AC, Business Rules, Data Definition, Navigation, Flow, UI Behavior, Messages). Useful if your team writes BA docs in Vietnamese, English, or another language. Section headings and fixed markers (`AC1`, `R1`, `[Start]`/`[End]`, etc.) always stay in English regardless, so cross-document structure stays consistent. Set `Document language` to what you want (e.g. English, Vietnamese).
-
-### Step 3 — Map Context Sync pages
-
-Edit `## 3. Context Sync`. This maps each Confluence page your project maintains to a local file path. `/sync-project` reads this mapping to know what to fetch, and each `/gen-*` command later reads the resulting local files as background reference for its category — e.g. Business Rules Principles guide how `/gen-business-rule` reasons about rules, Navigation patterns guide `/gen-navigation`, and so on. For each category you have Confluence pages for — Context, Business Rules (Principles / Shared References), UI Behavior (Principles / Shared References), Navigation, Messages — add one entry per page:
-```
-- <local-file-path>
-  url: <confluence-page-url>
-```
-Leave categories you don't use empty — commands simply skip categories with nothing mapped.
-
-### Step 4 — Fill in the Task Environment template
-
-Edit `## 4. Task Environment`. This is the default template `/start` copies into every new feature's own `env_<slug>.md` and `context_<slug>.md` — what you set here becomes every feature's starting point, so BAs don't retype the same defaults each time:
-- `context_<slug>.md template` — the context file(s) every new feature should start with by default (usually your project's domain overview — the same file mapped under Context Sync's "Context" category).
-- `env_<slug>.md template` — the Confluence output page label(s) this project publishes BA Docs to (e.g. a single "BA Doc" page, or split into "BA Doc" / "Spec" / "Flow", matching how your team organizes Confluence). Leave `**BA Task Jira ticket:**` as its placeholder — that field is intentionally per-feature, filled in by `/start` each time, not set once here.
-
-### Step 5 — Set Task Automation targets
-
-Edit `## 5. Task Automation`. This defines what `/publish` automatically does at the end of every feature — what Jira status to move the ticket to, which Jira project it belongs to, and which Confluence parent page the finished BA Doc gets published under. Setting this once means every BA on the team gets the same consistent publish behavior without configuring it per feature.
-
-### Step 6 — Sync project data
-
-```
-/sync-project
-```
-
-Fetches the Confluence pages mapped in Step 3 into local `project/` files, so Claude actually has the content on disk as background knowledge before generating documents — without this, the mappings above are just addresses with no content behind them yet. If MCP servers aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
-
----
-
 ## 5. Available Commands
 
 ### BA Doc Gen Flow Commands
@@ -226,9 +228,9 @@ Used independently, as needed — project configuration and maintenance, not par
 | Command | Purpose |
 |---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-project` | Delete synced context/reference files, reset project_config.md to its blank template, and clear workspace/ |
+| `/clear-project` | Delete synced context/reference files, reset project_config.md to its unconfigured state, and clear workspace/ |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/config-project` | Interactively fill in project_config.md via Q&A instead of manual editing |
+| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
 | `/sync-project` | Fetch Confluence pages into local project files |
 
@@ -243,10 +245,9 @@ AI-FW-Doc-Generation/
 │   └── commands/                          ← slash command definitions (see Available Commands)
 ├── framework/                             ← reusable rules and styles, domain-agnostic
 │   ├── rules/                             ← writing/content rules, one file per doc type
-│   ├── styles/                            ← format rules, one file per doc type + style_general.md
-│   └── templates/                         ← project_config_blank.md (blank project_config.md template)
+│   └── styles/                            ← format rules, one file per doc type + style_general.md
 ├── project/                               ← project-level context
-│   ├── project_config.md                  ← project config (tracked — committed as a placeholder template; fill in locally per project)
+│   ├── project_config.md                  ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
 │       ├── business-rules/                ← principles + shared references for Business Rules

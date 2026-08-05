@@ -44,9 +44,9 @@ Used independently, as needed — project configuration and maintenance, not par
 | Command | Purpose |
 |---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-project` | Delete synced context/reference files, reset project_config.md to its blank template, and clear workspace/ |
+| `/clear-project` | Delete synced context/reference files, reset project_config.md to its unconfigured state, and clear workspace/ |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/config-project` | Interactively fill in project_config.md via Q&A instead of manual editing |
+| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
 | `/sync-project` | Fetch Confluence pages into local project files |
 
@@ -59,10 +59,9 @@ framework/                      ← reusable rules and styles, domain-agnostic
   framework_config.md           ← edit_framework setting (do not modify)
   rules/                        ← writing/content rules, one file per doc type
   styles/                       ← format rules, one file per doc type + style_general.md
-  templates/                    ← project_config_blank.md (blank project_config.md template)
 
 project/                        ← project-level context
-  project_config.md             ← project config (tracked — committed as a placeholder template; fill in locally per project)
+  project_config.md             ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
     business-rules/             ← principles + shared references for Business Rules

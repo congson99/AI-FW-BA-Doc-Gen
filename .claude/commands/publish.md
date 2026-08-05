@@ -13,7 +13,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ## Pre-flight
 
-1. Scan `## 5. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
+1. Scan `## 4. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md — Task Automation has unfilled placeholders:
@@ -39,7 +39,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ## Step 1 — Execute Task Automation
 
-Read `project/project_config.md` and locate the `## 5. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
+Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 

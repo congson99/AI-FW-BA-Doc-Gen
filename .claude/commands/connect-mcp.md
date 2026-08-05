@@ -10,33 +10,39 @@ You are connecting to the MCP servers configured for this project.
 1. Check whether `project/project_config.md` exists:
    - If not → stop and inform the user: "project/project_config.md not found. See README.md for setup."
 
-2. Read `project/project_config.md` and locate the `## 1. MCP Config` section. Parse all entries within that section. Each entry has this format:
+2. Read `project/project_config.md` and locate the `### MCP Config` subsection under `## 1. Project Setup`. Parse all entries within that subsection. Each entry has this format:
    ```
    - <server-name>: <url>
    ```
-   Stop parsing at the next `## ` heading.
+   Stop parsing at the next `### ` heading.
 
 3. Validate entries:
    - Skip any entry where the URL is still a placeholder (e.g. `<confluence-mcp-url>`).
    - If all entries are placeholders → stop and inform:
      ```
-     No MCP URLs configured. Open project/project_config.md and fill in the URLs under "## 1. MCP Config".
+     No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
      ```
 
-4. For each valid entry, initiate the connection:
-   - **Atlassian** → Paste the configured URL into the chat to trigger the Atlassian authentication flow. Inform the user:
+4. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+   - **If it works** → the entry is connected, nothing more to do.
+   - **If it fails (Atlassian, or any other entry)** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
      ```
-     Connecting to Atlassian MCP...
-     Initiating authentication — follow the prompts to complete the Atlassian connection.
+     <Server name> MCP is not connected. To authorize it:
+     1. Open claude.ai (web) → Settings → Connectors (or Integrations).
+     2. Find "<Server name>" in the list.
+     3. Click Connect / Authorize.
+     4. Log in and grant access.
+     5. Come back here and let me know when it's done, so I can retry the connection.
      ```
-     Then use the URL from the config to start the connection.
-   - **Other servers** → Display the server name and URL, and instruct the user to add it manually to their Claude Code MCP settings if auto-connect is not supported.
+     Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
 
-5. Update `project/project_config.md` with the MCP connect timestamp:
+5. After the user confirms they've authorized, re-check the entries that failed. Repeat step 4 if any are still failing.
+
+6. Update `project/project_config.md` with the MCP connect timestamp:
    - Get the current date and time at the moment connection completes.
    - Check if a `## 0. Status` section already exists in the file:
      - **If it exists** → update or add the `Latest MCP connect:` line in place with the new timestamp.
-     - **If it does not exist** → insert the following block immediately after the `# Project Config` title line (with one blank line before the next section):
+     - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section):
        ```
        ## 0. Status
        Latest MCP connect: YYYY/MM/DD HH:MM:SS
@@ -44,13 +50,12 @@ You are connecting to the MCP servers configured for this project.
        ```
    - Use the format `YYYY/MM/DD HH:MM:SS` for the timestamp.
 
-6. Report results:
+7. Report results:
    ```
    MCP Connection Summary:
 
-   ✓ Atlassian — connected
+   ✓ <server-name> — connected
    ✗ <server-name> — failed: <reason>
-   ⚠ <server-name> — requires manual setup (see Claude Code MCP settings)
 
    Skipped (no URL): <count> entries
    ```

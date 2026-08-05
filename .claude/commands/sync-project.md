@@ -12,25 +12,30 @@ You are syncing project context files from Confluence into the local `project/` 
 
 2. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest MCP connect:` line with a real timestamp (not a placeholder):
    - If not found → connect the MCP servers first, then continue to step 3:
-     a. Read `project/project_config.md` and locate the `## 1. MCP Config` section. Parse all entries (format: `- <server-name>: <url>`). Stop parsing at the next `## ` heading.
+     a. Read `project/project_config.md` and locate the `### MCP Config` subsection under `## 1. Project Setup`. Parse all entries (format: `- <server-name>: <url>`). Stop parsing at the next `### ` heading.
      b. Skip any entry where the URL is still a placeholder (e.g. `<confluence-mcp-url>`).
         - If all entries are placeholders → stop and inform the user:
           ```
-          No MCP URLs configured. Open project/project_config.md and fill in the URLs under "## 1. MCP Config".
+          No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
           ```
-     c. For each valid entry, initiate the connection:
-        - **Atlassian** → paste the configured URL into the chat to trigger the Atlassian authentication flow. Inform the user:
+     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+        - **If it works** → the entry is connected, nothing more to do.
+        - **If it fails** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
           ```
-          Connecting to Atlassian MCP...
-          Initiating authentication — follow the prompts to complete the Atlassian connection.
+          <Server name> MCP is not connected. To authorize it:
+          1. Open claude.ai (web) → Settings → Connectors (or Integrations).
+          2. Find "<Server name>" in the list.
+          3. Click Connect / Authorize.
+          4. Log in and grant access.
+          5. Come back here and let me know when it's done, so I can retry the connection.
           ```
-          Then use the URL from the config to start the connection.
-        - **Other servers** → display the server name and URL, and instruct the user to add it manually to their Claude Code MCP settings if auto-connect is not supported.
+          Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
+        - After the user confirms they've authorized, re-check the entries that failed. Repeat this step if any are still failing.
      d. Update `project/project_config.md` with the MCP connect timestamp:
         - Get the current date and time at the moment connection completes.
         - Check if a `## 0. Status` section already exists in the file:
           - **If it exists** → update or add the `Latest MCP connect:` line in place with the new timestamp.
-          - **If it does not exist** → insert the following block immediately after the `# Project Config` title line (with one blank line before the next section):
+          - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section):
             ```
             ## 0. Status
             Latest MCP connect: YYYY/MM/DD HH:MM:SS
@@ -41,12 +46,11 @@ You are syncing project context files from Confluence into the local `project/` 
         ```
         MCP Connection Summary:
 
-        ✓ Atlassian — connected
+        ✓ <server-name> — connected
         ✗ <server-name> — failed: <reason>
-        ⚠ <server-name> — requires manual setup (see Claude Code MCP settings)
         ```
 
-3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 3. Context Sync` section. Stop scanning at `## 4.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
+3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md has unfilled placeholders:
@@ -56,12 +60,12 @@ You are syncing project context files from Confluence into the local `project/` 
      Please complete these sections before running /sync-project.
      ```
 
-4. Read `project/project_config.md` and locate the `## 3. Context Sync` section. Parse only the entries within that section. Each entry has this format:
+4. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
    ```
    - <local-file-path>
      url: <confluence-page-url>
    ```
-   Stop parsing at the next `## ` heading (i.e. `## 4.`) — do not read entries from other sections.
+   Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
 5. For each valid entry:
    a. Fetch the Confluence page content using the provided URL.

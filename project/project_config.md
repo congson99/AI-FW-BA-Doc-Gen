@@ -1,90 +1,86 @@
 # Project Config
 
-## 0. Status
-Latest MCP connect: 2026/07/31 14:53:38
-Latest sync: 2026/07/31 15:13:40
----
-
 > See README.md § "Configure the Project" for detailed guidance on filling in each section below. Placeholders look like `<this>` — replace them with real values.
 
 ---
 
-## 1. MCP Config
+## 1. Project Setup
 
-- Atlassian: https://dc32claude.atlassian.net/wiki/spaces/INV/overview?homepageId=98414
+### Project Name
+
+- <project-name>
+
+### MCP Config
+
+- Atlassian: <confluence-mcp-url>
+
+### Language
+
+- Document language: <e.g. English, Vietnamese>
 
 ---
 
-## 2. Language
-
-- Document language: English
-
----
-
-## 3. Context Sync
+## 2. Context Sync
 
 ### Context
 
-- project/context/project-overview.md
-  url: https://dc32claude.atlassian.net/wiki/spaces/INV/overview?homepageId=98414
-
 ### Business Rules — Principles
+
+- project/reference/business-rules/principles/<filename>.md
+  url: <confluence-page-url>
 
 ### Business Rules — Shared References
 
-- project/reference/business-rules/shared-references/general-business-rules.md
-  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/43548674/General+Business+Rules
+- project/reference/business-rules/shared-references/<filename>.md
+  url: <confluence-page-url>
 
 ### UI Behavior — Principles
 
+- project/reference/ui-behavior/principles/<filename>.md
+  url: <confluence-page-url>
+
 ### UI Behavior — Shared References
 
-- project/reference/ui-behavior/shared-references/ui-rules.md
-  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/35717128/UI+Rules
+- project/reference/ui-behavior/shared-references/<filename>.md
+  url: <confluence-page-url>
 
 ### Navigation
 
+- project/reference/navigation/<filename>.md
+  url: <confluence-page-url>
+
 ### Messages
 
-- project/reference/messages/message-format.md
-  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/10190877/Message+Format+Definition
+- project/reference/messages/<filename>.md
+  url: <confluence-page-url>
 
 ---
 
-## 4. Task Environment
-
-### env_<slug>.md template
+## 3. Task Environment
 
 ```
 **BA Task Jira ticket:** <jira-ticket-url>
 
 **Confluence output pages:**
 - BA Doc: <confluence-page-url>
-- Spec: <confluence-page-url>
-- Flow: <confluence-page-url>
-```
-
-### context_<slug>.md template
-
-```
-# Context Files
-
-- project/context/project-overview.md
+- AI Doc for QA: <confluence-page-url>
+- AI Doc for BE: <confluence-page-url>
+- AI Doc for FE: <confluence-page-url>
+- AI Doc for Mobile: <confluence-page-url>
 ```
 
 ---
 
-## 5. Task Automation
+## 4. Task Automation
 
 ### Jira
 
-- Update ticket status to: In Review
-  jira-project: IN
+- Update ticket status to: <jira-status>
+  jira-project: <jira-project-key>
+
+- Add Confluence page link as comment on ticket
+  jira-project: <jira-project-key>
 
 ### Confluence
 
-- Publish BA Doc to "BA Doc" confluence output page
-- Publish sections Brief, AC, Business Rules, Data Definition from BA Doc to "Spec" confluence output page
-- Publish sections Navigation, Flow, UI Behavior, Messages from BA Doc to "Flow" confluence output page
-- Check the BA Doc for any permissions defined for the feature (permission key + description); if found, add each one under its corresponding module section (matching the "Module" column) on the Permission Definition page — creating a new module section if the module doesn't exist yet
-  url: https://dc32claude.atlassian.net/wiki/spaces/INV/pages/17465348/Permission+Definition
+- Publish BA Doc to the Confluence page specified in env_<slug>.md (Confluence output pages → BA Doc)

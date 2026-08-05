@@ -44,9 +44,9 @@ Before any steps, normalize the feature name:
    - **no** → stop. Do not change anything.
    - **yes** → delete all files and subfolders in `workspace/<folder-name>/`, then continue to step 4.
 4. Create folders `workspace/<folder-name>/input/` and `workspace/<folder-name>/docs/` if they do not exist.
-5. Read `project/project_config.md` and locate the `## 2. Language` section. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
+5. Read `project/project_config.md` and locate the `### Language` subsection under `## 1. Project Setup`. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
 
-6. Read `project/project_config.md` and locate the `## 4. Task Environment` section. It contains two labeled code blocks: `### env_<slug>.md template` and `### context_<slug>.md template`.
+6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. It contains one labeled code block: `### env_<slug>.md template`.
 
    Create `workspace/<folder-name>/input/env_<slug>.md` with:
    - Line 1: `**Feature name:** <normalized Feature name>`
@@ -57,8 +57,8 @@ Before any steps, normalize the feature name:
    - If `project/project_config.md` does not exist or the `env_<slug>.md template` block is not found → create the file with only: `**Feature name:** <normalized Feature name>` and `**Document language:** English`
 
    Create `workspace/<folder-name>/input/context_<slug>.md` with:
-   - The contents of the `context_<slug>.md template` code block, verbatim (it already starts with `# Context Files`).
-   - If the `context_<slug>.md template` block is not found → create the file with only `# Context Files` and a blank line.
+   - `# Context Files` as the header, followed by one `- <path>` line for every file found in `project/context/` (recursively). This is just a starting default — the BA can add or remove lines afterward for anything specific to this feature.
+   - If `project/context/` contains no files → create the file with only `# Context Files` and a blank line.
 
 7. Confirm:
 ```

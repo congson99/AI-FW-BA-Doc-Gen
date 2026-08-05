@@ -3,7 +3,8 @@
     "allow": [
       "Read(**)",
       "Write(outputs/**)",
-      "Write(inputs/**)"
+      "Write(inputs/**)",
+      "mcp__claude_ai_Atlassian__getAccessibleAtlassianResources"
     ]
   },
   "hooks": {
