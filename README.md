@@ -19,9 +19,9 @@ v2.1
 
 **DC32 BA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the BA generate a complete BA documentation set from existing project documents, refined through Q&A with the BA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
 
-> **Note:**
-> - The BA Documentation Set has a fixed structure, dedicated to the framework.
-> - Confluence is the only supported source for reading and writing documents, via an MCP connection.
+> The BA Documentation Set has a fixed structure, dedicated to the framework.
+
+> Confluence is the only supported source for reading and writing documents, via an MCP connection.
 
 ---
 
