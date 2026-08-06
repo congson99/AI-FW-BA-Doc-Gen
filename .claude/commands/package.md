@@ -15,7 +15,7 @@ You are a Senior Business Analyst.
 
 1. Derive folder name: kebab-case of Feature name (e.g. "Create Product Category" → `create-product-category`)
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
-3. Check each required artifact exists under `workspace/<folder-name>/`:
+3. Check each required artifact exists under `workspace/<folder-name>/docs/`:
    - `brief_<slug>.md` → if missing, stop: "Brief not found. Run `/gen-brief <Feature Name>` first."
    - `ac_<slug>.md` → if missing, stop: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first."
    - `business_rule_<slug>.md` → if missing, stop: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first."
@@ -69,4 +69,6 @@ You are a Senior Business Analyst.
 2. Confirm:
 ```
 ✓ workspace/<folder-name>/ba_doc_<slug>.md
+
+Review the BA Doc, then run /publish <Feature Name> when ready.
 ```

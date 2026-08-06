@@ -15,7 +15,7 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 1. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest sync:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user:
-     > "Project has not been synced yet. Please run /sync before starting a feature."
+     > "Project has not been synced yet. Please run /sync-project before starting a feature."
 
 ---
 
@@ -27,7 +27,7 @@ Before any steps, normalize the feature name:
 2. Preserve known domain acronyms in UPPERCASE. Recognized acronyms for this project: `PO`, `PR`, `IR`, `SI`, `BA`, `SKU`, `ID`. Any word that matches one of these (case-insensitive) must be uppercased in full.
    - Examples: `create po` → `Create PO`, `update pr item` → `Update PR Item`, `view si` → `View SI`
 3. After normalizing, check if the feature name looks valid:
-   - Use `project/context/project.md` (if it exists) to cross-reference against known feature names, modules, and User Stories.
+   - Use the files in `project/context/` (if any exist) to cross-reference against known feature names, modules, and User Stories.
    - If the name seems like a typo, abbreviation, or doesn't match any known domain concept → show the normalized name and ask: "Did you mean **`<Normalized Feature Name>`**? Confirm to continue, or type the correct name."
    - If the name is clear and recognizable → proceed silently with the normalized name.
 4. Use the confirmed, normalized feature name for all subsequent steps.
@@ -42,101 +42,51 @@ Before any steps, normalize the feature name:
      > [list each file]
      > Running /start again will delete all of these and reinitialize the folder. Continue? (yes/no)"
    - **no** → stop. Do not change anything.
-   - **yes** → delete all files in `workspace/<folder-name>/`, then continue to step 4.
-4. Create folder `workspace/<folder-name>/` if it does not exist.
-5. Scan `project/context/` for all files (e.g. `project.md`, `domain.md`, etc.) and collect their relative paths as a list.
-6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. Extract the template content inside the code block (stop at the closing fence). Create `workspace/<folder-name>/env_<slug>.md` with:
+   - **yes** → delete all files and subfolders in `workspace/<folder-name>/`, then continue to step 4.
+4. Create folders `workspace/<folder-name>/input/` and `workspace/<folder-name>/docs/` if they do not exist.
+5. Read `project/project_config.md` and locate the `### Language` subsection under `## 1. Project Setup`. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
+
+6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. It contains a single fenced code block.
+
+   Create `workspace/<folder-name>/input/env_<slug>.md` with:
    - Line 1: `**Feature name:** <normalized Feature name>`
    - Line 2: blank
-   - Line 3 onwards: the extracted template content verbatim, as-is, without any modification.
-   - After writing the template content, inject the idea file path:
-     - If the env file contains a `**Context files:**` line → append `- workspace/<folder-name>/idea_<slug>.md` as the last item under that section.
-     - If no `**Context files:**` section exists → append the following block at the end of the file:
-       ```
-       **Context files:**
-       - workspace/<folder-name>/idea_<slug>.md
-       ```
-   - If `project/project_config.md` does not exist or `## 3. Task Environment` is not found → create the file with only: `**Feature name:** <normalized Feature name>`
+   - Line 3: `**Document language:** <resolved Document language from step 5>`
+   - Line 4: blank
+   - Line 5 onwards: the contents of that code block, verbatim, without any modification.
+   - If `project/project_config.md` does not exist or that code block is not found → create the file with only: `**Feature name:** <normalized Feature name>` and `**Document language:** English`
 
-7. Create `workspace/<folder-name>/idea_<slug>.md` using a two-pass approach:
+   Create `workspace/<folder-name>/input/context_<slug>.md` with:
+   - `# Context Files` as the header, followed by one entry for every file found in `project/context/` (recursively):
+     - `- <path>`
+     - `  desc: <description>` — look up the matching entry (by local file path) under `## 2. Context Sync` → `### Context` in `project/project_config.md` and copy its `desc:` value. If no matching entry or no `desc:` is found, omit this line.
+   - This is just a starting default — the BA can add, remove, or edit entries afterward for anything specific to this feature.
+   - If `project/context/` contains no files → create the file with only `# Context Files` and a blank line.
 
-   **Pass 1 — Fill from context**
+7. Confirm:
+```
+✓ workspace/<folder-name>/input/env_<slug>.md
+✓ workspace/<folder-name>/input/context_<slug>.md
+```
 
-   Read available context files (e.g. `project/context/project.md`, `project/reference/`). Cross-reference the normalized feature name against known features, modules, tickets, and descriptions.
+There are 2 interactive questions in this flow (env fill-in, context fill-in). Prefix each with its running position out of the fixed total, e.g. "Question 1/2: ..." (translate "Question" into the conversation's language) — same convention as `/config-project`. If a question is skipped entirely (e.g. step 8 has no placeholders left), it does not consume a number — the other question simply keeps its own fixed position (still "1/2" or "2/2" as listed below, since the total here is always the 2 questions defined below, not a dynamically shrinking count).
 
-   Rules:
-   - Only fill content that is clearly derivable from existing context files. Do not invent or assume anything not found there.
-   - If a section cannot be determined from context, leave its placeholder text as-is for now (it will be handled in Pass 2).
-   - The Overview should come from the feature description in context (e.g. from the Scope of Work table in project.md).
-   - Permissions should be left as `<PERMISSION_CONSTANT>` unless a matching permission constant is found in context.
-
-   **Pass 2 — Ask user for remaining unknowns**
-
-   After Pass 1, identify which sections still contain placeholder text. For each such section, ask the user a focused question to gather the missing information. Ask all questions together in one message — do not ask one at a time.
-
-   Format the questions clearly, for example:
-   > A few questions to complete `idea_update_po.md`:
+8. Help fill in `env_<slug>.md`: scan it for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, ask the user for all of them together in a single message, using each line's own label as the prompt, e.g.:
+   > "Question 1/2: A few things to fill in for `env_<slug>.md`:
+   > - Jira ticket:
+   > - BA Doc (Confluence page):
+   > - <next label>:
    >
-   > **1. User-provided fields** — What fields can the user edit on a PO? (e.g. supplier, delivery date, line items)
-   > **2. Validation** — Any validation rules for those fields? (e.g. required, format, constraints)
-   > **3. Permissions** — What permission constant controls this action? (e.g. `PO_UPDATE`)
-   > **4. Notes** — Any special business rules or constraints?
-   >
-   > Answer what you know — type "skip" for any you want to leave for later.
+   > Reply with each value, or 'skip' for any you don't have yet."
+   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `## 3. Task Environment` template, which can differ per project).
+   - After the user responds, update each corresponding line in `env_<slug>.md` with the given value; leave placeholder lines untouched for anything skipped.
+   - If no placeholders remain in the file, skip this step silently.
 
-   After the user responds:
-   - Fill in each answered section with the user's input.
-   - For any section the user skipped or left blank, keep the original placeholder text.
-   - Write the final file with all filled and unfilled sections combined.
+9. Help fill in `context_<slug>.md`: show the user the auto-populated entries (path + `desc:` for each file found in `project/context/`), then ask in plain language, without technical terms like "path" or "desc": "Question 2/2: Besides the files already added automatically, do you have any other documents related to this feature — for example, flow, user journey, or data definition docs — that you'd like included for reference? If so, give me the link and a short description of what it's about."
+   - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself.
+   - Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`.
+   - If the user says "no" or "skip" → leave the file as generated.
 
-   Template:
-
-   ```
-   # Feature Idea
-
-   ## Overview
-   <describe the feature goal in 1–2 sentences>
-
-   ## User-provided fields
-   ### <Entity>
-   - <field>
-   - <field>
-
-   ## System-generated fields
-   ### <Entity>
-   - <field>: <how generated or default value>
-
-   ## Search
-   - Search target: <entity being searched>
-   - Search by: <field(s)>
-   - Matching rule: <e.g. partial match on name>
-
-   ## Validation
-   - <field>: <rule, e.g. required / must be > 0>
-
-   ## Permissions
-   - <PERMISSION_CONSTANT>
-
-   ## Notes
-   <any additional rules or constraints>
-   ```
-
-8. Create `workspace/<folder-name>/manual_tasks_<slug>.md` with this exact content:
-
-```
-# Manual Tasks — <Feature Name>
-```
-
-9. Confirm:
-```
-✓ workspace/<folder-name>/env_<slug>.md
-✓ workspace/<folder-name>/idea_<slug>.md
-✓ workspace/<folder-name>/manual_tasks_<slug>.md
-
-Next: Fill in the placeholders in env_<slug>.md (Jira ticket, Confluence pages).
-Then run /gen-brief <Feature Name> to continue.
-```
-If any sections in `idea_<slug>.md` still have placeholder text (user skipped them), also note:
-```
-⚠ idea_<slug>.md has unfilled sections — you can complete them before running /gen-brief, or let the generator handle them with available context.
-```
+10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Idea file? (yes/no)"
+    - **no** → stop here and remind: "Review env_<slug>.md and context_<slug>.md, then run /investigate <Feature Name> when ready."
+    - **yes** → immediately follow the full instructions in `.claude/commands/investigate.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Steps.

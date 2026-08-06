@@ -1,364 +1,152 @@
-# BA Documentation Generation Tool
+# DC32 BA Documentation Claude Tool
 
-AI-assisted framework for Business Analysts to generate a complete BA documentation set from a single input using Claude Code.
-
----
-
-## Prerequisites
-
-- [VS Code](https://code.visualstudio.com/) installed, or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs)
+v2.1
 
 ---
 
-## Setup
+## Table of Contents
 
-### Step 1 — Extract the zip and open the project in VS Code
+1. [Overview](#1-overview)
+2. [BA Documentation Set](#2-ba-documentation-set)
+3. [Quick Start](#3-quick-start)
+4. [Setup Environment](#4-setup-environment-one-time-only)
+5. [Available Commands](#5-available-commands)
+6. [Folder Structure](#6-folder-structure)
 
-Extract the downloaded zip file, then open the folder in VS Code:
+---
 
-1. Open VS Code
-2. Go to **File → Open Folder**
-3. Select the extracted folder
+## 1. Overview
 
-### Step 2 — Install the Claude Code extension in VS Code
+**DC32 BA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the BA generate a complete BA documentation set from existing project documents, refined through Q&A with the BA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
+
+> The BA Documentation Set has a fixed structure, dedicated to the framework.
+
+> Confluence is the only supported source for reading and writing documents, via an MCP connection.
+
+---
+
+## 2. BA Documentation Set
+
+1. **Brief** — high-level summary of the feature, including its business goal, scope, and objectives.
+2. **Acceptance Criteria (AC)** — business conditions that define when the feature is considered complete and acceptable.
+3. **Business Rules** — business constraints, policies, and processing rules governing system behavior.
+4. **Data Definition** — business entities, data fields, relationships, and field-level validation rules.
+5. **Navigation** — user navigation paths between pages, dialogs, and screens throughout the feature.
+6. **Flow** — end-to-end business workflow covering main, alternative, and exception scenarios.
+7. **UI Behavior** — user interface behavior based on user actions, permissions, system states, and business rules.
+8. **Messages** — validation, confirmation, warning, success, and error messages presented to users.
+
+---
+
+## 3. Quick Start
+
+Pick the path that matches your role:
+
+**BA generating docs for a project that's already configured**
+1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
+2. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
+
+**BA leader setting up a brand-new project**
+1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
+2. Run `/config-project`, then follow the chat prompts to fill in `project/project_config.md`. Only needs to be done once for the whole project.
+3. Push the completed `project/project_config.md` to the repo so every BA on the project can pull the same configuration.
+
+---
+
+## 4. Setup Environment (one-time only)
+
+### Step 1 — Install VS Code
+
+Install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
+
+### Step 2 — Clone the project's branch and open it in VS Code
+
+Clone the branch corresponding to your project, then open the folder in VS Code:
+
+1. Clone the branch: `git clone -b <branch-name> <repository-url>`
+2. Open VS Code
+3. Go to **File → Open Folder**
+4. Select the cloned folder
+
+### Step 3 — Install the Claude Code extension in VS Code
 
 1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
 2. Search for **Claude Code**
 3. Click **Install**
+4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
-### Step 3 — Open the Claude Code panel
-
-- Click the **Claude** icon in the VS Code sidebar, or
-- Use the keyboard shortcut shown after the extension installs
-
-### Step 4 — Initialize the workspace
+### Step 4 — Sync project data
 
 ```
-/init
+/sync-project
 ```
 
-Creates the `project/` and `workspace/` folders if they don't already exist, and generates `project/project_config.md`.
+Run `/sync-project` to fetch the Confluence pages mapped in `project/project_config.md` into local `project/` files. If MCP servers aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
 
-### Step 5 — Fill in project config
+> If `project/project_config.md` doesn't have any content yet, contact your team leader to get the right file for this project.
 
-Open `project/project_config.md` and fill in the values for your project:
-
-- **MCP Config** — add the MCP server URLs (e.g. Atlassian Confluence URL)
-- **Context Sync** — map each Confluence page to a local file path
-- **Task Environment** — set the default structure for feature env files
-
-### Step 6 — Connect MCP servers
-
-Run:
-
-```
-/connect-mcp
-```
-
-This connects Claude to the configured MCP servers (e.g. Atlassian) and guides you through the authentication flow.
-
-### Step 7 — Sync project context (optional)
-
-```
-/sync
-```
-
-Fetches Confluence pages into local `project/` files so Claude has background knowledge before generating documents.
+> Re-run `/sync-project` any time the source data changes to pull the latest content locally.
 
 ---
 
-## Generating BA Documents
+## 5. Available Commands
 
-### Step 1 — Initialize the feature
+### BA Doc Gen Flow Commands
 
-```
-/start <Feature Name>
-```
+Used as part of the regular per-feature BA document generation flow.
 
-Example:
-```
-/start Create User
-```
+| Command | Purpose |
+|---|---|
+| `/start <Feature Name>` | Initialize feature folder, env file, and context file |
+| `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
+| `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
+| `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
+| `/gen-business-rule <Feature Name>` | Generate Business Rules |
+| `/gen-data-definition <Feature Name>` | Generate Data Definition |
+| `/gen-navigation <Feature Name>` | Generate Navigation |
+| `/gen-flow <Feature Name>` | Generate Flow |
+| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
+| `/gen-messages <Feature Name>` | Generate Messages |
+| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
+| `/package <Feature Name>` | Package all artifacts into a single BA Doc |
+| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
 
-Creates:
-```
-workspace/create-user/
-  env_create_user.md    ← fill in Jira ticket and Confluence pages
-  idea_create_user.md   ← fill in your feature description
-```
+### Other Commands
 
----
+Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
 
-### Step 2 — Fill in the environment and idea files
-
-**`env_<slug>.md`** — replace Jira ticket and Confluence page placeholders:
-
-```
-# Environment
-
-**Feature name:** Create User
-**BA Task Jira ticket:** https://jira.example.com/browse/PROJ-123
-
-**Context files:**
-- project/context/project.md
-- workspace/create-user/idea_create_user.md
-
-**Confluence output pages:**
-- BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
-```
-
-**`idea_<slug>.md`** — replace the placeholder with your feature description, requirements, constraints, or any notes:
-
-```
-# Feature Idea
-
-Allow administrators to create a new user account with basic profile information.
-The user will receive an email with login credentials upon successful creation.
-```
-
-> `/gen-brief` will stop if the placeholder in `idea_<slug>.md` has not been replaced.
+| Command | Purpose |
+|---|---|
+| `/check <Feature Name>` | Show doc status and suggest next step |
+| `/clear-project` | Delete synced context/reference files, reset project_config.md to its unconfigured state, and clear workspace/ |
+| `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
+| `/connect-mcp` | Connect to MCP servers listed in project_config.md |
+| `/sync-project` | Fetch Confluence pages into local project files |
 
 ---
 
-### Step 3 — Generate the Brief
-
-```
-/gen-brief <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  brief_create_user.md   ← generated
-```
-
----
-
-### Step 4 — Generate Acceptance Criteria
-
-Review and edit the brief if needed, then run:
-
-```
-/gen-ac <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  ac_create_user.md   ← generated
-```
-
----
-
-### Step 5 — Generate Business Rules
-
-Review and edit the AC if needed, then run:
-
-```
-/gen-business-rule <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  business_rule_create_user.md   ← generated
-```
-
----
-
-### Step 6 — Generate Data Definition
-
-Review and edit the Business Rules if needed, then run:
-
-```
-/gen-data-definition <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  data_definition_create_user.md   ← generated
-```
-
----
-
-### Step 7 — Generate Navigation
-
-Review and edit the Data Definition if needed, then run:
-
-```
-/gen-navigation <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  navigation_create_user.md   ← generated
-```
-
----
-
-### Step 8 — Generate Flow
-
-Review and edit the Navigation if needed, then run:
-
-```
-/gen-flow <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  flow_create_user.md   ← generated
-```
-
----
-
-### Step 9 — Generate UI Behavior
-
-Review and edit the Flow if needed, then run:
-
-```
-/gen-ui-behavior <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  ui_behavior_create_user.md   ← generated
-```
-
----
-
-### Step 10 — Generate Messages
-
-Review and edit the UI Behavior if needed, then run:
-
-```
-/gen-messages <Feature Name>
-```
-
-Generates:
-```
-workspace/create-user/
-  messages_create_user.md   ← generated
-```
-
----
-
-### Step 11 — Package into BA Doc
-
-```
-/package <Feature Name>
-```
-
-Packages all artifacts into a single document:
-```
-workspace/create-user/
-  ba_doc_create_user.md   ← generated
-```
-
----
-
-### Step 12 — Publish and close
-
-```
-/publish <Feature Name>
-```
-
-Publishes the BA Doc to Confluence, updates the Jira ticket status, and optionally clears the local feature folder.
-
----
-
-## Available Commands
-
-| Command | Purpose | Requires |
-|---|---|---|
-| `/check <Feature Name>` | Show doc status and suggest next step | — |
-| `/clear-feature` | Delete all feature folders | — |
-| `/clear-feature <Feature Name>` | Delete a specific feature folder | — |
-| `/connect-mcp` | Connect to MCP servers listed in project_config.md | `project/project_config.md` filled |
-| `/gen-ac <Feature Name>` | Generate Acceptance Criteria | `env_<slug>.md`, `brief_<slug>.md` |
-| `/gen-brief <Feature Name>` | Generate Brief from idea file | `env_<slug>.md`, `idea_<slug>.md` filled |
-| `/gen-business-rule <Feature Name>` | Generate Business Rules | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-data-definition <Feature Name>` | Generate Data Definition | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md` |
-| `/gen-flow <Feature Name>` | Generate Flow | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md` |
-| `/gen-messages <Feature Name>` | Generate Messages | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/gen-navigation <Feature Name>` | Generate Navigation | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md` |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior | `env_<slug>.md`, `brief_<slug>.md`, `ac_<slug>.md` |
-| `/init` | Initialize project/ and workspace/ folder structure | — |
-| `/package <Feature Name>` | Package all artifacts into a single BA Doc | `brief_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` |
-| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status | `ba_doc_<slug>.md`, env filled |
-| `/start <Feature Name>` | Initialize feature folder, env file, and idea file | — |
-| `/sync` | Fetch Confluence pages into local project files | `project/project_config.md` filled |
-
----
-
-## Folder Structure
+## 6. Folder Structure
 
 ```
 AI-FW-Doc-Generation/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
-│   └── commands/
-│       ├── init.md                        ← /init command definition
-│       ├── sync.md                        ← /sync command definition
-│       ├── start.md                       ← /start command definition
-│       ├── check.md                       ← /check command definition
-│       ├── gen-brief.md                   ← /gen-brief command definition
-│       ├── gen-ac.md                      ← /gen-ac command definition
-│       ├── gen-business-rule.md           ← /gen-business-rule command definition
-│       ├── gen-data-definition.md         ← /gen-data-definition command definition
-│       ├── gen-navigation.md              ← /gen-navigation command definition
-│       ├── gen-flow.md                    ← /gen-flow command definition
-│       ├── gen-ui-behavior.md             ← /gen-ui-behavior command definition
-│       ├── gen-messages.md                ← /gen-messages command definition
-│       ├── package.md                  ← /gen-ba-doc command definition
-│       ├── publish.md                     ← /publish command definition
-│       └── clear-feature.md              ← /clear-feature command definition
-├── framework/
-│   ├── rules/
-│   │   ├── rule_brief.md                  ← writing rules for Brief
-│   │   ├── rule_ac.md                     ← writing rules for Acceptance Criteria
-│   │   ├── rule_business_rule.md          ← writing rules for Business Rules
-│   │   ├── rule_data_definition.md        ← writing rules for Data Definition
-│   │   ├── rule_navigation.md             ← writing rules for Navigation
-│   │   ├── rule_flow.md                   ← writing rules for Flow
-│   │   ├── rule_ui_behavior.md            ← writing rules for UI Behavior
-│   │   └── rule_messages.md               ← writing rules for Messages
-│   └── styles/
-│       ├── style_general.md               ← general writing style (all docs)
-│       ├── style_brief.md                 ← format rules for Brief
-│       ├── style_ac.md                    ← format rules for Acceptance Criteria
-│       ├── style_business_rule.md         ← format rules for Business Rules
-│       ├── style_data_definition.md       ← format rules for Data Definition
-│       ├── style_navigation.md            ← format rules for Navigation
-│       ├── style_flow.md                  ← format rules for Flow
-│       ├── style_ui_behavior.md           ← format rules for UI Behavior
-│       └── style_messages.md              ← format rules for Messages
-├── project/                               ← project-level context (not committed)
-│   ├── project_config.md                     ← project config (MCP, sync, env template, automation)
-│   ├── context/                           ← domain overview, modules, user stories
-│   └── reference/                         ← spec sheets, Confluence exports
-│       ├── business-rules/
-│       │   ├── principles/                ← general principles (applied when generating rules)
-│       │   └── shared-references/         ← shared rule groups (appended as reference lines in output)
-│       ├── navigation/                    ← navigation patterns (used by /gen-navigation)
-│       ├── ui-behavior/
-│       │   ├── principles/                ← general UI principles (applied when generating entries)
-│       │   └── shared-references/         ← shared UI groups (appended as reference lines in output)
-│       └── messages/                      ← message templates and wording conventions (used by /gen-messages)
+│   └── commands/                          ← slash command definitions (see Available Commands)
+├── framework/                             ← reusable rules and styles, domain-agnostic
+│   ├── rules/                             ← writing/content rules, one file per doc type
+│   └── styles/                            ← format rules, one file per doc type + style_general.md
+├── project/                               ← project-level context
+│   ├── project_config.md                  ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
+│   ├── context/                           ← domain overview, modules, user stories (not committed)
+│   └── reference/                         ← spec sheets, Confluence exports (not committed)
+│       ├── business-rules/                ← principles + shared references for Business Rules
+│       ├── navigation/                    ← shared navigation patterns
+│       ├── ui-behavior/                   ← principles + shared references for UI Behavior
+│       └── messages/                      ← shared message templates and wording conventions
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
-        ├── env_<slug>.md                  ← created by /start
-        ├── idea_<slug>.md                 ← created by /start (fill in before /gen-brief)
-        ├── brief_<slug>.md                ← created by /gen-brief
-        ├── ac_<slug>.md                   ← created by /gen-ac
-        ├── business_rule_<slug>.md        ← created by /gen-business-rule
-        ├── data_definition_<slug>.md      ← created by /gen-data-definition
-        ├── navigation_<slug>.md           ← created by /gen-navigation
-        ├── flow_<slug>.md                 ← created by /gen-flow
-        ├── ui_behavior_<slug>.md          ← created by /gen-ui-behavior
-        ├── messages_<slug>.md             ← created by /gen-messages
-        └── ba_doc_<slug>.md               ← created by /gen-ba-doc
+        ├── input/                         ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
+        ├── docs/                          ← generated BA doc sections (Brief through Messages)
+        └── ba_doc_<slug>.md               ← final packaged document
 ```

@@ -1,6 +1,6 @@
 ---
 name: "Sync Project Files"
-description: "Fetch content from Confluence pages into local project files based on project/project_config.md. Usage: /sync"
+description: "Fetch content from Confluence pages into local project files based on project/project_config.md. Usage: /sync-project"
 ---
 
 You are syncing project context files from Confluence into the local `project/` folder.
@@ -8,10 +8,47 @@ You are syncing project context files from Confluence into the local `project/` 
 ## Steps
 
 1. Check whether `project/project_config.md` exists:
-   - If not → stop and inform the user: "project/project_config.md not found. Run /init first."
+   - If not → stop and inform the user: "project/project_config.md not found. See README.md for setup."
 
 2. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest MCP connect:` line with a real timestamp (not a placeholder):
-   - If not found → stop and inform the user: "MCP not connected yet. Please run /connect-mcp first."
+   - If not found → connect the MCP servers first, then continue to step 3:
+     a. Read `project/project_config.md` and locate the `### MCP Config` subsection under `## 1. Project Setup`. Parse all entries (format: `- <server-name>: <url>`). Stop parsing at the next `### ` heading.
+     b. Skip any entry where the URL is still a placeholder (e.g. `<confluence-mcp-url>`).
+        - If all entries are placeholders → stop and inform the user:
+          ```
+          No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
+          ```
+     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+        - **If it works** → the entry is connected, nothing more to do.
+        - **If it fails** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
+          ```
+          <Server name> MCP is not connected. To authorize it:
+          1. Open claude.ai (web) → Settings → Connectors (or Integrations).
+          2. Find "<Server name>" in the list.
+          3. Click Connect / Authorize.
+          4. Log in and grant access.
+          5. Come back here and let me know when it's done, so I can retry the connection.
+          ```
+          Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
+        - After the user confirms they've authorized, re-check the entries that failed. Repeat this step if any are still failing.
+     d. Update `project/project_config.md` with the MCP connect timestamp:
+        - Get the current date and time at the moment connection completes.
+        - Check if a `## 0. Status` section already exists in the file:
+          - **If it exists** → update or add the `Latest MCP connect:` line in place with the new timestamp.
+          - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section):
+            ```
+            ## 0. Status
+            Latest MCP connect: YYYY/MM/DD HH:MM:SS
+            ---
+            ```
+        - Use the format `YYYY/MM/DD HH:MM:SS` for the timestamp.
+     e. Report a short connection summary:
+        ```
+        MCP Connection Summary:
+
+        ✓ <server-name> — connected
+        ✗ <server-name> — failed: <reason>
+        ```
 
 3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
    - If any placeholders are found → stop and inform the user:
@@ -20,7 +57,7 @@ You are syncing project context files from Confluence into the local `project/` 
        - <placeholder 1> (section: <section name>)
        - <placeholder 2> (section: <section name>)
        ...
-     Please complete these sections before running /sync.
+     Please complete these sections before running /sync-project.
      ```
 
 4. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
@@ -41,7 +78,6 @@ You are syncing project context files from Confluence into the local `project/` 
 Sync complete:
 
 ✓ project/context/project.md — fetched from <url>
-✓ project/reference/<filename>.md — fetched from <url>
 ✗ project/context/<filename>.md — failed: <reason>
 
 Skipped (no URL): <count> entries
@@ -49,7 +85,6 @@ Skipped (no URL): <count> entries
 
 7. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/project_config.md`:
    - `project/context/`
-   - `project/reference/` (top-level files only)
    - `project/reference/business-rules/principles/`
    - `project/reference/business-rules/shared-references/`
    - `project/reference/ui-behavior/principles/`

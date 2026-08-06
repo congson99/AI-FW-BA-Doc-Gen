@@ -24,8 +24,8 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 2. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
 3. Derive file slug: replace `-` with `_` (e.g. `create-po` → `create_po`)
-4. Read `workspace/<folder-name>/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
-5. Scan `workspace/<folder-name>/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
+4. Read `workspace/<folder-name>/input/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
+5. Scan `workspace/<folder-name>/input/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
      env_<slug>.md has unfilled placeholders:
@@ -34,16 +34,16 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
      Please fill these in before running /publish.
      ```
 6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
-6. Read `workspace/<folder-name>/manual_tasks_<slug>.md`:
-   - If the file does not exist or is empty → continue.
-   - If it contains any remaining tasks (lines starting with `- [ ]`) → stop and tell the user:
-     > "The following manual tasks are still pending:
-     > [list each `- [ ]` task]
-     > Complete these tasks, then remove them from `manual_tasks_<slug>.md` before running /publish again."
 
 ---
 
-## Step 1 — Execute Task Automation
+## Step 1 — Publish BA Doc
+
+Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
+
+---
+
+## Step 2 — Execute Task Automation
 
 Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
 
@@ -53,13 +53,13 @@ For each action listed, execute it using the appropriate MCP tools and any relev
 
 ---
 
-## Step 2 — Clear Feature (optional)
+## Step 3 — Clear Feature (optional)
 
 Ask the user:
 > "Do you want to clear the feature folder `workspace/<folder-name>/`? (yes/no)"
 
 - **no** → skip.
-- **yes** → follow the clear-feature logic:
+- **yes** → delete the feature folder:
   1. Confirm with the user: "Delete `workspace/<folder-name>/` and all its contents? (yes/no)"
   2. If confirmed → delete the folder and all contents, confirm: "✓ Deleted workspace/<folder-name>/"
   3. If cancelled → note: "Feature folder kept."
@@ -75,6 +75,7 @@ After all steps are complete, display:
 
 | Step | Result |
 |---|---|
+| Publish BA Doc | <result> |
 | <action 1 from Task Automation> | <result> |
 | <action 2 from Task Automation> | <result> |
 | ... | ... |
