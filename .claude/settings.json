@@ -4,7 +4,8 @@
       "Read(**)",
       "Write(outputs/**)",
       "Write(inputs/**)",
-      "mcp__claude_ai_Atlassian__getAccessibleAtlassianResources"
+      "mcp__claude_ai_Atlassian__getAccessibleAtlassianResources",
+      "mcp__claude_ai_Atlassian__search"
     ]
   },
   "hooks": {

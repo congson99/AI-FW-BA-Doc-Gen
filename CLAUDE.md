@@ -33,7 +33,7 @@ Used as part of the regular per-feature BA document generation flow.
 | `/gen-flow <Feature Name>` | Generate Flow |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
 | `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-ba-doc <Feature Name>` | Run investigate through gen-messages and package back-to-back |
+| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
 

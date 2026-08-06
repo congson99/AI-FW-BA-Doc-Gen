@@ -7,9 +7,9 @@ v2.1
 ## Table of Contents
 
 1. [Overview](#1-overview)
-2. [Setup Environment](#2-setup-environment-one-time-only)
-3. [Configure the Project](#3-configure-the-project-for-ba-leader)
-4. [Generating BA Documents](#4-generating-ba-documents)
+2. [BA Documentation Set](#2-ba-documentation-set)
+3. [Quick Start](#3-quick-start)
+4. [Setup Environment](#4-setup-environment-one-time-only)
 5. [Available Commands](#5-available-commands)
 6. [Folder Structure](#6-folder-structure)
 
@@ -17,48 +17,43 @@ v2.1
 
 ## 1. Overview
 
-**DC32 BA Documentation Claude Tool** is an AI-assisted framework built on Claude Code that lets Business Analysts automatically generate a complete BA documentation set — using already-analyzed project data plus clarifying questions along the way — then publish it straight to Confluence. A few things are fixed by design, the same for every project:
+**DC32 BA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the BA generate a complete BA documentation set from existing project documents, refined through Q&A with the BA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
 
-- The BA documentation set has a fixed architecture.
-- The doc generation flow is fixed.
-- Only Atlassian is supported as an MCP connection.
-
-### Document Architecture
-
-1. Brief
-2. Acceptance Criteria (AC)
-3. Business Rules
-4. Data Definition
-5. Navigation
-6. Flow
-7. UI Behavior
-8. Messages
-
-### Generation Flow
-
-1. `/start` — initialize the feature folder, env file, and context file
-2. `/gen-ba-doc` — runs the following commands in sequence to generate the BA doc:
-   - `/investigate` — generate the Idea file from project context
-   - `/gen-brief` — generate Brief
-   - `/gen-ac` — generate Acceptance Criteria
-   - `/gen-business-rule` — generate Business Rules
-   - `/gen-data-definition` — generate Data Definition
-   - `/gen-navigation` — generate Navigation
-   - `/gen-flow` — generate Flow
-   - `/gen-ui-behavior` — generate UI Behavior
-   - `/gen-messages` — generate Messages
-   - `/package` — combine all docs into a single BA Doc
-3. `/publish` — publish the BA Doc to Confluence and automatically run whatever tasks were configured (e.g. update Jira status, update Confluence page content, etc.)
-
-See [4. Generating BA Documents](#4-generating-ba-documents) for the full walkthrough.
-
-**Where to start:**
-- If you're a BA and need to generate a BA doc for a project that's already set up: go to [2. Setup Environment](#2-setup-environment-one-time-only), then [4. Generating BA Documents](#4-generating-ba-documents).
-- If you're the BA leader setting up a brand-new project: go to [2. Setup Environment](#2-setup-environment-one-time-only), then [3. Configure the Project](#3-configure-the-project-for-ba-leader). Do it once, then share `project/project_config.md` with everyone on the team.
+> **Note:**
+> - The BA Documentation Set has a fixed structure, dedicated to the framework.
+> - Confluence is the only supported source for reading and writing documents, via an MCP connection.
 
 ---
 
-## 2. Setup Environment (one-time only)
+## 2. BA Documentation Set
+
+1. **Brief** — high-level summary of the feature, including its business goal, scope, and objectives.
+2. **Acceptance Criteria (AC)** — business conditions that define when the feature is considered complete and acceptable.
+3. **Business Rules** — business constraints, policies, and processing rules governing system behavior.
+4. **Data Definition** — business entities, data fields, relationships, and field-level validation rules.
+5. **Navigation** — user navigation paths between pages, dialogs, and screens throughout the feature.
+6. **Flow** — end-to-end business workflow covering main, alternative, and exception scenarios.
+7. **UI Behavior** — user interface behavior based on user actions, permissions, system states, and business rules.
+8. **Messages** — validation, confirmation, warning, success, and error messages presented to users.
+
+---
+
+## 3. Quick Start
+
+Pick the path that matches your role:
+
+**BA generating docs for a project that's already configured**
+1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
+2. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
+
+**BA leader setting up a brand-new project**
+1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
+2. Run `/config-project`, then follow the chat prompts to fill in `project/project_config.md`. Only needs to be done once for the whole project.
+3. Push the completed `project/project_config.md` to the repo so every BA on the project can pull the same configuration.
+
+---
+
+## 4. Setup Environment (one-time only)
 
 ### Step 1 — Install VS Code
 
@@ -94,116 +89,11 @@ Run `/sync-project` to fetch the Confluence pages mapped in `project/project_con
 
 ---
 
-## 3. Configure the Project (for BA leader)
-
-> This section is intended only for the BA leader who is setting up a new project or updating its configuration. If you are only here to generate documents for a project that has already been configured, you may skip this section and proceed directly to [4. Generating BA Documents](#4-generating-ba-documents).
-
-Configure it once, then push `project/project_config.md` to the repo so the whole team can clone and reuse it — only needs to be done once per project (or again whenever the configuration needs updating).
-
-```
-/config-project
-```
-
-Run this to configure interactively — asks one question at a time and builds `project/project_config.md` as you go.
-
-> `project/project_config.md` is not meant to be edited by hand — `/config-project` is the only supported way to set it up or change it. Skip anything you don't have yet; run it again any time to fill in the rest or change values.
-
----
-
-## 4. Generating BA Documents
-
-### Step 1 — Initialize the feature
-
-```
-/start <Feature Name>
-```
-
-Example:
-```
-/start Create User
-```
-
-Creates:
-```
-workspace/create-user/
-  input/
-    env_create_user.md      ← fill in Jira ticket and Confluence pages
-    context_create_user.md  ← list every relevant context file
-```
-
----
-
-### Step 2 — Fill in the environment and context files
-
-**`env_<slug>.md`** — replace Jira ticket and Confluence page placeholders:
-
-```
-**Feature name:** Create User
-
-**Document language:** English
-
-**BA Task Jira ticket:** https://jira.example.com/browse/PROJ-123
-
-**Confluence output pages:**
-- BA Doc: https://confluence.example.com/pages/viewpage.action?pageId=67890
-```
-
-**`context_<slug>.md`** — list every project context/reference file relevant to this feature:
-
-```
-# Context Files
-
-- project/context/project.md
-```
-
-`/investigate` reads all of them to build the Idea file.
-
----
-
-### Step 3 — Generate the BA Doc
-
-```
-/gen-ba-doc <Feature Name>
-```
-
-Runs Idea → Brief → AC → Business Rules → Data Definition → Navigation → Flow → UI Behavior → Messages → Package back-to-back, without pausing for review between steps. It only pauses to ask if something genuinely needs clarifying along the way — including for the Idea file itself, if the Context files don't cover everything.
-
-Generates:
-```
-workspace/create-user/
-  input/
-    idea_create_user.md
-  docs/
-    brief_create_user.md
-    ac_create_user.md
-    business_rule_create_user.md
-    data_definition_create_user.md
-    navigation_create_user.md
-    flow_create_user.md
-    ui_behavior_create_user.md
-    messages_create_user.md
-  ba_doc_create_user.md          ← final packaged document
-```
-
-> Prefer to review and edit each artifact before generating the next? Run the individual `/gen-*` commands one at a time instead — see [Generate Step-by-Step](#3-generate-step-by-step-alternative) below.
-
----
-
-### Step 4 — Publish and close
-
-```
-/publish <Feature Name>
-```
-
-Publishes the BA Doc to Confluence, updates the Jira ticket status, and optionally clears the local feature folder.
-
----
-
 ## 5. Available Commands
 
 ### BA Doc Gen Flow Commands
 
-Used as part of the regular per-feature BA document generation flow described above.
+Used as part of the regular per-feature BA document generation flow.
 
 | Command | Purpose |
 |---|---|
@@ -217,7 +107,7 @@ Used as part of the regular per-feature BA document generation flow described ab
 | `/gen-flow <Feature Name>` | Generate Flow |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
 | `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-ba-doc <Feature Name>` | Run investigate through gen-messages and package back-to-back |
+| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
 

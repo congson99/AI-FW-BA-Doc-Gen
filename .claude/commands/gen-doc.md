@@ -1,6 +1,6 @@
 ---
-name: "Generate BA Doc"
-description: "Run investigate through gen-messages and package sequentially, without pausing for review between steps. Usage: /gen-ba-doc <Feature Name>"
+name: "Generate Doc"
+description: "Run gen-brief through gen-messages and package sequentially, without pausing for review between steps. Usage: /gen-doc <Feature Name>"
 ---
 
 You are a Senior Business Analyst running the full BA document generation pipeline for a feature, back-to-back.
@@ -17,21 +17,22 @@ You are a Senior Business Analyst running the full BA document generation pipeli
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
+4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
+   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
 
 ## Pipeline
 
 Run the following commands in order, back-to-back, using `<Feature Name>` as the argument for each. For each one, read and follow its full instructions from its command file:
 
-1. `.claude/commands/investigate.md` → `idea_<slug>.md`
-2. `.claude/commands/gen-brief.md` → `brief_<slug>.md`
-3. `.claude/commands/gen-ac.md` → `ac_<slug>.md`
-4. `.claude/commands/gen-business-rule.md` → `business_rule_<slug>.md`
-5. `.claude/commands/gen-data-definition.md` → `data_definition_<slug>.md`
-6. `.claude/commands/gen-navigation.md` → `navigation_<slug>.md`
-7. `.claude/commands/gen-flow.md` → `flow_<slug>.md`
-8. `.claude/commands/gen-ui-behavior.md` → `ui_behavior_<slug>.md`
-9. `.claude/commands/gen-messages.md` → `messages_<slug>.md`
-10. `.claude/commands/package.md` → `ba_doc_<slug>.md`
+1. `.claude/commands/gen-brief.md` → `brief_<slug>.md`
+2. `.claude/commands/gen-ac.md` → `ac_<slug>.md`
+3. `.claude/commands/gen-business-rule.md` → `business_rule_<slug>.md`
+4. `.claude/commands/gen-data-definition.md` → `data_definition_<slug>.md`
+5. `.claude/commands/gen-navigation.md` → `navigation_<slug>.md`
+6. `.claude/commands/gen-flow.md` → `flow_<slug>.md`
+7. `.claude/commands/gen-ui-behavior.md` → `ui_behavior_<slug>.md`
+8. `.claude/commands/gen-messages.md` → `messages_<slug>.md`
+9. `.claude/commands/package.md` → `ba_doc_<slug>.md`
 
 Rules while running the pipeline:
 - Do not stop between steps to ask for review or confirmation of a generated file — feed each freshly generated file forward as input context to the next step, exactly as that step's own instructions already expect, and move on immediately.
@@ -41,10 +42,9 @@ Rules while running the pipeline:
 
 ## Final Report
 
-Once all 10 steps complete:
+Once all 9 steps complete:
 
 ```
-✓ idea_<slug>.md
 ✓ brief_<slug>.md
 ✓ ac_<slug>.md
 ✓ business_rule_<slug>.md
@@ -56,7 +56,10 @@ Once all 10 steps complete:
 ✓ ba_doc_<slug>.md
 
 Feature "<Feature Name>" fully generated and packaged.
-Next: review ba_doc_<slug>.md, then run /publish <Feature Name> when ready.
 ```
 
 If any questions were asked mid-pipeline, note which sections were affected before the final report.
+
+Then ask the user: "Run `/publish <Feature Name>` now? (yes/no)"
+- **no** → stop here and remind: "Review ba_doc_<slug>.md, then run /publish <Feature Name> when ready."
+- **yes** → immediately follow the full instructions in `.claude/commands/publish.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Steps.

@@ -75,10 +75,7 @@ You are a Senior Business Analyst helping the user configure `project/project_co
 
    **Confluence output pages:**
    - BA Doc: <confluence-page-url>
-   - AI Doc for QA: <confluence-page-url>
-   - AI Doc for BE: <confluence-page-url>
-   - AI Doc for FE: <confluence-page-url>
-   - AI Doc for Mobile: <confluence-page-url>
+   - AI Doc folder: <confluence-page-url>
    ````
 
    ---
@@ -95,10 +92,9 @@ You are a Senior Business Analyst helping the user configure `project/project_co
 
    ### Confluence
 
-   - Publish BA Doc to the Confluence page specified in env_<slug>.md (Confluence output pages → BA Doc)
    `````
 3. Read the file and check each section for unfilled placeholders (pattern `<...>`): `## 1. Project Setup` (covering Project Name, MCP Config, Language), `## 2. Context Sync`, `## 3. Task Environment`, `## 4. Task Automation`.
-   - **Exception:** in `## 3. Task Environment`'s `env_<slug>.md template` block, the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` fills in later, never set at the project level. Do NOT count these two as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "Spec", "Flow") are real (not literally `<label>` placeholder text).
+   - **Exception:** in `## 3. Task Environment`'s code block, the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` fills in later, never set at the project level. Do NOT count these two as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "Spec", "Flow") are real (not literally `<label>` placeholder text).
    - If no placeholders remain anywhere in the file (accounting for the exception above) → stop the normal Q&A flow and instead ask the user which of these two they want:
      - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/clear-project` first (it resets project_config.md to blank and clears workspace/), then run `/config-project` again." Do not run `/clear-project` yourself — it needs its own separate confirmation.
      - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a Navigation reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 12-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-3 of "After the last question" below (continue into `/sync-project`, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
@@ -130,9 +126,9 @@ Ask every question in the language the user is currently chatting in — the phr
 2. **Context Sync** — ask one question per category, in this order. Phrase each question in plain, concrete language: explain what the category is for, give a real-world example of a document that belongs there, and show the expected answer format as `<name>: <url>` pairs (one per line) so the user can just paste a list back. Use exactly this phrasing (fill in the description/examples for the category being asked):
 
    a. **Context** — domain overview / module map:
-      > Let's set up shared context for the project — send me the Confluence links for documents used in common across the whole project, like the BRD, module map, or roadmap, with a short name for each. Example:
-      > BRD: https://confluence.example.com/wiki/spaces/PROJ/BRD
-      > roadmap: https://confluence.example.com/wiki/spaces/PROJ/roadmap
+      > Let's set up shared context for the project — send me the Confluence links for documents used in common across the whole project, like the BRD, module map, or roadmap, with a short name and a short description of what it covers (so a BA can tell which context files are relevant to their feature). Example:
+      > BRD: https://confluence.example.com/wiki/spaces/PROJ/BRD — Business requirements: full scope, objectives, stakeholders
+      > roadmap: https://confluence.example.com/wiki/spaces/PROJ/roadmap — Release phases and feature timeline
 
    b. **Business Rules — Principles** — general principles used when writing business rules:
       > Does the project have a doc describing general principles for writing Business Rules (not the rules themselves, but the guidelines for how to write/derive them)? Send me the link with a short name. Example:
@@ -158,17 +154,21 @@ Ask every question in the language the user is currently chatting in — the phr
       > Does the project have a doc defining shared message wording conventions (e.g. standard phrasing for errors/success messages)? Send me the link with a short name. Example:
       > message-format: https://confluence.example.com/wiki/spaces/PROJ/message-format
 
-   For each `<name>: <url>` pair the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (b)-(g) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category. A category can end up with zero, one, or many entries.
+   For each entry the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (b)-(g) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category:
+   - For category (a) **Context**, each entry is a `<name>: <url> — <description>` triple. Add it as three lines: `- <local-file-path>`, `  url: <url>`, `  desc: <description>`. If the user gives a name/url without a description, ask a quick follow-up for it before adding the entry — every Context entry must carry a `desc:` so a BA can tell what it's for without opening the file.
+   - For categories (b)-(g), each entry is a `<name>: <url>` pair as before — add it as `- <local-file-path>` / `  url: <url>` (no `desc:` line; the category heading itself already states the purpose).
 
-3. **Task Environment** — no question asked; `env_<slug>.md template` stays at its skeleton defaults.
+   A category can end up with zero, one, or many entries.
+
+3. **Task Environment** — no question asked; the code block under `## 3. Task Environment` stays at its skeleton defaults.
 
 4. **Task Automation** — `/publish` executes whatever action entries exist under `### Jira` and `### Confluence`, so don't assume the project only wants a status change or a single publish action; ask broadly and capture whatever actions the project actually needs.
    a. Jira actions:
       > When `/publish` finishes a feature, what should it do to the Jira ticket? List each action with what it needs — e.g. "update status to X" (needs: the status, the Jira project key), "add a comment with the Confluence page link", or anything else specific to this project (e.g. update a custom field, add a specific comment). Give me each action plus its target/value.
       → Update the `### Jira` subsection: adjust the two example action entries (update status, add comment) to match what the user described, keep only the ones actually wanted, and add new action lines for anything else the user mentions that doesn't match an existing entry — following the same `- <action description>\n  jira-project: <jira-project-key>` format.
    b. Confluence actions:
-      > What should `/publish` do on Confluence? By default it publishes the BA Doc to the page specified in that feature's env_<slug>.md — let me know if this project needs anything else on Confluence (e.g. updating a shared reference page, adding a comment).
-      → Update the `### Confluence` subsection the same way: adjust the existing entry to match, and add new action lines for anything else described.
+      > Beyond publishing the BA Doc itself (that always happens automatically), does this project need anything else done on Confluence when `/publish` runs? (e.g. updating a shared reference page, adding a comment)
+      → Update the `### Confluence` subsection: add an action line for each thing described, following the same format as other action entries. If the user says there's nothing else, leave the subsection empty.
 
 Throughout, when updating the file:
 - Follow the exact structure and format already present (e.g. Context Sync entries stay in the `- <local-file-path>` / `  url: <confluence-page-url>` pair format).

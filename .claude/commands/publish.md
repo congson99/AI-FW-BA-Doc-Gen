@@ -37,7 +37,13 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ---
 
-## Step 1 — Execute Task Automation
+## Step 1 — Publish BA Doc
+
+Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
+
+---
+
+## Step 2 — Execute Task Automation
 
 Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
 
@@ -47,7 +53,7 @@ For each action listed, execute it using the appropriate MCP tools and any relev
 
 ---
 
-## Step 2 — Clear Feature (optional)
+## Step 3 — Clear Feature (optional)
 
 Ask the user:
 > "Do you want to clear the feature folder `workspace/<folder-name>/`? (yes/no)"
@@ -69,6 +75,7 @@ After all steps are complete, display:
 
 | Step | Result |
 |---|---|
+| Publish BA Doc | <result> |
 | <action 1 from Task Automation> | <result> |
 | <action 2 from Task Automation> | <result> |
 | ... | ... |

@@ -9,7 +9,7 @@ You are a Senior Business Analyst reviewing documentation progress for a feature
 
 `$ARGUMENTS` is the **Feature name** exactly as typed by the user.
 
-- If `$ARGUMENTS` is empty → list all feature folders under `workspace/` and ask: "Which feature do you want to check?"
+- If `$ARGUMENTS` is empty → stop and ask: "Which feature do you want to check? Run `/check <Feature Name>`." Do not list feature folders or guess — `workspace/` may contain multiple features, so a name is always required to disambiguate.
 
 ## Feature Name Normalization
 
@@ -29,78 +29,52 @@ Feature `<Feature Name>` not found.
 → Run /start <Feature Name> to initialize it.
 ```
 
-### 2. Scan the folder for known files
+### 2. Check the 4 macro steps of the flow
 
-Check for the existence of each file below (true/false):
+The flow now runs as 4 macro steps — the second, third, and fourth steps each execute their own internal sub-parts automatically and back-to-back, so there is no need to track those sub-parts individually. Check each macro step in order, using the file(s) it produces:
 
-| # | File | Label |
-|---|---|---|
-| 1 | `input/env_<slug>.md` | Environment |
-| 2 | `input/context_<slug>.md` | Context Files |
-| 3 | `input/idea_<slug>.md` | Idea |
-| 4 | `docs/brief_<slug>.md` | Brief |
-| 5 | `docs/ac_<slug>.md` | Acceptance Criteria |
-| 6 | `docs/business_rule_<slug>.md` | Business Rules |
-| 7 | `docs/data_definition_<slug>.md` | Data Definition |
-| 8 | `docs/navigation_<slug>.md` | Navigation |
-| 9 | `docs/flow_<slug>.md` | Flow |
-| 10 | `docs/ui_behavior_<slug>.md` | UI Behavior |
-| 11 | `docs/messages_<slug>.md` | Messages |
-| 12 | `ba_doc_<slug>.md` | BA Doc |
+| # | Step | Produced by | Files checked |
+|---|---|---|---|
+| 1 | Start | `/start` | `input/env_<slug>.md`, `input/context_<slug>.md` |
+| 2 | Investigate | `/investigate` | `input/idea_<slug>.md` |
+| 3 | Generate & Package | `/gen-doc` (brief → ac → business_rule → data_definition → navigation → flow → ui_behavior → messages → package, run automatically in sequence) | `ba_doc_<slug>.md` |
+| 4 | Publish | `/publish` | — (no local file marks this; see below) |
 
-### 3. For files that exist, detect issues
+For each step, determine status:
 
-- **env file**: check if it still contains unfilled placeholders like `<jira-ticket-url>` or `<confluence-page-url>`. If yes → flag as "⚠ has unfilled placeholders".
-- **context file**: check if it still contains unfilled placeholders (pattern `<...>`). If yes → flag as "⚠ has unfilled placeholders".
-- **idea file**: check if any section still contains its placeholder text (pattern `<...>`). If yes → flag as "⚠ has unfilled sections" (this no longer blocks progress — later gen-* commands will ask about it if the information turns out to be needed).
-- All other files: if the file exists, treat it as complete (✓).
+- **Step 1 — Start**: ✓ Ready if both `env_<slug>.md` and `context_<slug>.md` exist and neither still contains an unfilled placeholder (pattern `<...>`). ⚠ "has unfilled placeholders" if either exists but still has one. ✗ Missing if either file doesn't exist.
+- **Step 2 — Investigate**: ✓ Ready if `idea_<slug>.md` exists. ⚠ "has unfilled sections" if it exists but still contains placeholder text (pattern `<...>`) in any section — this does not block progress; later steps will ask about it if the information turns out to be needed. ✗ Missing if it doesn't exist. Do not check this step if Step 1 is not ✓ Ready.
+- **Step 3 — Generate & Package**: ✓ Ready if `ba_doc_<slug>.md` exists. ✗ Missing otherwise. Do not check this step if Step 2 is not ✓ Ready. Do not inspect the 9 intermediate docs individually — `ba_doc_<slug>.md` existing is proof the whole sequence completed, since `/package` itself requires all 8 of them to exist first.
+- **Step 4 — Publish**: there is no local artifact that marks a feature as published (`/publish` doesn't write one, and its optional folder-clear step means a fully-published feature may simply no longer have a folder at all — which step 1 already handles by reporting "not found"). Report this step as "○ Ready to publish" once Step 3 is ✓ Ready, otherwise "✗ Not yet".
 
-### 4. Determine the next step
+### 3. Determine the next step
 
 Use this priority order — stop at the first condition that is true:
 
-1. `env_<slug>.md` missing → next: `/start <Feature Name>`
-2. `env_<slug>.md` has unfilled placeholders → next: "Fill in the placeholders in `env_<slug>.md`"
-3. `context_<slug>.md` missing → next: `/start <Feature Name>`
-4. `context_<slug>.md` has unfilled placeholders → next: "Fill in the placeholders in `context_<slug>.md`"
-5. `idea_<slug>.md` missing → next: `/investigate <Feature Name>`
-6. `brief_<slug>.md` missing → next: `/gen-brief <Feature Name>`
-7. `ac_<slug>.md` missing → next: `/gen-ac <Feature Name>`
-8. `business_rule_<slug>.md` missing → next: `/gen-business-rule <Feature Name>`
-9. `data_definition_<slug>.md` missing → next: `/gen-data-definition <Feature Name>`
-10. `navigation_<slug>.md` missing → next: `/gen-navigation <Feature Name>`
-11. `flow_<slug>.md` missing → next: `/gen-flow <Feature Name>`
-12. `ui_behavior_<slug>.md` missing → next: `/gen-ui-behavior <Feature Name>`
-13. `messages_<slug>.md` missing → next: `/gen-messages <Feature Name>`
-14. `ba_doc_<slug>.md` missing → next: `/package <Feature Name>`
-15. All files exist → next: `/publish <Feature Name>`
+1. Step 1 missing → next: `/start <Feature Name>`
+2. Step 1 has unfilled placeholders → next: "Fill in the placeholders in `env_<slug>.md` / `context_<slug>.md`"
+3. Step 2 missing → next: `/investigate <Feature Name>`
+4. Step 3 missing → next: `/gen-doc <Feature Name>`
+5. Step 4 (all steps 1–3 ready) → next: `/publish <Feature Name>`
 
-### 5. Output the status report
+### 4. Output the status report
 
 Print the report in this exact format:
 
 ```
 ## Feature Status — <Feature Name>
 
-| Doc | Status |
+| Step | Status |
 |---|---|
-| Environment | ✓ Ready / ⚠ Has unfilled placeholders / ✗ Missing |
-| Context Files | ✓ Ready / ⚠ Has unfilled placeholders / ✗ Missing |
-| Idea | ✓ Ready / ⚠ Has unfilled sections / ✗ Missing |
-| Brief | ✓ Ready / ✗ Missing |
-| Acceptance Criteria | ✓ Ready / ✗ Missing |
-| Business Rules | ✓ Ready / ✗ Missing |
-| Data Definition | ✓ Ready / ✗ Missing |
-| Navigation | ✓ Ready / ✗ Missing |
-| Flow | ✓ Ready / ✗ Missing |
-| UI Behavior | ✓ Ready / ✗ Missing |
-| Messages | ✓ Ready / ✗ Missing |
-| BA Doc | ✓ Ready / ✗ Missing |
+| 1. Start | ✓ Ready / ⚠ Has unfilled placeholders / ✗ Missing |
+| 2. Investigate | ✓ Ready / ⚠ Has unfilled sections / ✗ Missing |
+| 3. Generate & Package | ✓ Ready / ✗ Missing |
+| 4. Publish | ○ Ready to publish / ✗ Not yet |
 
 → Next step: <command or action to take>
 ```
 
-- Use `✓ Ready` when the file exists and has no detected issues.
-- Use `⚠ <short issue description>` when the file exists but has a problem.
-- Use `✗ Missing` when the file does not exist.
+- Use `✓ Ready` when the step's file(s) exist with no detected issues.
+- Use `⚠ <short issue description>` when the step's file(s) exist but have a problem.
+- Use `✗ Missing` / `✗ Not yet` when the step hasn't happened yet.
 - The "→ Next step" line must be actionable: either a slash command the user can copy-paste, or a clear instruction.
