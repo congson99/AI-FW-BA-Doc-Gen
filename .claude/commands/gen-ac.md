@@ -23,7 +23,9 @@ You are a Senior Business Analyst.
 6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
-7. Check for existing downstream documents in `workspace/<folder-name>/`:
+7. Check `workspace/<folder-name>/docs/dependencies_<slug>.md` exists:
+   - If missing → stop and inform user: "Dependencies not found. Run `/gen-dependencies <Feature Name>` first to generate it."
+8. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `docs/business_rule_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if the AC is regenerated:
@@ -31,9 +33,9 @@ You are a Senior Business Analyst.
      > Regenerating the AC will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
-8. Read `framework/styles/style_general.md` — general writing style rules.
-9. Read `framework/styles/style_ac.md` — style rules specific to AC.
-10. Read `framework/rules/rule_ac.md` — writing quality rules for AC content.
+9. Read `framework/styles/style_general.md` — general writing style rules.
+10. Read `framework/styles/style_ac.md` — style rules specific to AC.
+11. Read `framework/rules/rule_ac.md` — writing quality rules for AC content.
 
 ## Steps
 

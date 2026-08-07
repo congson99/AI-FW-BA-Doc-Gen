@@ -26,6 +26,7 @@ Used as part of the regular per-feature BA document generation flow.
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
 | `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
 | `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
+| `/gen-dependencies <Feature Name>` | Generate Dependencies |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition |

@@ -7,7 +7,7 @@ Applies to `navigation_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 5. Navigation
+## 6. Navigation
 
 ### [Entry Page]
 
@@ -26,7 +26,7 @@ Click "[Action]" button → [Result]
 
 ## Section Heading
 
-- Always use `## 5. Navigation` as the top-level heading.
+- Always use `## 6. Navigation` as the top-level heading.
 - Each page or dialog gets a `### [Page Name]` subheading.
 - Use the exact page/dialog name from the source.
 

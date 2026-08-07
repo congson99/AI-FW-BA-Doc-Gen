@@ -7,7 +7,7 @@ Applies to `ui_behavior_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 7. UI Behavior
+## 8. UI Behavior
 
 **UI1:** [Feature-specific UI behavior]
 **UI2:** [Feature-specific UI behavior]
@@ -19,7 +19,7 @@ Applies to `ui_behavior_<slug>.md` documents.
 
 ## Section Heading
 
-- Always use `## 7. UI Behavior` as the top-level heading.
+- Always use `## 8. UI Behavior` as the top-level heading.
 
 ---
 

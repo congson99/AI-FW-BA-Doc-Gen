@@ -7,7 +7,7 @@ Applies to `business_rule_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 3. Business Rules
+## 4. Business Rules
 
 **R1:** <one rule statement>
 
