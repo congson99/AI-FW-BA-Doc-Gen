@@ -1,6 +1,6 @@
-# BA Documentation Generation Framework
+# QA Documentation Generation Framework
 
-AI-assisted framework for Business Analysts to generate a complete BA documentation set from a single input.
+AI-assisted framework for QA Engineers to generate a complete QA documentation set from a single input.
 
 ## Framework Behavior
 
@@ -17,30 +17,23 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ## Commands
 
-### BA Doc Gen Flow Commands
+### QA Doc Gen Flow Commands
 
-Used as part of the regular per-feature BA document generation flow.
+Used as part of the regular per-feature QA document generation flow.
 
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
-| `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
-| `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
-| `/gen-dependencies <Feature Name>` | Generate Dependencies |
-| `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
-| `/gen-business-rule <Feature Name>` | Generate Business Rules |
-| `/gen-data-definition <Feature Name>` | Generate Data Definition |
-| `/gen-navigation <Feature Name>` | Generate Navigation |
-| `/gen-flow <Feature Name>` | Generate Flow |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
-| `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
-| `/package <Feature Name>` | Package all artifacts into a single BA Doc |
-| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
+| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing |
+| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Test Basis |
+| `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
+| `/gen-doc <Feature Name>` | Run gen-test-scenarios, gen-test-cases, and package back-to-back |
+| `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
+| `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
 ### Other Commands
 
-Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
+Used independently, as needed — project configuration and maintenance, not part of the QA doc gen flow.
 
 | Command | Purpose |
 |---|---|
@@ -65,16 +58,14 @@ project/                        ← project-level context
   project_config.md             ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
-    business-rules/             ← principles + shared references for Business Rules
-    navigation/                 ← shared navigation patterns
-    ui-behavior/                ← principles + shared references for UI Behavior
-    messages/                   ← shared message templates and wording conventions
+    test-scenarios/             ← principles + shared references for Test Scenarios
+    test-cases/                 ← principles + shared references for Test Cases
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
-    input/                      ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
-    docs/                       ← generated BA doc sections (Brief through Messages)
-    ba_doc_<slug>.md            ← final packaged document
+    input/                      ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md
+    docs/                       ← generated QA doc sections (Test Scenarios, Test Cases)
+    qa_doc_<slug>.md            ← final packaged document
 ```
 
 > slug = kebab-case folder name with `-` replaced by `_` (e.g. `cancel-pr` → `cancel_pr`)

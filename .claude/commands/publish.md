@@ -1,9 +1,9 @@
 ---
 name: "Publish Feature"
-description: "Publish BA Doc to Confluence, update Jira status, and optionally clear the feature. Usage: /publish <Feature Name>"
+description: "Publish QA Doc to Confluence, update Jira status, and optionally clear the feature. Usage: /publish <Feature Name>"
 ---
 
-You are a Senior Business Analyst completing a feature task. Execute each step in order, pausing to interact with the user as instructed.
+You are a Senior QA Engineer completing a feature task. Execute each step in order, pausing to interact with the user as instructed.
 
 ## Input
 
@@ -33,13 +33,13 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
        ...
      Please fill these in before running /publish.
      ```
-6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
+6. Check `workspace/<folder-name>/qa_doc_<slug>.md` exists — if missing, stop: "QA Doc not found. Run `/package <Feature Name>` first."
 
 ---
 
-## Step 1 — Publish BA Doc
+## Step 1 — Publish QA Doc
 
-Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
+Publish the contents of `workspace/<folder-name>/qa_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: QA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
 
 ---
 
@@ -49,7 +49,7 @@ Read `project/project_config.md` and locate the `## 4. Task Automation` section.
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 
-**Section numbering on split pages:** When an action publishes only a subset of BA Doc sections (e.g. "Publish sections Navigation, Flow, UI Behavior, Messages ... to Flow confluence output page") to its own standalone Confluence page, renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original BA Doc numbering (e.g. `5. Navigation` becomes `1. Navigation`, `6. Flow` becomes `2. Flow`, etc.). This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `ba_doc_<slug>.md` stays unchanged.
+**Section numbering on split pages:** When an action publishes only a subset of QA Doc sections (e.g. "Publish section Test Cases ... to its own confluence output page") to its own standalone Confluence page, renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original QA Doc numbering (e.g. `2. Test Cases` becomes `1. Test Cases`). This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `qa_doc_<slug>.md` stays unchanged.
 
 ---
 
@@ -75,7 +75,7 @@ After all steps are complete, display:
 
 | Step | Result |
 |---|---|
-| Publish BA Doc | <result> |
+| Publish QA Doc | <result> |
 | <action 1 from Task Automation> | <result> |
 | <action 2 from Task Automation> | <result> |
 | ... | ... |

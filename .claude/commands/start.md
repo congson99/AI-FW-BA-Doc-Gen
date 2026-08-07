@@ -1,9 +1,9 @@
 ---
-name: "Setup BA Environment"
-description: "Initialize feature folder and env file before generating BA artifacts. Usage: /start <Feature Name>"
+name: "Setup QA Environment"
+description: "Initialize feature folder and env file before generating QA artifacts. Usage: /start <Feature Name>"
 ---
 
-You are a Senior Business Analyst setting up the working environment for a new feature.
+You are a Senior QA Engineer setting up the working environment for a new feature.
 
 ## Input
 
@@ -74,7 +74,7 @@ There are 2 interactive questions in this flow (env fill-in, context fill-in). P
 8. Help fill in `env_<slug>.md`: scan it for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, ask the user for all of them together in a single message, using each line's own label as the prompt, e.g.:
    > "Question 1/2: A few things to fill in for `env_<slug>.md`:
    > - Jira ticket:
-   > - BA Doc (Confluence page):
+   > - Source BA Doc:
    > - <next label>:
    >
    > Reply with each value, or 'skip' for any you don't have yet."
@@ -87,6 +87,6 @@ There are 2 interactive questions in this flow (env fill-in, context fill-in). P
    - Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`.
    - If the user says "no" or "skip" → leave the file as generated.
 
-10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Idea file? (yes/no)"
+10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Test Basis file? (yes/no)"
     - **no** → stop here and remind: "Review env_<slug>.md and context_<slug>.md, then run /investigate <Feature Name> when ready."
     - **yes** → immediately follow the full instructions in `.claude/commands/investigate.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Steps.

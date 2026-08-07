@@ -1,4 +1,4 @@
-# DC32 BA Documentation Claude Tool
+# DC32 QA Documentation Claude Tool
 
 v2.1
 
@@ -7,7 +7,7 @@ v2.1
 ## Table of Contents
 
 1. [Overview](#1-overview)
-2. [BA Documentation Set](#2-ba-documentation-set)
+2. [QA Documentation Set](#2-qa-documentation-set)
 3. [Quick Start](#3-quick-start)
 4. [Setup Environment](#4-setup-environment-one-time-only)
 5. [Available Commands](#5-available-commands)
@@ -17,25 +17,18 @@ v2.1
 
 ## 1. Overview
 
-**DC32 BA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the BA generate a complete BA documentation set from existing project documents, refined through Q&A with the BA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
+**DC32 QA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the QA generate a complete QA documentation set from existing project documents, refined through Q&A with the QA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
 
-> The BA Documentation Set has a fixed structure, dedicated to the framework.
+> The QA Documentation Set consists of Test Scenarios and Test Cases, dedicated to the framework.
 
-> Confluence is the only supported source for reading and writing documents, via an MCP connection.
+> Confluence is the primary source for reading and writing documents, via an MCP connection. Figma (optional) can also be connected to supply UI references for Test Cases.
 
 ---
 
-## 2. BA Documentation Set
+## 2. QA Documentation Set
 
-1. **Brief** — high-level summary of the feature, including its business goal, scope, and objectives.
-2. **Dependencies** — prerequisite features, modules, external systems, or configurations required before implementing or using the feature.
-3. **Acceptance Criteria (AC)** — business conditions that define when the feature is considered complete and acceptable.
-4. **Business Rules** — business constraints, policies, and processing rules governing system behavior.
-5. **Data Definition** — business entities, data fields, relationships, and field-level validation rules.
-6. **Navigation** — user navigation paths between pages, dialogs, and screens throughout the feature.
-7. **Flow** — end-to-end business workflow covering main, alternative, and exception scenarios.
-8. **UI Behavior** — user interface behavior based on user actions, permissions, system states, and business rules.
-9. **Messages** — validation, confirmation, warning, success, and error messages presented to users.
+1. **Test Scenarios** — high-level test conditions derived from the feature's business flow, covering main, alternative, and exception paths to be validated.
+2. **Test Cases** — detailed, step-by-step test procedures with input data, execution steps, and expected results, derived from the Test Scenarios.
 
 ---
 
@@ -43,14 +36,14 @@ v2.1
 
 Pick the path that matches your role:
 
-**BA generating docs for a project that's already configured**
+**QA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
+2. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
 
-**BA leader setting up a brand-new project**
+**QA Lead setting up a brand-new project**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
 2. Run `/config-project`, then follow the chat prompts to fill in `project/project_config.md`. Only needs to be done once for the whole project.
-3. Push the completed `project/project_config.md` to the repo so every BA on the project can pull the same configuration.
+3. Push the completed `project/project_config.md` to the repo so every QA on the project can pull the same configuration.
 
 ---
 
@@ -92,30 +85,23 @@ Run `/sync-project` to fetch the Confluence pages mapped in `project/project_con
 
 ## 5. Available Commands
 
-### BA Doc Gen Flow Commands
+### QA Doc Gen Flow Commands
 
-Used as part of the regular per-feature BA document generation flow.
+Used as part of the regular per-feature QA document generation flow.
 
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
-| `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
-| `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
-| `/gen-dependencies <Feature Name>` | Generate Dependencies |
-| `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
-| `/gen-business-rule <Feature Name>` | Generate Business Rules |
-| `/gen-data-definition <Feature Name>` | Generate Data Definition |
-| `/gen-navigation <Feature Name>` | Generate Navigation |
-| `/gen-flow <Feature Name>` | Generate Flow |
-| `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
-| `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
-| `/package <Feature Name>` | Package all artifacts into a single BA Doc |
-| `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
+| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing |
+| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Test Basis |
+| `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
+| `/gen-doc <Feature Name>` | Run gen-test-scenarios, gen-test-cases, and package back-to-back |
+| `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
+| `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
 ### Other Commands
 
-Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
+Used independently, as needed — project configuration and maintenance, not part of the QA doc gen flow.
 
 | Command | Purpose |
 |---|---|
@@ -142,13 +128,11 @@ AI-FW-Doc-Generation/
 │   ├── project_config.md                  ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
-│       ├── business-rules/                ← principles + shared references for Business Rules
-│       ├── navigation/                    ← shared navigation patterns
-│       ├── ui-behavior/                   ← principles + shared references for UI Behavior
-│       └── messages/                      ← shared message templates and wording conventions
+│       ├── test-scenarios/                ← principles + shared references for Test Scenarios
+│       └── test-cases/                    ← principles + shared references for Test Cases
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
-        ├── input/                         ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
-        ├── docs/                          ← generated BA doc sections (Brief through Messages)
-        └── ba_doc_<slug>.md               ← final packaged document
+        ├── input/                         ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md
+        ├── docs/                          ← generated QA doc sections (Test Scenarios, Test Cases)
+        └── qa_doc_<slug>.md               ← final packaged document
 ```

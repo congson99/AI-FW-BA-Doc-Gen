@@ -18,7 +18,7 @@ You are syncing project context files from Confluence into the local `project/` 
           ```
           No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
           ```
-     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching MCP tool for that server — Atlassian tools for an `Atlassian` entry, Figma tools for a `Figma` entry, and so on for any other server name):
         - **If it works** → the entry is connected, nothing more to do.
         - **If it fails** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
           ```
@@ -67,6 +67,8 @@ You are syncing project context files from Confluence into the local `project/` 
    ```
    Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
+   Skip the `### Test Cases — UI References` subsection entirely — its entries are single-line `- <name>: <figma-url>` links with no local file to sync; they are read live via Figma MCP by the commands that need them, not fetched here.
+
 5. For each valid entry:
    a. Fetch the Confluence page content using the provided URL.
    b. Convert the page content to clean Markdown.
@@ -85,17 +87,15 @@ Skipped (no URL): <count> entries
 
 7. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/project_config.md`:
    - `project/context/`
-   - `project/reference/business-rules/principles/`
-   - `project/reference/business-rules/shared-references/`
-   - `project/reference/ui-behavior/principles/`
-   - `project/reference/ui-behavior/shared-references/`
-   - `project/reference/navigation/`
-   - `project/reference/messages/`
+   - `project/reference/test-scenarios/principles/`
+   - `project/reference/test-scenarios/shared-references/`
+   - `project/reference/test-cases/principles/`
+   - `project/reference/test-cases/shared-references/`
 
    If orphaned files are found → ask the user:
    ```
    The following local files are not mapped in project_config.md:
-     - project/reference/business-rules/old-rules.md
+     - project/reference/test-scenarios/old-scenarios.md
      - ...
 
    Delete these files? (yes/no)

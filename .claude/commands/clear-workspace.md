@@ -3,7 +3,7 @@ name: "Clear Workspace"
 description: "Delete all feature folders in workspace/. Usage: /clear-workspace"
 ---
 
-You are a Senior Business Analyst managing the workspace.
+You are a Senior QA Engineer managing the workspace.
 
 ## Steps
 

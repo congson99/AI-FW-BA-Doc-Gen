@@ -23,9 +23,9 @@ You are connecting to the MCP servers configured for this project.
      No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
      ```
 
-4. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+4. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching MCP tool for that server — Atlassian tools for an `Atlassian` entry, Figma tools for a `Figma` entry, and so on for any other server name):
    - **If it works** → the entry is connected, nothing more to do.
-   - **If it fails (Atlassian, or any other entry)** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
+   - **If it fails (any entry)** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
      ```
      <Server name> MCP is not connected. To authorize it:
      1. Open claude.ai (web) → Settings → Connectors (or Integrations).
