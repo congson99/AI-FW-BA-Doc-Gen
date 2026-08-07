@@ -7,7 +7,7 @@ Applies to `flow_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 6. Flow
+## 7. Flow
 
 ### Entry
 
@@ -54,7 +54,7 @@ Applies to `flow_<slug>.md` documents.
 
 ## Section Heading
 
-- Always use `## 6. Flow` as the top-level heading.
+- Always use `## 7. Flow` as the top-level heading.
 - Use `### Entry`, `### Main Flow`, `### Alternate Flows`, `### Secondary Flows` as fixed section headings.
 
 ---

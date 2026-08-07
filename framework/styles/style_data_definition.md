@@ -7,7 +7,7 @@ Applies to `data_definition_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 4. Data Definition
+## 5. Data Definition
 
 ### [Object Name]
 
@@ -28,7 +28,7 @@ Applies to `data_definition_<slug>.md` documents.
 
 ## Section Heading
 
-- Always use `## 4. Data Definition` as the top-level heading.
+- Always use `## 5. Data Definition` as the top-level heading.
 - Each data object gets a `### [Object Name]` subheading.
 - Child objects are defined as separate `### [Child Object Name]` sections following their parent.
 

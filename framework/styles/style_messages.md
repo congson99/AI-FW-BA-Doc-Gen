@@ -7,7 +7,7 @@ Applies to `messages_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 8. Messages
+## 9. Messages
 
 | **Case** | **Message Type** | **Source** | **UI Display** | **Message** |
 |---|---|---|---|---|
@@ -18,7 +18,7 @@ Applies to `messages_<slug>.md` documents.
 
 ## Section Heading
 
-- Always use `## 8. Messages` as the top-level heading.
+- Always use `## 9. Messages` as the top-level heading.
 
 ---
 

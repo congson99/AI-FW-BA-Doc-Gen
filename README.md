@@ -28,13 +28,14 @@ v2.1
 ## 2. BA Documentation Set
 
 1. **Brief** — high-level summary of the feature, including its business goal, scope, and objectives.
-2. **Acceptance Criteria (AC)** — business conditions that define when the feature is considered complete and acceptable.
-3. **Business Rules** — business constraints, policies, and processing rules governing system behavior.
-4. **Data Definition** — business entities, data fields, relationships, and field-level validation rules.
-5. **Navigation** — user navigation paths between pages, dialogs, and screens throughout the feature.
-6. **Flow** — end-to-end business workflow covering main, alternative, and exception scenarios.
-7. **UI Behavior** — user interface behavior based on user actions, permissions, system states, and business rules.
-8. **Messages** — validation, confirmation, warning, success, and error messages presented to users.
+2. **Dependencies** — prerequisite features, modules, external systems, or configurations required before implementing or using the feature.
+3. **Acceptance Criteria (AC)** — business conditions that define when the feature is considered complete and acceptable.
+4. **Business Rules** — business constraints, policies, and processing rules governing system behavior.
+5. **Data Definition** — business entities, data fields, relationships, and field-level validation rules.
+6. **Navigation** — user navigation paths between pages, dialogs, and screens throughout the feature.
+7. **Flow** — end-to-end business workflow covering main, alternative, and exception scenarios.
+8. **UI Behavior** — user interface behavior based on user actions, permissions, system states, and business rules.
+9. **Messages** — validation, confirmation, warning, success, and error messages presented to users.
 
 ---
 
@@ -100,6 +101,7 @@ Used as part of the regular per-feature BA document generation flow.
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
 | `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
 | `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
+| `/gen-dependencies <Feature Name>` | Generate Dependencies |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules |
 | `/gen-data-definition <Feature Name>` | Generate Data Definition |

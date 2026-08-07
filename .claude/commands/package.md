@@ -17,6 +17,7 @@ You are a Senior Business Analyst.
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check each required artifact exists under `workspace/<folder-name>/docs/`:
    - `brief_<slug>.md` → if missing, stop: "Brief not found. Run `/gen-brief <Feature Name>` first."
+   - `dependencies_<slug>.md` → if missing, stop: "Dependencies not found. Run `/gen-dependencies <Feature Name>` first."
    - `ac_<slug>.md` → if missing, stop: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first."
    - `business_rule_<slug>.md` → if missing, stop: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first."
    - `data_definition_<slug>.md` → if missing, stop: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first."
@@ -24,7 +25,7 @@ You are a Senior Business Analyst.
    - `flow_<slug>.md` → if missing, stop: "Flow not found. Run `/gen-flow <Feature Name>` first."
    - `ui_behavior_<slug>.md` → if missing, stop: "UI Behavior not found. Run `/gen-ui-behavior <Feature Name>` first."
    - `messages_<slug>.md` → if missing, stop: "Messages not found. Run `/gen-messages <Feature Name>` first."
-4. Read all eight files before proceeding.
+4. Read all nine files before proceeding.
 
 ## Steps
 
@@ -34,6 +35,10 @@ You are a Senior Business Analyst.
 # A. BUSINESS
 
 <full content of brief_<slug>.md>
+
+---
+
+<full content of dependencies_<slug>.md>
 
 ---
 

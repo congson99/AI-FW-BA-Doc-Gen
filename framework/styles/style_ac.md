@@ -7,7 +7,7 @@ Applies to `ac_<slug>.md` documents.
 ## Output Format
 
 ```md
-## 2. Acceptance Criteria
+## 3. Acceptance Criteria
 
 ### <Group 1>
 

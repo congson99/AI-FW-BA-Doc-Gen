@@ -25,14 +25,15 @@ You are a Senior Business Analyst running the full BA document generation pipeli
 Run the following commands in order, back-to-back, using `<Feature Name>` as the argument for each. For each one, read and follow its full instructions from its command file:
 
 1. `.claude/commands/gen-brief.md` → `brief_<slug>.md`
-2. `.claude/commands/gen-ac.md` → `ac_<slug>.md`
-3. `.claude/commands/gen-business-rule.md` → `business_rule_<slug>.md`
-4. `.claude/commands/gen-data-definition.md` → `data_definition_<slug>.md`
-5. `.claude/commands/gen-navigation.md` → `navigation_<slug>.md`
-6. `.claude/commands/gen-flow.md` → `flow_<slug>.md`
-7. `.claude/commands/gen-ui-behavior.md` → `ui_behavior_<slug>.md`
-8. `.claude/commands/gen-messages.md` → `messages_<slug>.md`
-9. `.claude/commands/package.md` → `ba_doc_<slug>.md`
+2. `.claude/commands/gen-dependencies.md` → `dependencies_<slug>.md`
+3. `.claude/commands/gen-ac.md` → `ac_<slug>.md`
+4. `.claude/commands/gen-business-rule.md` → `business_rule_<slug>.md`
+5. `.claude/commands/gen-data-definition.md` → `data_definition_<slug>.md`
+6. `.claude/commands/gen-navigation.md` → `navigation_<slug>.md`
+7. `.claude/commands/gen-flow.md` → `flow_<slug>.md`
+8. `.claude/commands/gen-ui-behavior.md` → `ui_behavior_<slug>.md`
+9. `.claude/commands/gen-messages.md` → `messages_<slug>.md`
+10. `.claude/commands/package.md` → `ba_doc_<slug>.md`
 
 Rules while running the pipeline:
 - Do not stop between steps to ask for review or confirmation of a generated file — feed each freshly generated file forward as input context to the next step, exactly as that step's own instructions already expect, and move on immediately.
@@ -42,10 +43,11 @@ Rules while running the pipeline:
 
 ## Final Report
 
-Once all 9 steps complete:
+Once all 10 steps complete:
 
 ```
 ✓ brief_<slug>.md
+✓ dependencies_<slug>.md
 ✓ ac_<slug>.md
 ✓ business_rule_<slug>.md
 ✓ data_definition_<slug>.md
